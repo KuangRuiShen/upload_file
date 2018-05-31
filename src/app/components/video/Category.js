@@ -20,6 +20,7 @@ export default class Category extends React.Component{
     }
     
     nameInputChange = (e) => {
+    	
 		this.setState({
 			name: e.target.value
 		});
