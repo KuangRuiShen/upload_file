@@ -1,0 +1,35 @@
+.risk_low{
+    line-height: 20px;
+    display: inline-block;
+    text-align: center;
+    width: 25px;
+    height: 20px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    background: #42be4c;
+    color: #FFF;
+}
+
+.risk_medium{
+    line-height: 20px;
+    display: inline-block;
+    text-align: center;
+    width: 25px;
+    height: 20px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    background: #ecc064;
+    color: #FFF;
+}
+
+.risk_high{
+    line-height: 20px;
+    display: inline-block;
+    text-align: center;
+    width: 25px;
+    height: 20px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    background: #fe8988;
+    color: #FFF;
+}

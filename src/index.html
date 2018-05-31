@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dropeffect="none" class="js  is-AppPromotionBarVisible cssanimations csstransforms csstransitions flexbox touchevents mobile">
+<head>
+    <meta http-equiv=”Content-Type” content=”text/html; charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="assets/css/xenon.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+
+</head>
+<body>
+<div id="root" style="height:100%"></div>
+</body>
+<script type="text/javascript">
+    //解决 IE8、IE9 不支持 console 问题
+    window.console = window.console || (function () {
+        var c = {}; c.log = c.warn = c.debug = c.info = c.error = c.time = c.dir = c.profile
+            = c.clear = c.exception = c.trace = c.assert = function () { };
+        return c;
+    })();
+
+    document.body.addEventListener('touchstart', function () { });
+</script>
+<script src="assets/js/vendor.js"></script>
+<script src="assets/js/app.js"></script>
+</html>
