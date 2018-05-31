@@ -1,109 +1,49 @@
 import React  from 'react'
-import { Upload,Form, Modal,InputNumber,Input,Select,Icon} from 'antd'
+import { Form, Modal,InputNumber,Input,Select,Icon} from 'antd'
 
 import OwnFetch from '../../api/OwnFetch';//封装请求
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 @Form.create()
-export default class AddCategory extends React.Component {
+export default class Addvideo extends React.Component {
     
     constructor(props) {
         super(props)
         this.state = {
             visible:true,
-            // imgurl:'',//图片地址
-
-            previewVisible: false,
-            previewImage: '',
-            fileList: [],
+            categorys:[],
         }
     }
-  
-    componentDidMount(){
-        //有图片
-        // console.info("dfsfsd",this.props.editData.imgurl)
-        if(this.props.editData.imgurl){
-            let fileList = [];
-            fileList.push({uid: -1,status: 'done',url:this.props.editData.imgurl});
-            this.setState({fileList});
-            // console.info("fileList",fileList)
-        }
     
-    }
 
-
-    handlePreview = (file) => {
-        // console.info(file)
-        this.setState({
-            previewImage: file.url || file.thumbUrl,
-            previewVisible: true,
-        });
-    }
-
-
-    handleChange = ({ file,fileList,event }) =>{
-        this.setState({ fileList })
-    }
        
-   
-    handleCancel = () => this.setState({ previewVisible: false })
-
-
-
-    beforeUpload = (file) => {
-        const isJPG = file.type === 'image/jpeg';
-        const isGIF = file.type === 'image/gif';
-        const isPNG = file.type === 'image/png';
-        if (!isJPG && !isGIF && !isPNG) {
-          Modal.error({
-            content: '必须是JPG/PNG/GIF格式文件',
-          });
-          return false;
-        }
-        const isLt2M = file.size /1024/1024  < 10 ;
-
-        if (!isLt2M) {
-          Modal.error({
-            content: '图片大小不能超过 10M!',
-          });
-          return false;
-        }
-        // this.setState({imageName:file.name,imageFile:file})
-        return (isJPG || isGIF || isPNG) && isLt2M;
-      }
-
-
+	componentWillMount() {
+        OwnFetch('category_all').then(res=>{
+            if(res && res.code == 200){
+                this.setState({categorys:res.data})
+            }
+        })
+	}
+  
 
   
     //点击确定按钮
    handleCreate = () => {  
 
     const {editData,refresh,closePage} = this.props;
-    const {fileList} = this.state;
-    // console.info("sfsdfs",this.state.fileList)
-    
+
     this.props.form.validateFields((err, values) => {
         if (err) {
             return;
         }
 
-        //不修改图片
-        if(editData.imgurl && fileList.length != 0 ){
-            values.imgurl = editData.imgurl;
-        }
-
-        //处理图片
-        if(fileList.length == 1){
-            if(fileList[0].percent == 100){
-                values.imgurl = fileList[0].response; 
-            }
-        }
 
         //修改
         if(editData.id){  
               values.id = editData.id;
-              OwnFetch("category_update",values)
+              OwnFetch("video_update",values)
                 .then(res=>{    
                     if(res && res.code=='200'){                                
                         this.props.form.resetFields();
@@ -114,7 +54,7 @@ export default class AddCategory extends React.Component {
                     }        
                 })
         }else{  //新增 
-             OwnFetch("category_add",values)
+             OwnFetch("video_add",values)
                 .then(res=>{    
                     if(res && res.code=='200'){                                 
                         this.props.form.resetFields();
@@ -169,12 +109,12 @@ export default class AddCategory extends React.Component {
             width={600}
             maskClosable={false}
             visible={this.state.visible}
-            title={editData.id ? '修改类别':'新增类别'}
+            title={editData.id ? '修改视频':'新增视频'}
             onCancel={this.onClearFrom}
             onOk={this.handleCreate}
         >
             <Form >
-                <FormItem label="类别名称" {...formItemLayout} hasFeedback>
+                <FormItem label="视频名称" {...formItemLayout} hasFeedback>
                     {getFieldDecorator('name', {
                         initialValue: editData.name,
                         rules: [{
@@ -183,6 +123,23 @@ export default class AddCategory extends React.Component {
                     }
                     )(
                         <Input placeholder="类别名称不能为空" />
+                        )}
+                </FormItem>
+
+                      
+                <FormItem label="视频类型" {...formItemLayout} hasFeedback >
+                    {getFieldDecorator('cid', {
+                        initialValue: editData.cid,
+                        rules: [{
+                            required: true, message: '视频类型不能为空!'
+                        }]
+                    }
+                    )(
+                        <Select placeholder="选择视频类型">
+                        {this.state.categorys.map((item) => {
+                        return <Option key={item.key}>{item.value}</Option>
+                        })}
+                    </Select>
                         )}
                 </FormItem>
                      
@@ -199,33 +156,12 @@ export default class AddCategory extends React.Component {
                 </FormItem>
 
 
-                  <FormItem label="类别描述" {...formItemLayout} >
+                  <FormItem label="视频描述" {...formItemLayout} >
                     {getFieldDecorator('remark',{ initialValue: editData.remark
                      })(
                     <Input type="textarea"  rows={4} placeholder="描述" />
                     )}
                 </FormItem>  
-
-                <FormItem label="上传图" {...formItemLayout} >
-                 <div className="clearfix">
-                        <Upload
-                            action="upload/image"
-                            listType="picture-card"
-                            fileList={fileList}
-                            data={fileList}
-                            onPreview={this.handlePreview}
-                            onChange={this.handleChange}
-                            beforeUpload={this.beforeUpload}
-                        >
-                        {fileList.length == 1 ? null : uploadButton}
-                        </Upload>
-                        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                        <img  style={{ width: '100%' }} src={previewImage} />
-                        </Modal>
-                    </div>
-                </FormItem>  
-
-
 
             </Form>
 

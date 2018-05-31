@@ -138,6 +138,7 @@ export default class UserTab extends React.Component {
 
         <div className="div_space_table" >
           <Table
+		    size="small"
             rowKey={record => record.id}
 			dataSource={this.state.dataSource}
 			columns={this.columns}

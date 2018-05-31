@@ -13,6 +13,27 @@ export default class SideBar extends React.Component {
         }
     }
 
+    componentWillMount(){
+        let curUrl = window.location.href.split('#')[1];
+        let openKeys=[];
+        let selectedKeys=[];
+        allMenu.forEach(menu=>{
+            if(menu.children){
+                menu.children.forEach(item=>{
+                    if(item.url == curUrl){
+                        selectedKeys.push(item.key)
+                        openKeys.push(menu.key)
+                    }
+                })
+            }
+        })
+        this.setState({openKeys,selectedKeys})
+        // console.info("ddd");
+
+    }
+
+    
+
     onOpenChange = (openKeys) => {
         const state = this.state;
         const latestOpenKey = openKeys.find(key => !(state.openKeys.indexOf(key) > -1));

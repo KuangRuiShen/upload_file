@@ -10,10 +10,18 @@ const pathUrl = "";
 const api = [
 
   { name: 'login', url: "/login", method: 'post' },
+
+  { name: 'category_all', url: "/category/all", method: 'get' },
+
   { name: 'category_list', url: "/category/list", method: 'get' },
   { name: 'category_delete', url: "/category/delete", method: 'post' },
   { name: 'category_add', url: "/category/add", method: 'post' },
   { name: 'category_update', url: "/category/update", method: 'post' },
+
+  { name: 'video_list', url: "/video/list", method: 'get' },
+  { name: 'video_delete', url: "/video/delete", method: 'post' },
+  { name: 'video_add', url: "/video/add", method: 'post' },
+  { name: 'video_update', url: "/video/update", method: 'post' },
 
 
 

@@ -187,6 +187,7 @@ export default class Category extends React.Component{
 
            <div className="div_space_table" >
             <Table
+               size="small"
                 rowKey="id"
                 rowSelection={{
                     selectedRowKeys: this.state.selects,

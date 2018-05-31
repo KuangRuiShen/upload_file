@@ -1,8 +1,11 @@
 import React from 'react';
-import { Input, Table, Row, Col, Icon, Modal,Button,Switch,Tooltip,Form} from 'antd';
+import { Input, Table, Select , Icon, Modal,Button,Switch,Tooltip,Form} from 'antd';
 
-import {Pagination} from '../../../utils/util'; //页面
 
+import OwnFetch from '../../api/OwnFetch';//封装请求
+import Addvideo from './Addvideo';
+
+const Option = Select.Option;
 export default class Video extends React.Component{
     constructor(props) {
 		super(props)
@@ -11,8 +14,16 @@ export default class Video extends React.Component{
             dataSource:[],
             loading:false,
             showAddVideo:false,
+            page:1,
+            pageSize:10,
+            selects:[],
+            total:0,
+            categorys:[],
+            cid:'0',
 		}
     }
+
+
     
     nameInputChange = (e) => {
 		this.setState({
@@ -22,12 +33,29 @@ export default class Video extends React.Component{
     
     
 	componentWillMount() {
+        OwnFetch('category_all').then(res=>{
+            if(res && res.code == 200){
+                this.setState({categorys:res.data})
+            }
+        })
 		this.initLoadData();
 	}
 
     //默认加载数据
     initLoadData=()=>{
+        let param = {name:this.state.name,page:this.state.page,pageSize:this.state.pageSize};
+        if(this.state.cid != 0 ){
+            param.cid = this.state.cid;
+        }
+        OwnFetch('video_list',param).then(res=>{
+            if(res && res.code == 200){
+                this.setState({dataSource:res.data,selects:[],total:res.total})
+            }
+        })
+    }
 
+    onSearch=()=>{
+        this.setState({page:1},()=>this.initLoadData())   
     }
 
     
@@ -42,33 +70,89 @@ export default class Video extends React.Component{
         //单一删除
         delete = (record) => {
             let ids = [];
-            ids.push(record.jsbh)
-            const deleteUsers = this.deleteUsers;
+            ids.push(record.id)
+            // const deleteUsers = this.deleteUsers;
             Modal.confirm({
                 title: "删除提示",
                 content: "确定删除所选该视频?",
                 okText: "删除",
-                onOk() {
-                    deleteUsers(ids)
+                onOk:()=> {
+                    this.deleteAll(ids)
                 }
             })
         }
+
+         //批量删除
+         handleDelete=()=>{
+            if (this.state.selects.length) {
+                Modal.confirm({
+                    title: "确定删除",
+                    content: "确定删除所选" +this.state.selects.length + "条的数据? 删除后不可恢复!",
+                    okText: "确认删除",
+                    cancelText: '取消',
+                    onOk: () => {
+                        this.deleteAll(this.state.selects)
+                    }
+                })
+            } else {
+                message.warning("请选择删除记录");
+            }
+
+        }
+
+        deleteAll=(ids)=>{
+            OwnFetch('video_delete',ids).then(res=>{
+                if(res && res.code==200){
+                    Modal.success({title:"删除成功"})
+                    this.onSearch();
+                }
+            })
+        }
+
+        onSelectChange = (selectedRowKeys, selectedRows) => {
+            // console.info("selectedRowKeys",selectedRowKeys,selectedRows)
+            this.setState({ selects: selectedRowKeys });
+        }
+
+        pageChange = (page, pageSize) => {
+            this.setState({ page, pageSize }, () => {
+                this.initLoadData();
+            });
+        }
+    
+        closePage=()=>{
+            this.setState({showAddVideo:false})
+        }
+    
+        //选择类别
+        handleChange =(value)=>{
+            // console.log(`selected ${value}`);
+            this.setState({cid:value})
+          }
+          
     
 
     render(){
 
         const columns = [,{
             title: '序号',
-            dataIndex: 'index'
+            dataIndex: 'px'
           },{
-            title: '类别名称',
+            title: '视频名称',
             dataIndex: 'name',
           }, {
             title: '说明',
             dataIndex: 'remark',
           },{
             title: '图片',
-            dataIndex: 'imgUrl',
+            width:150,
+            dataIndex: 'imgs',
+            render:(text, record, index) =>  <Button type="primary" icon='file-jpg' onClick={this.handleDelete}>上传图片</Button>
+          },{
+            title: '视频',
+            width:150,
+            dataIndex: 'videourl',
+            render:(text, record, index) =>  <Button type="primary" icon='play-circle' onClick={this.handleDelete}>上传视频</Button>
           },  {
             title: '操作',
             key: 'operate',
@@ -97,6 +181,23 @@ export default class Video extends React.Component{
 						onChange={this.nameInputChange} value={this.state.name} />  
                     </FormItem>
 
+                    <FormItem label="视频类型">
+                    <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    // placeholder="Select a person"
+                    optionFilterProp="children"
+                    onChange={this.handleChange}
+                    value={this.state.cid}
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                    <Option key="0">所有</Option>
+                    {this.state.categorys.map(item=> <Option key={item.key}>{item.value}</Option>)}
+                </Select>
+                    </FormItem>
+
+                    
+
 					<FormItem >				
 						<Button  type="primary" icon="search" onClick={this.onSearch}>查询</Button>				
                     </FormItem>
@@ -105,10 +206,10 @@ export default class Video extends React.Component{
 				</FormItem>
                 <FormItem  style={{ float: 'right', marginLeft: '20px' }}>
                   
-                        <Button  type="primary" icon='plus' style={{ marginLeft: '10px', backgroundColor: '#1dc3b0', border: 'none' }}
-                                onClick={() => {
-                                    this.setState({ showEditDialog: true, editData: {} });
-                        }}>新增</Button>   
+                    <Button  type="primary" icon='plus' style={{ marginLeft: '10px', backgroundColor: '#1dc3b0', border: 'none' }}
+                            onClick={() => {
+                                this.setState({ showAddVideo: true, editData: {} });
+                    }}>新增</Button>   
                    
                      <Button type="primary" icon='delete' style={{ marginLeft: '10px', background: '#ffa54c', border: 'none' }} onClick={this.handleDelete}>删除</Button>
                 </FormItem>
@@ -116,14 +217,29 @@ export default class Video extends React.Component{
 			</Form>
 
            <div className="div_space_table" >
+           
             <Table
+                size="small"
+                rowKey="id"
+                rowSelection={{
+                    selectedRowKeys: this.state.selects,
+                    onChange: this.onSelectChange
+                }}
                 dataSource={this.state.dataSource}
                 columns={columns}
                 loading={this.state.loading}
-                pagination={Pagination}
+                pagination={{
+                    current: this.state.page,
+                    pageSize:this.state.pageSize,
+                    total: this.state.total,
+                    showTotal: (total, range) => `当前${range[0]}-${range[1]}条 总数${total}条`,
+                    showQuickJumper: true,
+                    onChange: this.pageChange,
+                }}
             />
           </div>
-           
+           {this.state.showAddVideo && <Addvideo closePage={this.closePage}  
+           editData={this.state.editData} refresh={this.onSearch}/>}
         </div>)
     }
 

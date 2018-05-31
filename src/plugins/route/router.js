@@ -141,7 +141,7 @@ export default class GlobalRoute extends React.Component {
                                                                     <Route location={location} path="/index" render={() => <Category location={location} />} />
                                                                     <Route location={location} path="/video" render={() => <Video location={location}/>}/>
                                                                     <Route location={location} path="/userTab" render={() => <UserTab location={location}/>}/>
-                                            
+                                                                    <Route location={location} render={() => <Redirect to='/login' />} /> 
                                                 
                                                             </Switch>                                                                                    
                                                             </Content>                                                      
