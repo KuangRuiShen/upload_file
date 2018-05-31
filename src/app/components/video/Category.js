@@ -13,18 +13,23 @@ export default class Category extends React.Component{
             dataSource:[],
             loading:false,
             editData:{},
+            imgurl:"",
             showAddCategory:false,
              //当前选中记录
-             selects: [],
+            selects: [],
 		}
     }
     
+
+
     nameInputChange = (e) => {
     	
 		this.setState({
 			name: e.target.value
 		});
     }
+
+
     
     
 	componentWillMount() {
@@ -35,7 +40,7 @@ export default class Category extends React.Component{
     initLoadData=()=>{
         OwnFetch('category_list',{name:this.state.name}).then(res=>{
             if(res && res.code == 200){
-                this.setState({dataSource:res.data})
+                this.setState({dataSource:res.data,selects:[]})
             }
         })
     }
@@ -57,7 +62,7 @@ export default class Category extends React.Component{
         //单一删除
         delete = (record) => {
             let ids = [];
-            ids.push(record.jsbh)
+            ids.push(record.id)
             // const deleteUsers = this.deleteUsers;
             Modal.confirm({
                 title: "删除提示",
@@ -90,10 +95,11 @@ export default class Category extends React.Component{
 
         deleteAll=(ids)=>{
             OwnFetch('category_delete',ids).then(res=>{
-                if(res && rec.code==200){
+                if(res && res.code==200){
                     Modal.success({title:"删除成功"})
+                    this.onSearch();
                 }
-            }}
+            })
         }
 
         onSelectChange = (selectedRowKeys, selectedRows) => {
@@ -110,6 +116,12 @@ export default class Category extends React.Component{
         }
     
 
+        imgOnClick=(url)=>{
+            if(url){
+                this.setState({showImg:true,imgurl:url})
+            }       
+        }
+
     render(){
 
         const columns = [,{
@@ -123,7 +135,10 @@ export default class Category extends React.Component{
             dataIndex: 'remark',
           },{
             title: '图片',
-            dataIndex: 'imgUrl',
+            dataIndex: 'imgurl',
+            render: (text, record, index) =>  <div style={{height:'50px',cursor:text?'pointer':''}} onClick={()=>this.imgOnClick(record.imgurl)}>
+                              <img style={{height:'50px'}} src={record.imgurl} />
+                        </div>
           },  {
             title: '操作',
             key: 'operate',
@@ -184,8 +199,11 @@ export default class Category extends React.Component{
             />
           </div>
 
-          {this.state.showAddCategory && <AddCategory editData={this.state.editData} closePage={this.closePage}/>}
-           
+          {this.state.showAddCategory && <AddCategory editData={this.state.editData} closePage={this.closePage} refresh={this.onSearch}/>}
+         
+             <Modal visible={this.state.showImg} footer={null} onCancel={()=>this.setState({showImg:false})}>
+                        <img  style={{ width: '100%' }} src={this.state.imgurl} />
+            </Modal>
         </div>)
     }
 

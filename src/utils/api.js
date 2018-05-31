@@ -14,6 +14,7 @@ axios.defaults.headers.put['X-Requested-With'] = 'XMLHttpRequest';//Ajax put请�
 axios.defaults.headers.delete['X-Requested-With'] = 'XMLHttpRequest';//Ajax delete请求标识
 
 axios.interceptors.response.use((response)=>{
+    // console.info("ddd",response);
     // if(response.code==302){
     //     Modal.error({title:'操作错误', content:response.message});
     //     window.sessionStorage.removeItem('access_key');
@@ -28,8 +29,14 @@ axios.interceptors.response.use((response)=>{
     // }
     return response;
 },(error)=>{
-    return error.response;
-    console.info(error.response);
+   
+    console.info("ddd",error.response);
+    if(error.response.status == 504){
+                //登录超时
+            // Modal.error({title:'系统错误', content:"连接超时,请联系管理员！"});
+            window.dispatch(clearUserInfo());
+        }
+     return error.response;
     // if(error.response.status == 401 ){
     //     Modal.error({title:'登录超时', content:"请重新登录！"});
     //     window.dispatch(clearUserInfo());
