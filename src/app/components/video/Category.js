@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Table, Row, Col, Icon, Modal,Button,Switch,Tooltip,Form} from 'antd';
+import { Input, Table, Row, Col, Icon, Modal,Button,Switch,Tooltip,Form,message} from 'antd';
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import {Pagination} from '../../../utils/util'; //页面
 
@@ -14,6 +14,8 @@ export default class Category extends React.Component{
             loading:false,
             editData:{},
             showAddCategory:false,
+             //当前选中记录
+             selects: [],
 		}
     }
     
@@ -30,7 +32,7 @@ export default class Category extends React.Component{
 
     //默认加载数据
     initLoadData=()=>{
-        OwnFetch('category_list',"name="+this.state.name).then(res=>{
+        OwnFetch('category_list',{name:this.state.name}).then(res=>{
             if(res && res.code == 200){
                 this.setState({dataSource:res.data})
             }
@@ -55,19 +57,47 @@ export default class Category extends React.Component{
         delete = (record) => {
             let ids = [];
             ids.push(record.jsbh)
-            const deleteUsers = this.deleteUsers;
+            // const deleteUsers = this.deleteUsers;
             Modal.confirm({
                 title: "删除提示",
                 content: "确定删除所选该类别?",
                 okText: "删除",
-                onOk() {
-                    deleteUsers(ids)
+                onOk :() =>{
+                    this.deleteAll(ids)
                 }
             })
         }
 
-        deleteUsers=(ids)=>{
 
+        //批量删除
+        handleDelete=()=>{
+            if (this.state.selects.length) {
+                Modal.confirm({
+                    title: "确定删除",
+                    content: "确定删除所选" +this.state.selects.length + "条的数据? 删除后不可恢复!",
+                    okText: "确认删除",
+                    cancelText: '取消',
+                    onOk: () => {
+                        this.deleteAll(this.state.selects)
+                    }
+                })
+            } else {
+                message.warning("请选择删除记录");
+            }
+
+        }
+
+        deleteAll=(ids)=>{
+            OwnFetch('category_delete',ids).then(res=>{
+                if(res && rec.code==200){
+                    Modal.success({title:"删除成功"})
+                }
+            }}
+        }
+
+        onSelectChange = (selectedRowKeys, selectedRows) => {
+            // console.info("selectedRowKeys",selectedRowKeys,selectedRows)
+            this.setState({ selects: selectedRowKeys });
         }
 
 
@@ -134,13 +164,18 @@ export default class Category extends React.Component{
                                     this.setState({ showAddCategory: true, editData: {} });
                         }}>新增</Button>   
                    
-                     {/* <Button type="primary" icon='delete' style={{ marginLeft: '10px', background: '#ffa54c', border: 'none' }} onClick={this.handleDelete}>删除</Button> */}
+                    <Button type="primary" icon='delete' style={{ marginLeft: '10px', background: '#ffa54c', border: 'none' }} onClick={this.handleDelete}>删除</Button> 
                 </FormItem>
               
 			</Form>
 
            <div className="div_space_table" >
             <Table
+                rowKey="id"
+                rowSelection={{
+                    selectedRowKeys: this.state.selects,
+                    onChange: this.onSelectChange
+                   }}
                 dataSource={this.state.dataSource}
                 columns={columns}
                 loading={this.state.loading}

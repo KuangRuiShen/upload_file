@@ -12,6 +12,7 @@ export default class AddCategory extends React.Component {
         super(props)
         this.state = {
             visible:true,
+            imgurl:'',//图片地址
         }
     }
   
@@ -35,7 +36,7 @@ export default class AddCategory extends React.Component {
         //修改
         if(editData.id){  
               values.id = editData.id;
-              OwnFetch("userGroup_update",values)
+              OwnFetch("category_update",values)
                 .then(res=>{    
                     if(res && res.code=='200'){                                
                         this.props.form.resetFields();
@@ -46,7 +47,7 @@ export default class AddCategory extends React.Component {
                     }        
                 })
         }else{  //新增 
-             OwnFetch("userGroup_add",values)
+             OwnFetch("category_add",values)
                 .then(res=>{    
                     if(res && res.code=='200'){                                 
                         this.props.form.resetFields();

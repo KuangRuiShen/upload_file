@@ -9,7 +9,7 @@ var argv = require('yargs').argv;
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isPro = nodeEnv === 'production';
 
-let dir= "build";
+let dir="build";
 
 console.log("当前运行环境：", isPro ? 'production' : 'development')
 
