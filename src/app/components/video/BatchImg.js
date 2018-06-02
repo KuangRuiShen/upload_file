@@ -107,7 +107,7 @@ export default class BatchImg extends React.Component{
             <div   style={{maxHeight: '480px',overflow: 'auto'}}  >
                 <Upload 
                  className='upload-list-inline'
-                 action='upload/image'
+                 action={OwnFetch.preurl+"/upload/image"}
                  listType='picture'
                  multiple={true}
                  fileList={fileList}

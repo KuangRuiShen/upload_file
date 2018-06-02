@@ -192,7 +192,7 @@ export default class Addvideo extends React.Component {
                 <FormItem label="上传主图" {...formItemLayout} >
                  <div className="clearfix">
                         <Upload
-                            action="upload/image"
+                           action={OwnFetch.preurl+"/upload/image"}
                             listType="picture-card"
                             fileList={fileList}
                             // data={fileList}

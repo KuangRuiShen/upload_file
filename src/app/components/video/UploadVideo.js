@@ -1,7 +1,6 @@
 import React from 'react';
 import { Upload, Button, Icon,message,Modal } from 'antd';
-// import { Player } from 'video-react';
-// import "@video-react/dist/video-react.css";
+import OwnFetch from '../../api/OwnFetch';//封装请求
 
 
 export default class UploadVideo extends React.Component{
@@ -69,7 +68,7 @@ export default class UploadVideo extends React.Component{
             onOk={this.onClearFrom}
             >  
             <Upload 
-                action='upload/video'
+                action={OwnFetch.preurl+"/upload/video"}
                 listType='video'
                 data={{vid:this.state.vid}}
                 defaultFileList={fileList}

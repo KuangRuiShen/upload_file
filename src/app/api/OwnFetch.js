@@ -5,7 +5,7 @@ import {query, insert, update, remove,post} from "../../utils/api"
 
 //请求
 //const pathUrl = "http://localhost";
-const pathUrl = "";
+OwnFetch.pathUrl="/api"
 
 const api = [
 

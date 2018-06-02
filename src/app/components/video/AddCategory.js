@@ -209,7 +209,7 @@ export default class AddCategory extends React.Component {
                 <FormItem label="上传图" {...formItemLayout} >
                  <div className="clearfix">
                         <Upload
-                            action="upload/image"
+                            action={OwnFetch.preurl+"/upload/image"}
                             listType="picture-card"
                             fileList={fileList}
                             // data={fileList}
