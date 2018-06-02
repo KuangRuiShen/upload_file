@@ -27,13 +27,17 @@ axios.interceptors.response.use((response)=>{
     // }else if(response.code==401){
     //     Modal.error({title:'操作错误', content:response.message});
     // }
+    if(response.data.code != 200){
+        //登录超时
+        Modal.error({title:'错误信息', content:response.data.message});
+    }
     return response;
 },(error)=>{
    
     console.info("ddd",error.response);
     if(error.response.status == 504){
                 //登录超时
-            // Modal.error({title:'系统错误', content:"连接超时,请联系管理员！"});
+             Modal.error({title:'系统错误', content:"请联系管理员！"});
             window.dispatch(clearUserInfo());
         }
      return error.response;
@@ -66,11 +70,11 @@ axios.interceptors.response.use((response)=>{
     // }else if(error.response.data.code == 510){//令牌已失效
     //     Modal.error({title:'登录超时', content:"请重新登录！"});
     //     window.dispatch(clearUserInfo()); 
-    // }else if(error.response.status == 504){
-    //     //登录超时
-    //     Modal.error({title:'系统错误', content:"连接超时,请联系管理员！"});
-    //     window.dispatch(clearUserInfo());
-    // }
+    if(error.response.status == 504){
+        //登录超时
+        // Modal.error({title:'系统错误', content:"连接超时,请联系管理员！"});
+        window.dispatch(clearUserInfo());
+    }
 });
 
 axios.interceptors.request.use((config) =>{

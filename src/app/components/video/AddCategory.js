@@ -212,7 +212,7 @@ export default class AddCategory extends React.Component {
                             action="upload/image"
                             listType="picture-card"
                             fileList={fileList}
-                            data={fileList}
+                            // data={fileList}
                             onPreview={this.handlePreview}
                             onChange={this.handleChange}
                             beforeUpload={this.beforeUpload}

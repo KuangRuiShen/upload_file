@@ -70,6 +70,7 @@
     "url-loader": "^0.5.6",
     "wangeditor": ">=3.0.0",
     "webpack": "^2.6.1",
+	"video-react": "^0.10.9",
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {

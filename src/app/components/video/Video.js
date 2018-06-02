@@ -1,9 +1,11 @@
 import React from 'react';
-import { Input, Table, Select , Icon, Modal,Button,Switch,Tooltip,Form} from 'antd';
+import { Input, Table, Select , Icon, Modal,Button,Switch,Tooltip,Form,message } from 'antd';
 
 
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import Addvideo from './Addvideo';
+import BatchImg from './BatchImg';//批量图片上传
+import UploadVideo from './UploadVideo';
 
 const Option = Select.Option;
 export default class Video extends React.Component{
@@ -20,6 +22,10 @@ export default class Video extends React.Component{
             total:0,
             categorys:[],
             cid:'0',
+            imgurl:"",
+            showImg:false,
+            showBatchImg:false,
+            showUploadVideo:false,
 		}
     }
 
@@ -28,7 +34,7 @@ export default class Video extends React.Component{
     nameInputChange = (e) => {
 		this.setState({
 			name: e.target.value
-		});
+		});                                                                                                                             
     }
     
     
@@ -121,7 +127,7 @@ export default class Video extends React.Component{
         }
     
         closePage=()=>{
-            this.setState({showAddVideo:false})
+            this.setState({showAddVideo:false,showBatchImg:false,showUploadVideo:false})
         }
     
         //选择类别
@@ -129,7 +135,21 @@ export default class Video extends React.Component{
             // console.log(`selected ${value}`);
             this.setState({cid:value})
           }
+
+          imgOnClick=(url)=>{
+            if(url){
+                this.setState({showImg:true,imgurl:url})
+            }       
+        }
           
+        uploadImg=(record)=>{
+            this.setState({editData:record,showBatchImg:true})
+
+        }
+
+        uploadVideo=(record)=>{
+            this.setState({editData:record,showUploadVideo:true})
+        }
     
 
     render(){
@@ -140,19 +160,29 @@ export default class Video extends React.Component{
           },{
             title: '视频名称',
             dataIndex: 'name',
+          },{
+            title: '类别名称',
+            dataIndex: 'cname',
           }, {
-            title: '说明',
-            dataIndex: 'remark',
+            title: '试看时间',
+            dataIndex: 'watch',
+            render: (text, record, index) => text+" 分钟"
+          },{
+            title: '主图片',
+            dataIndex: 'imgurl',
+            render: (text, record, index) =>  <div style={{height:'50px',cursor:text?'pointer':''}} onClick={()=>this.imgOnClick(record.imgurl)}>
+                              <img style={{height:'50px'}} src={record.imgurl} />
+                    </div>
           },{
             title: '图片',
             width:150,
             dataIndex: 'imgs',
-            render:(text, record, index) =>  <Button type="primary" icon='file-jpg' onClick={this.handleDelete}>上传图片</Button>
+            render:(text, record, index) =>  <Button type="primary" icon='file-jpg' onClick={()=>this.uploadImg(record)}>上传图片</Button>
           },{
             title: '视频',
             width:150,
             dataIndex: 'videourl',
-            render:(text, record, index) =>  <Button type="primary" icon='play-circle' onClick={this.handleDelete}>上传视频</Button>
+            render:(text, record, index) =>  <Button type="primary" icon='play-circle' onClick={()=>this.uploadVideo(record)}>上传视频</Button>
           },  {
             title: '操作',
             key: 'operate',
@@ -168,6 +198,7 @@ export default class Video extends React.Component{
                 </div>
             ),
         }];
+
 
         const FormItem = Form.Item;
 
@@ -195,8 +226,6 @@ export default class Video extends React.Component{
                     {this.state.categorys.map(item=> <Option key={item.key}>{item.value}</Option>)}
                 </Select>
                     </FormItem>
-
-                    
 
 					<FormItem >				
 						<Button  type="primary" icon="search" onClick={this.onSearch}>查询</Button>				
@@ -238,8 +267,16 @@ export default class Video extends React.Component{
                 }}
             />
           </div>
-           {this.state.showAddVideo && <Addvideo closePage={this.closePage}  
-           editData={this.state.editData} refresh={this.onSearch}/>}
+
+           {this.state.showAddVideo && <Addvideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
+           {this.state.showBatchImg && <BatchImg closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
+         {this.state.showUploadVideo && <UploadVideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
+
+          <Modal visible={this.state.showImg} footer={null} onCancel={()=>this.setState({showImg:false})}>
+                        <img  style={{ width: '100%' }} src={this.state.imgurl} />
+            </Modal>
+            
+
         </div>)
     }
 

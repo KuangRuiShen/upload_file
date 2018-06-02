@@ -640,6 +640,18 @@ a:focus,
 	padding: 5px 8px;
 } */
 
+.upload-list-inline .ant-upload-list-item {
+    float: left;
+    width: 200px;
+    margin-right: 8px;
+  }
+  .upload-list-inline .ant-upload-animate-enter {
+    animation-name: uploadAnimateInlineIn;
+  }
+  .upload-list-inline .ant-upload-animate-leave {
+    animation-name: uploadAnimateInlineOut;
+  }
+
 /* 页面内容 */
 .new_div_context {
     background: #FFF;

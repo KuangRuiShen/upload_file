@@ -22,6 +22,7 @@ const api = [
   { name: 'video_delete', url: "/video/delete", method: 'post' },
   { name: 'video_add', url: "/video/add", method: 'post' },
   { name: 'video_update', url: "/video/update", method: 'post' },
+  { name: 'video_addrelation', url: "/video/addrelation", method: 'post' },
 
 
 

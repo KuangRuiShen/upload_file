@@ -38,9 +38,9 @@ export const userLogin = (username, password) =>{
             // console.info(user);
             sessionStorage.setItem("userLogin",JSON.stringify(user));
             dispatch(receiveUserInfo(user)) 
-        }else{
-            Modal.error({ title: '登录失败', content: res.message});
-            dispatch(clearUserInfo()) 
+        // }else{
+        //     Modal.error({ title: '登录失败', content: res.message});
+        //     dispatch(clearUserInfo()) 
         }
      })
     }
