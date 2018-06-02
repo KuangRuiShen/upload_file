@@ -23,7 +23,7 @@ export default class UploadVideo extends React.Component{
 
            
     fileChange = (info) =>{
-        // this.setState({ fileList})
+        this.setState({ fileList})
         this.setState({fileList:info.fileList});   
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
