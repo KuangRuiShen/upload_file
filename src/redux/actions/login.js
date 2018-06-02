@@ -25,9 +25,6 @@ const receiveUserInfo = (data) => ({
 
  
          
-
-
-
 export const userLogin = (username, password) =>{
     return dispatch=>{
     //登录中

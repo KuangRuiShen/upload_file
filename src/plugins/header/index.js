@@ -11,22 +11,25 @@ import touxiang from '../../../assets/images/Biazfanxmam.png'
 import styles from './index.css'
 
 import {themeUl} from '../../utils/util'//主题数据
+import PassworkPage from './PasswordPage';
 
 const { Header } = Layout
 const TabPane = Tabs.TabPane;
 
 @connect((state) => {
-    let { dispatch } = state
-    return { dispatch }
+    let { dispatch,login } = state
+    return { dispatch,login}
 })
 
 export default class Top extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            username: '',
+            username: '超级管理员',
             themeLi:themeUl,
             themeNum:0,
+            passwork:false,
+            user:{}
         }
     }
     componentWillMount(){
@@ -44,10 +47,16 @@ export default class Top extends React.Component {
     }
 
     getUser = () => {
-        this.setState({
-            username: '超级管理员',
+        console.info(this.props.login);
+        if(this.props.login.data){
+            this.setState({
+                user: this.props.login.data,
+            })
+        }   
+    }
 
-        })
+    closePage=()=>{
+        this.setState({passwork:false})
     }
 
     handleClick=(e)=>{
@@ -58,6 +67,9 @@ export default class Top extends React.Component {
                      userLogout(this.props.dispatch);
                 // }
             // })
+        }
+        if(e.key == "passwork"){
+            this.setState({passwork:true})
         }
     }
 
@@ -76,6 +88,7 @@ export default class Top extends React.Component {
                 {/* <Menu.Item disabled><Icon type="user" />个人中心</Menu.Item>
                 <Menu.Item disabled><Icon type="setting" />设置</Menu.Item>
                 <Menu.Divider /> */}
+                {/* <Menu.Item key="passwork"><Icon type="lock" />修改密码</Menu.Item> */}
                 <Menu.Item key="logout"><Icon type="logout" />退出登录</Menu.Item>
             </Menu>
         );
@@ -122,6 +135,7 @@ export default class Top extends React.Component {
                         </div>
                     </Col>
                 </Row>
+                {this.state.passwork && <PassworkPage user={this.state.user} closePage={this.closePage}/>}
             </Header>
         )
     }

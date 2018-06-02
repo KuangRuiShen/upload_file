@@ -5,7 +5,7 @@ import {query, insert, update, remove,post} from "../../utils/api"
 
 //请求
 //const pathUrl = "http://localhost";
-OwnFetch.pathUrl="/api"
+
 
 const api = [
 
@@ -24,8 +24,9 @@ const api = [
   { name: 'video_update', url: "/video/update", method: 'post' },
   { name: 'video_addrelation', url: "/video/addrelation", method: 'post' },
 
-
-
+  { name: 'user_list', url: "/user/list", method: 'get' },
+  { name: 'user_password', url: "/user/password", method: 'post' },
+  
 ]
 
 
@@ -52,8 +53,9 @@ const OwnFetch = (request, params) => {
       return post(url, params);
   }else{
       return query(url,params);
-  }
-  
+  } 
 }
+
+OwnFetch.preurl="/api"
 
 export default OwnFetch;

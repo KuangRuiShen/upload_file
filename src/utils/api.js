@@ -34,7 +34,7 @@ axios.interceptors.response.use((response)=>{
     return response;
 },(error)=>{
    
-    console.info("ddd",error.response);
+    // console.info("ddd",error.response);
     if(error.response.status == 504){
                 //登录超时
              Modal.error({title:'系统错误', content:"请联系管理员！"});

@@ -1,7 +1,6 @@
 import { Input, Table, Row, Col, Icon, Modal,Button,Switch,Tooltip,Form} from 'antd';
 import { connect } from 'react-redux'
 import React from 'react'
-import {Pagination, getSize} from '../../../../utils/util'; //页面
 import OwnFetch from '../../../api/OwnFetch'; //封装请求
 
 
@@ -12,17 +11,14 @@ export default class UserTab extends React.Component {
 		this.state = {
 			disabled: false, //启用和停用点击时，按钮禁止
 			dataSource: [],
-			name: '', //用户名称	
+			name: '', //用户名称
+			page:1,
+            pageSize:10,
 			loading: false,
 		}
 	}
 
 	//搜索的条件
-	userInputChange = (e) => {
-		this.setState({
-			user: e.target.value
-		});
-	}
 	nameInputChange = (e) => {
 		this.setState({
 			name: e.target.value
@@ -32,9 +28,7 @@ export default class UserTab extends React.Component {
 	//重置
 	onRest = () => {
 		this.setState({
-			user: '',
 			name: '',
-			selectedRowKeys: []
 		})
 	}
 
@@ -45,12 +39,10 @@ export default class UserTab extends React.Component {
 	//默认加载
 	initLoadData = () => {
 		this.setState({loading: true})
-
-		let params = "username=" + this.state.user
-		OwnFetch("/user/list", params)
+		OwnFetch("user_list", {username:this.state.name,page:this.state.page})
 			.then(res => {
 				if(res && res.code == "200") {
-					this.setState({dataSource: res.data})
+					this.setState({dataSource: res.data,total:res.total})
 				}
 				this.setState({loading: false})
 			})
@@ -61,7 +53,7 @@ export default class UserTab extends React.Component {
 	onSearch = () => {
 		// let {name,user} = this.state;
 		// let params ={yhzh:user,yhxm:name}; 
-		this.initLoadData();
+		this.setState({page:1},()=>	this.initLoadData())	
 	}
 
 
@@ -73,6 +65,10 @@ export default class UserTab extends React.Component {
 			showAssetAccredit: false,
 			showDomainAccredit: false,
 		})
+	}
+
+	pageChange = (page, pageSize) => {
+		this.setState({ page, pageSize }, ()=>this.initLoadData());
 	}
 
 	//关闭用户新增修改页面
@@ -88,7 +84,7 @@ export default class UserTab extends React.Component {
 		dataIndex: 'index',
 		key: 'index',
 		render: (text, record, index) => (
-			<div><span>{index + 1}</span></div>
+			<div><span>{index + 1 +(this.state.page-1)*this.state.pageSize}</span></div>
 		)
 	}, {
 		title: '用户账号',
@@ -101,9 +97,7 @@ export default class UserTab extends React.Component {
 	}, {
 		title: '操作',
 		key: 'action',
-		render: (text, record, index) => {
-			return<div></div>
-		},
+		render: (text, record, index) =>  <Button type="primary" >查看充值记录</Button>
 	}]
 	render() {
 		//表单数据操作
@@ -143,7 +137,14 @@ export default class UserTab extends React.Component {
 			dataSource={this.state.dataSource}
 			columns={this.columns}
             loading={this.state.loading}
-            pagination={Pagination}
+			pagination={{
+				current: this.state.page,
+				pageSize:this.state.pageSize,
+				total: this.state.total,
+				showTotal: (total, range) => `当前${range[0]}-${range[1]}条 总数${total}条`,
+				showQuickJumper: true,
+				onChange: this.pageChange,
+			}}
           />
         </div>
 

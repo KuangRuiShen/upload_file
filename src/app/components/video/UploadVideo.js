@@ -48,7 +48,7 @@ export default class UploadVideo extends React.Component{
 
 
     render(){
-        console.info(this.state.vid)
+        // console.info(this.state.vid)
 
         const fileList = [];  
         const uploadButton = (
