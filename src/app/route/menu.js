@@ -7,7 +7,8 @@ export const allMenu = [
     ]},
     { name: '系统管理', url: '/system', icon: 'team', key: '8',
         children: [
-            { name: '用户管理', url: '/userTab', key: '0801' }
+            { name: '用户管理', url: '/userTab', key: '0801' },
+            { name: '评论管理', url: '/comment', key: '0802' }
         ]},
     
 ]

@@ -154,12 +154,13 @@ export default class Video extends React.Component{
 
     render(){
 
-        const columns = [,{
+        const columns = [{
             title: '序号',
             dataIndex: 'px'
           },{
             title: '视频名称',
             dataIndex: 'name',
+            render: (text, record, index) => text+"("+record.quality+")"
           },{
             title: '类别名称',
             dataIndex: 'cname',
@@ -216,7 +217,6 @@ export default class Video extends React.Component{
                     <Select
                     showSearch
                     style={{ width: 200 }}
-                    // placeholder="Select a person"
                     optionFilterProp="children"
                     onChange={this.handleChange}
                     value={this.state.cid}
@@ -270,7 +270,7 @@ export default class Video extends React.Component{
 
            {this.state.showAddVideo && <Addvideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
            {this.state.showBatchImg && <BatchImg closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
-         {this.state.showUploadVideo && <UploadVideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
+          {this.state.showUploadVideo && <UploadVideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
 
           <Modal visible={this.state.showImg} footer={null} onCancel={()=>this.setState({showImg:false})}>
                         <img  style={{ width: '100%' }} src={this.state.imgurl} />

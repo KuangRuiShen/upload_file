@@ -47,7 +47,7 @@ export default class Top extends React.Component {
     }
 
     getUser = () => {
-        console.info(this.props.login);
+        // console.info(this.props.login);
         if(this.props.login.data){
             this.setState({
                 user: this.props.login.data,

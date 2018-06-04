@@ -30,6 +30,7 @@ import Category from '../../app/components/video/Category';//分类
 
 //系统管理
 import UserTab from '../../app/components/SystemManage/User/UserTab';
+import Comment from '../../app/components/SystemManage/Comment/Comment';
 
 /********************以上是自己写的业务模块结束***************************/
 
@@ -141,6 +142,7 @@ export default class GlobalRoute extends React.Component {
                                                                     <Route location={location} path="/index" render={() => <Category location={location} />} />
                                                                     <Route location={location} path="/video" render={() => <Video location={location}/>}/>
                                                                     <Route location={location} path="/userTab" render={() => <UserTab location={location}/>}/>
+                                                                    <Route location={location} path="/comment" render={() => <Comment location={location}/>}/>
                                                                     <Route location={location} render={() => <Redirect to='/login' />} /> 
                                                 
                                                             </Switch>                                                                                    

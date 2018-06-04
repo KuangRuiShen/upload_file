@@ -150,8 +150,6 @@ export default class Addvideo extends React.Component {
 
 
 
-
-
     render(){
         const { getFieldDecorator } = this.props.form;
        
@@ -169,6 +167,8 @@ export default class Addvideo extends React.Component {
                 sm: { span: 14 },
             },
         };
+
+        const qualitys =['蓝光','HD']
 
         const { previewVisible, previewImage, fileList } = this.state;
 
@@ -209,7 +209,24 @@ export default class Addvideo extends React.Component {
                 </FormItem>  
 
 
-                <FormItem label="视频名称" {...formItemLayout} hasFeedback>
+                <FormItem label="画质" {...formItemLayout} hasFeedback>
+                    {getFieldDecorator('quality', {
+                        initialValue: editData.quality,
+                        rules: [{
+                            required: true, message: '画质不能为空!'
+                        }]
+                    }
+                    )(
+                        <Select placeholder="选择视频类型">
+                        {qualitys.map((item) => {
+                        return <Option key={item}>{item}</Option>
+                        })}
+                    </Select>
+                       
+                        )}
+                </FormItem>
+                
+                <FormItem label="清晰度" {...formItemLayout} hasFeedback>
                     {getFieldDecorator('name', {
                         initialValue: editData.name,
                         rules: [{

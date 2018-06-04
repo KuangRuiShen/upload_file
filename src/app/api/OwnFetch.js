@@ -26,6 +26,11 @@ const api = [
 
   { name: 'user_list', url: "/user/list", method: 'get' },
   { name: 'user_password', url: "/user/password", method: 'post' },
+
+  { name: 'comment_list', url: "/comment/list", method: 'get' },
+  { name: 'comment_delete', url: "/comment/delete", method: 'post' },
+  { name: 'comment_add', url: "/comment/add", method: 'post' },
+  { name: 'comment_update', url: "/comment/update", method: 'post' },
   
 ]
 

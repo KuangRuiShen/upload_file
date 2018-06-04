@@ -23,14 +23,14 @@ export default class UploadVideo extends React.Component{
 
            
     fileChange = (info) =>{
-        this.setState({ fileList})
-        this.setState({fileList:info.fileList});   
+        // this.setState({ fileList}) 
+        this.setState({fileList:info.fileList});    
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
             return;
-        }  
+        }       
         if(info.file.response && info.file.status === 'done'){
-            this.setState({ loading: false,videourl:info.file.response});
+            this.setState({ loading: false,videourl:info.file.response});        
             Modal.success({title:"已经上传成功"});
         }      
      }
@@ -50,7 +50,6 @@ export default class UploadVideo extends React.Component{
     render(){
         // console.info(this.state.vid)
 
-        const fileList = [];  
         const uploadButton = (
             <Button>
                <Icon type="upload" /> 上传
@@ -71,7 +70,7 @@ export default class UploadVideo extends React.Component{
                 action={OwnFetch.preurl+"/upload/video"}
                 listType='video'
                 data={{vid:this.state.vid}}
-                defaultFileList={fileList}
+                fileList={this.state.fileList}
                 onChange={this.fileChange}
                 beforeUpload={this.beforeUpload}
                 >
