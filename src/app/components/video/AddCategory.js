@@ -169,20 +169,20 @@ export default class AddCategory extends React.Component {
             width={600}
             maskClosable={false}
             visible={this.state.visible}
-            title={editData.id ? '修改类别':'新增类别'}
+            title={editData.id ? '修改视频分类':'新增视频分类'}
             onCancel={this.onClearFrom}
             onOk={this.handleCreate}
         >
             <Form >
-                <FormItem label="类别名称" {...formItemLayout} hasFeedback>
+                <FormItem label="视频分类名" {...formItemLayout} hasFeedback>
                     {getFieldDecorator('name', {
                         initialValue: editData.name,
                         rules: [{
-                            required: true, message: '类别名称不能为空!'
+                            required: true, message: '视频分类名不能为空!'
                         }]
                     }
                     )(
-                        <Input placeholder="类别名称不能为空" />
+                        <Input placeholder="视频分类名不能为空" />
                         )}
                 </FormItem>
                      
@@ -199,14 +199,14 @@ export default class AddCategory extends React.Component {
                 </FormItem>
 
 
-                  <FormItem label="类别描述" {...formItemLayout} >
+                  <FormItem label="视频分类说明" {...formItemLayout} >
                     {getFieldDecorator('remark',{ initialValue: editData.remark
                      })(
                     <Input type="textarea"  rows={4} placeholder="描述" />
                     )}
                 </FormItem>  
 
-                <FormItem label="上传图" {...formItemLayout} >
+                <FormItem label="视频分类主图" {...formItemLayout} >
                  <div className="clearfix">
                         <Upload
                             action={OwnFetch.preurl+"/upload/image"}

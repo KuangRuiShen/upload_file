@@ -189,7 +189,7 @@ export default class Addvideo extends React.Component {
         >
             <Form >
 
-                <FormItem label="上传主图" {...formItemLayout} >
+                <FormItem label="上传视频主图" {...formItemLayout} >
                  <div className="clearfix">
                         <Upload
                            action={OwnFetch.preurl+"/upload/image"}
@@ -209,15 +209,15 @@ export default class Addvideo extends React.Component {
                 </FormItem>  
 
 
-                <FormItem label="画质" {...formItemLayout} hasFeedback>
+                <FormItem label="视频画质" {...formItemLayout} hasFeedback>
                     {getFieldDecorator('quality', {
                         initialValue: editData.quality,
                         rules: [{
-                            required: true, message: '画质不能为空!'
+                            required: true, message: '视频画质不能为空!'
                         }]
                     }
                     )(
-                        <Select placeholder="选择视频类型">
+                        <Select >
                         {qualitys.map((item) => {
                         return <Option key={item}>{item}</Option>
                         })}
@@ -239,15 +239,15 @@ export default class Addvideo extends React.Component {
                 </FormItem>
 
                       
-                <FormItem label="视频类型" {...formItemLayout} hasFeedback >
+                <FormItem label="所属视频分类" {...formItemLayout} hasFeedback >
                     {getFieldDecorator('cid', {
                         initialValue: editData.cid,
                         rules: [{
-                            required: true, message: '视频类型不能为空!'
+                            required: true, message: '所属视频分类不能为空!'
                         }]
                     }
                     )(
-                        <Select placeholder="选择视频类型">
+                        <Select >
                         {this.state.categorys.map((item) => {
                         return <Option key={item.key}>{item.value}</Option>
                         })}
@@ -271,7 +271,7 @@ export default class Addvideo extends React.Component {
                     {getFieldDecorator('watch', {
                         initialValue: editData.watch || 1,
                         rules: [{
-                            required: true, message: '序号不能为空!'
+                            required: true, message: '试看分钟数不能为空!'
                         }]
                     }
                     )(

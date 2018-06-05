@@ -165,22 +165,22 @@ export default class Video extends React.Component{
             title: '类别名称',
             dataIndex: 'cname',
           }, {
-            title: '试看时间',
+            title: '试看分钟数',
             dataIndex: 'watch',
             render: (text, record, index) => text+" 分钟"
           },{
-            title: '主图片',
+            title: '视频主图',
             dataIndex: 'imgurl',
             render: (text, record, index) =>  <div style={{height:'50px',cursor:text?'pointer':''}} onClick={()=>this.imgOnClick(record.imgurl)}>
                               <img style={{height:'50px'}} src={record.imgurl} />
                     </div>
           },{
-            title: '图片',
+            title: '视频缩略图',
             width:150,
             dataIndex: 'imgs',
             render:(text, record, index) =>  <Button type="primary" icon='file-jpg' onClick={()=>this.uploadImg(record)}>上传图片</Button>
           },{
-            title: '视频',
+            title: '视频URL',
             width:150,
             dataIndex: 'videourl',
             render:(text, record, index) =>  <Button type="primary" icon='play-circle' onClick={()=>this.uploadVideo(record)}>上传视频</Button>
@@ -213,7 +213,7 @@ export default class Video extends React.Component{
 						onChange={this.nameInputChange} value={this.state.name} />  
                     </FormItem>
 
-                    <FormItem label="视频类型">
+                    <FormItem label="所属视频分类">
                     <Select
                     showSearch
                     style={{ width: 200 }}

@@ -128,13 +128,13 @@ export default class Category extends React.Component{
             title: '序号',
             dataIndex: 'px'
           },{
-            title: '类别名称',
+            title: '视频分类名',
             dataIndex: 'name',
           }, {
-            title: '说明',
+            title: '视频说明',
             dataIndex: 'remark',
           },{
-            title: '图片',
+            title: '视频分类主图',
             dataIndex: 'imgurl',
             render: (text, record, index) =>  <div style={{height:'50px',cursor:text?'pointer':''}} onClick={()=>this.imgOnClick(record.imgurl)}>
                               <img style={{height:'50px'}} src={record.imgurl} />
@@ -161,7 +161,7 @@ export default class Category extends React.Component{
         return(<div className="new_div_context">  
 
          <Form layout="inline" style={{padding:'20px 0px 0px 20px'}} >
-					<FormItem label="类别名称：">
+					<FormItem label="视频分类名：">
 					<Input
 						style={{ width: '200px' }}
 						onChange={this.nameInputChange} value={this.state.name} />  

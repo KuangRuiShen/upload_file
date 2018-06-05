@@ -174,7 +174,7 @@ export default class AddCategory extends React.Component {
             onOk={this.handleCreate}
         >
             <Form >
-                <FormItem label="上传头像" {...formItemLayout} >
+                <FormItem label="上传用户头像" {...formItemLayout} >
                  <div className="clearfix">
                         <Upload
                             action={OwnFetch.preurl+"/upload/image"}
@@ -192,7 +192,7 @@ export default class AddCategory extends React.Component {
                         </Modal>
                     </div>
                 </FormItem>  
-                <FormItem label="用户名" {...formItemLayout} hasFeedback>
+                <FormItem label="用户名称" {...formItemLayout} hasFeedback>
                     {getFieldDecorator('username', {
                         initialValue: editData.username,
                         rules: [{
@@ -204,7 +204,7 @@ export default class AddCategory extends React.Component {
                         )}
                 </FormItem>
                      
-                <FormItem label="评论" {...formItemLayout} >
+                <FormItem label="评论内容" {...formItemLayout} >
                     {getFieldDecorator('remark', {
                         initialValue: editData.remark
                     }

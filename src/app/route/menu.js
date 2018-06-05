@@ -1,6 +1,6 @@
 export const allMenu = [
     /*{name: '应用管理', url: '/app', icon: 'home', key: '5'},*/
-    {name: '管理', url: '/all', icon: 'bars', key: '1',
+    {name: '视频管理', url: '/all', icon: 'bars', key: '1',
     children: [
         { name: '视频分类', url: '/index', key: '0101' },
         { name: '视频上传', url: '/video', key: '0102' },

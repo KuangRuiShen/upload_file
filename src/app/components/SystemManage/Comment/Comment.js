@@ -149,19 +149,19 @@ export default class Comment extends React.Component {
                     <div><span>{index + 1 +(this.state.page-1)*this.state.pageSize}</span></div>
                 )
               },{
-                title: '头像',
+                title: '用户头像',
                 dataIndex: 'imgurl',
                 render: (text, record, index) =>  <div style={{height:'50px',cursor:text?'pointer':''}} onClick={()=>this.imgOnClick(record.imgurl)}>
                                   <img style={{height:'50px'}} src={record.imgurl} />
                             </div>
               },{
-                title: '用户名',
+                title: '用户名称',
                 dataIndex: 'username',
               },{
                 title: '发言人',
                 dataIndex: 'role',
               }, {
-                title: '评论',
+                title: '评论内容',
                 dataIndex: 'remark',
               }, {
                 title: '操作',
@@ -185,7 +185,7 @@ export default class Comment extends React.Component {
             return(<div className="new_div_context">  
     
              <Form layout="inline" style={{padding:'20px 0px 0px 20px'}} >
-                        <FormItem label="用户名：">
+                        <FormItem label="用户名称：">
                         <Input
                             style={{ width: '200px' }}
                             onChange={this.nameInputChange} value={this.state.name} />  
