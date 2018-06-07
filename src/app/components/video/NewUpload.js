@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, Button, Icon,message,Modal } from 'antd';
+import { Upload, Button, Icon,message,Modal,Progress } from 'antd';
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import $ from 'jquery'
 
@@ -16,6 +16,7 @@ export default class NewUpload extends React.Component{
     }
 
     componentWillMount() {
+        // console.info(this.props.editData);
         let editData = this.props.editData;
         this.setState({vid:this.props.editData.id});
         if(editData.videourl){
@@ -23,17 +24,31 @@ export default class NewUpload extends React.Component{
         }
     }
 
+    
+    deleteFile=()=>{
+        OwnFetch("delete_file",{id:this.state.vid});
+    }
+
+
     handleUpload = () => {   
         const { fileList,chucknum,chuckSize,vid} = this.state;
-        if(fileList.length == 1){         
+        if(fileList.length == 1){  
+            let file = fileList[0];
+            var filetypes =[".mp4",".avi",".mkv",".flv",".vob",".wmv",".rm",".rmvb",".ram",".3gp",".m4v"];  
+            let filename = file.name.toLowerCase()
+            var types = filename.substring(filename.indexOf("."));  
+            if(!filetypes.contains(types)){
+                Modal.error({title:"不支持该类型上传"})
+               return;
+            }  
             this.setState({ loading: true});
-            this.upload( fileList[0]);
+            this.upload(file);
         }
     }
 
          upload = (file) => {
             let { fileList,chucknum,chuckSize,vid} = this.state;
-            let preUploadPercent = Number((chucknum / chuckSize * 100).toFixed(2));
+            let preUploadPercent = Number((chucknum / chuckSize * 100).toFixed(0));
             let formData = new FormData();//初始化一个FormData对象
             let blockSize = 5 * 1024 * 1024;//每块的大小
             let nextSize = Math.min((chucknum + 1) * blockSize, file.size);//读取到结束位置      
@@ -50,14 +65,16 @@ export default class NewUpload extends React.Component{
             formData.append("chucknum", chucknum);//保存文件名字
             formData.append("chuckSize", total); //总片数
             $.post({
-                url: "/upload/video",
+                url: "/api/upload/video",
                 data: formData,
                 processData: false,  // 告诉jQuery不要去处理发送的数据
                 contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
                 success : (data)=> {  
                     // console.info(data)                
                     if (file.size <= nextSize) {//如果上传完成，则跳出继续上传
-                        alert("上传完成");
+                        this.setState({loading:false,chucknum:0})
+                        message.info("上传完成");
+                        this. getVideurl();
                         return;
                     }
                     this.setState({chucknum:chucknum + 1,preUploadPercent},()=>this.upload(file));//递归调用
@@ -76,10 +93,25 @@ export default class NewUpload extends React.Component{
       
     
           onRemove= (file) => {
-              this.setState({fileList:[]})
+              if(!this.state.loading){
+                this.setState({fileList:[]})
+              }else{
+                message.info("上传中...,请勿关闭")
+              }
+             
           }
 
+          getVideurl=()=>{
+            OwnFetch('get_videurl',{id:this.state.vid}).then(res=>{
+                if(res && res.code == 200){
+                    this.setState({videourl:res.data})
+                }
+            })
+        }
+    
+
           onClearFrom =()=>{
+              this.deleteFile();
             this.props.closePage();
             this.props.refresh();
         }
@@ -110,18 +142,27 @@ export default class NewUpload extends React.Component{
              beforeUpload={this.beforeUpload}
              onRemove={this.onRemove}
              fileList={this.state.fileList}
-             action ='http://127.0.0.1:7001/image/video'
+             action ={ OwnFetch.preurl+'/image/video'}
              >
                 {(!this.state.loading||this.state.fileList.length ==0) ? uploadButton :null}
             </Upload>
 
                  <Button
+                    style={{marginTop:20}}
                     onClick={this.handleUpload}
                     disabled={this.state.fileList.length === 0}
                     loading={loading}
                     >
                     {loading ? '上传中' : '开始上传' }
                     </Button>
+
+                        {this.state.loading && <Progress percent={this.state.preUploadPercent} />}
+                    {this.state.videourl ? <div style={{width:'100%',marginTop: '20px'}}>
+                        <p>已有上传视频</p>
+                        <video  
+                    src={this.state.videourl}  
+                    autoPlay loop controls
+                    /> </div>: <div style={{width:'100%',height:"300px",marginTop: '20px'}}>视频还没有上传</div>}     
 
         </Modal>)
     }

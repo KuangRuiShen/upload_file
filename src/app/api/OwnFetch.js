@@ -4,7 +4,7 @@ import {query, insert, update, remove,post} from "../../utils/api"
 
 
 //请求
-//const pathUrl = "http://localhost";
+const pathUrl = "http://localhost";
 
 
 const api = [
@@ -31,6 +31,9 @@ const api = [
   { name: 'comment_delete', url: "/comment/delete", method: 'post' },
   { name: 'comment_add', url: "/comment/add", method: 'post' },
   { name: 'comment_update', url: "/comment/update", method: 'post' },
+
+  { name: 'delete_file', url: "/upload/file", method: 'get' },
+  { name: 'get_videurl', url: "/upload/videurl", method: 'get' },
   
 ]
 

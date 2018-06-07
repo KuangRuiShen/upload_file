@@ -21,6 +21,14 @@ export default class UploadVideo extends React.Component{
         
     }
 
+    getVide=()=>{
+        OwnFetch().then(res=>{
+            if(res && res.code == 200){
+                this.setState({videourl:res.data})
+            }
+        })
+    }
+
            
     fileChange = (info) =>{
         // this.setState({ fileList}) 
@@ -62,7 +70,6 @@ export default class UploadVideo extends React.Component{
             visible={true}
             title={this.props.editData.videourl?'修改视频':'上传视频'}
             footer={null}
-            data={{vid:this.state.vid}}
             onCancel={this.onClearFrom}
             onOk={this.onClearFrom}
             >  
@@ -81,7 +88,7 @@ export default class UploadVideo extends React.Component{
             <p>已有上传视频</p>
             <video  
            src={this.state.videourl}  
-           controls="controls"
+           autoPlay loop controls
            /> </div>: <div style={{width:'100%',height:"300px",marginTop: '20px'}}>视频还没有上传</div>}                   
         </Modal>)
     }

@@ -4,7 +4,7 @@ import {clearUserInfo} from '../redux/actions/login';
 import { connect } from 'react-redux';
 
 
-// axios.defaults.baseURL = '/api';
+axios.defaults.baseURL = '/api';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';//Ajax get请求标识
@@ -27,7 +27,7 @@ axios.interceptors.response.use((response)=>{
     // }else if(response.code==401){
     //     Modal.error({title:'操作错误', content:response.message});
     // }
-    if(response.data.code != 200){
+    if(response.data && response.data.code != 200){
         //登录超时
         Modal.error({title:'错误信息', content:response.data.message});
     }

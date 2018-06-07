@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input, Table, Select , Icon, Modal,Button,Switch,Tooltip,Form,message } from 'antd';
 
-
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import Addvideo from './Addvideo';
 import BatchImg from './BatchImg';//批量图片上传
@@ -270,7 +269,7 @@ export default class Video extends React.Component{
 
            {this.state.showAddVideo && <Addvideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
            {this.state.showBatchImg && <BatchImg closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
-          {this.state.showUploadVideo && <UploadVideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
+           {this.state.showUploadVideo && <UploadVideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
 
           <Modal visible={this.state.showImg} footer={null} onCancel={()=>this.setState({showImg:false})}>
                         <img  style={{ width: '100%' }} src={this.state.imgurl} />
