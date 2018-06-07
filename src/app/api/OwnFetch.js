@@ -62,5 +62,6 @@ const OwnFetch = (request, params) => {
 }
 
 OwnFetch.preurl="/api"
+// OwnFetch.preurl=""
 
 export default OwnFetch;

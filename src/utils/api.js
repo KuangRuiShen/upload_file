@@ -4,7 +4,7 @@ import {clearUserInfo} from '../redux/actions/login';
 import { connect } from 'react-redux';
 
 
-axios.defaults.baseURL = '/api';
+// axios.defaults.baseURL = '/api';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';//Ajax get请求标识

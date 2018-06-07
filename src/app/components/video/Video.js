@@ -5,7 +5,7 @@ import { Input, Table, Select , Icon, Modal,Button,Switch,Tooltip,Form,message }
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import Addvideo from './Addvideo';
 import BatchImg from './BatchImg';//批量图片上传
-import UploadVideo from './UploadVideo';
+import UploadVideo from './NewUpload';
 
 const Option = Select.Option;
 export default class Video extends React.Component{

@@ -226,15 +226,15 @@ export default class Addvideo extends React.Component {
                         )}
                 </FormItem>
                 
-                <FormItem label="清晰度" {...formItemLayout} hasFeedback>
+                <FormItem label="视频名称" {...formItemLayout} hasFeedback>
                     {getFieldDecorator('name', {
                         initialValue: editData.name,
                         rules: [{
-                            required: true, message: '类别名称不能为空!'
+                            required: true, message: '视频名称不能为空!'
                         }]
                     }
                     )(
-                        <Input placeholder="类别名称不能为空" />
+                        <Input placeholder="视频名称不能为空" />
                         )}
                 </FormItem>
 
