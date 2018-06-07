@@ -25,6 +25,7 @@ import login_tu from  '../../../assets/images/login.png';
 /********************以下是自己写的业务模块开始***************************/
 
 //
+import Star from '../../app/components/Star/Star';//人
 import Video from '../../app/components/video/Video';//视频
 import Category from '../../app/components/video/Category';//分类
 
@@ -143,6 +144,7 @@ export default class GlobalRoute extends React.Component {
                                                                     <Route location={location} path="/video" render={() => <Video location={location}/>}/>
                                                                     <Route location={location} path="/userTab" render={() => <UserTab location={location}/>}/>
                                                                     <Route location={location} path="/comment" render={() => <Comment location={location}/>}/>
+                                                                    <Route location={location} path="/star" render={() => <Star location={location}/>}/>
                                                                     <Route location={location} render={() => <Redirect to='/login' />} /> 
                                                 
                                                             </Switch>                                                                                    

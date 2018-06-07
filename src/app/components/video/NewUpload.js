@@ -34,10 +34,11 @@ export default class NewUpload extends React.Component{
         const { fileList,chucknum,chuckSize,vid} = this.state;
         if(fileList.length == 1){  
             let file = fileList[0];
-            var filetypes =[".mp4",".avi",".mkv",".flv",".vob",".wmv",".rm",".rmvb",".ram",".3gp",".m4v"];  
-            let filename = file.name.toLowerCase()
-            var types = filename.substring(filename.indexOf("."));  
-            if(!filetypes.contains(types)){
+            let filetypes =[".mp4",".avi",".mkv",".flv",".vob",".wmv",".rm",".rmvb",".ram",".3gp",".m4v"];  
+            let filename = file.name.toLowerCase();
+            let types = filename.substring(filename.indexOf("."));  
+            let obj = filetypes.find(item=>item == types);
+            if(!obj){
                 Modal.error({title:"不支持该类型上传"})
                return;
             }  

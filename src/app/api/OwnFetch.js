@@ -4,7 +4,7 @@ import {query, insert, update, remove,post} from "../../utils/api"
 
 
 //请求
-const pathUrl = "http://localhost";
+// const pathUrl = "http://localhost";
 
 
 const api = [
@@ -17,6 +17,12 @@ const api = [
   { name: 'category_delete', url: "/category/delete", method: 'post' },
   { name: 'category_add', url: "/category/add", method: 'post' },
   { name: 'category_update', url: "/category/update", method: 'post' },
+
+  { name: 'star_all', url: "/star/all", method: 'get' },
+  { name: 'star_list', url: "/star/list", method: 'get' },
+  { name: 'star_delete', url: "/star/delete", method: 'post' },
+  { name: 'star_add', url: "/star/add", method: 'post' },
+  { name: 'star_update', url: "/star/update", method: 'post' },
 
   { name: 'video_list', url: "/video/list", method: 'get' },
   { name: 'video_delete', url: "/video/delete", method: 'post' },
@@ -64,7 +70,7 @@ const OwnFetch = (request, params) => {
   } 
 }
 
-OwnFetch.preurl="/api"
-// OwnFetch.preurl=""
+// OwnFetch.preurl="/api"
+OwnFetch.preurl=""
 
 export default OwnFetch;
