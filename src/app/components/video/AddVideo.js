@@ -18,6 +18,7 @@ export default class Addvideo extends React.Component {
             categorys:[],
             fileList:[],
             html:"",
+            stars:[],
         }
     }
     
@@ -29,6 +30,14 @@ export default class Addvideo extends React.Component {
                 this.setState({categorys:res.data})
             }
         })
+
+        OwnFetch('star_all').then(res=>{
+            if(res && res.code == 200){
+                this.setState({stars:res.data})
+            }
+        })
+
+
 
 
         //有图片
@@ -240,15 +249,33 @@ export default class Addvideo extends React.Component {
 
                       
                 <FormItem label="所属视频分类" {...formItemLayout} hasFeedback >
-                    {getFieldDecorator('cid', {
-                        initialValue: editData.cid,
+                    {getFieldDecorator('cids', {
+                        initialValue: editData.cids,
                         rules: [{
                             required: true, message: '所属视频分类不能为空!'
                         }]
                     }
                     )(
-                        <Select >
+                        <Select 
+                         mode="multiple"
+                        >
                         {this.state.categorys.map((item) => {
+                        return <Option key={item.key}>{item.value}</Option>
+                        })}
+                    </Select>
+                        )}
+                </FormItem>
+
+                 <FormItem label="所属明星" {...formItemLayout} hasFeedback >
+                    {getFieldDecorator('sid', {
+                        initialValue: editData.sid,
+                        rules: [{
+                            required: true, message: '所属明星不能为空!'
+                        }]
+                    }
+                    )(
+                        <Select >
+                        {this.state.stars.map((item) => {
                         return <Option key={item.key}>{item.value}</Option>
                         })}
                     </Select>

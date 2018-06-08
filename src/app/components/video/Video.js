@@ -120,9 +120,7 @@ export default class Video extends React.Component{
         }
 
         pageChange = (page, pageSize) => {
-            this.setState({ page, pageSize }, () => {
-                this.initLoadData();
-            });
+            this.setState({ page, pageSize },  this.initLoadData);
         }
     
         closePage=()=>{
@@ -149,7 +147,16 @@ export default class Video extends React.Component{
         uploadVideo=(record)=>{
             this.setState({editData:record,showUploadVideo:true})
         }
-    
+
+        categoryText=(record)=>{
+            let text ="";
+            if(record.categorys.length>0){
+                record.categorys.map(item=>{
+                    text = text +","+item.name;
+                })
+            }
+            return <div style={{overflow:'hidden',textOverflow: 'ellipsis',whiteSpace: 'nowrap',width:'100px'}}>{text}</div>;
+        }    
 
     render(){
 
@@ -163,6 +170,10 @@ export default class Video extends React.Component{
           },{
             title: '类别名称',
             dataIndex: 'cname',
+            render: (text, record, index) => this.categoryText(record)
+          },{
+            title: '所属明星',
+            dataIndex: 'sname',
           }, {
             title: '试看分钟数',
             dataIndex: 'watch',

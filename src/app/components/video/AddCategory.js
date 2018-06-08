@@ -4,6 +4,7 @@ import { Upload,Form, Modal,InputNumber,Input,Select,Icon} from 'antd'
 import OwnFetch from '../../api/OwnFetch';//封装请求
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 @Form.create()
 export default class AddCategory extends React.Component {
@@ -17,10 +18,12 @@ export default class AddCategory extends React.Component {
             previewVisible: false,
             previewImage: '',
             fileList: [],
+            types:[],
         }
     }
   
     componentDidMount(){
+        this.getType();
         //有图片
         // console.info("dfsfsd",this.props.editData.imgurl)
         if(this.props.editData.imgurl){
@@ -30,6 +33,14 @@ export default class AddCategory extends React.Component {
             // console.info("fileList",fileList)
         }
     
+    }
+
+    getType=()=>{
+        OwnFetch("code").then(res=>{
+            if(res && res.code==200){
+                this.setState({types:res.data})
+            }
+        })
     }
 
 
@@ -174,6 +185,22 @@ export default class AddCategory extends React.Component {
             onOk={this.handleCreate}
         >
             <Form >
+           
+                <FormItem label="页面分类" {...formItemLayout} hasFeedback >
+                    {getFieldDecorator('type', {
+                        initialValue: editData.type,
+                        rules: [{
+                            required: true, message: '页面不能为空!'
+                        }]
+                    }
+                    )(
+                        <Select >
+                        {this.state.types.map((item) => {
+                        return <Option key={item.key}>{item.value}</Option>
+                        })}
+                    </Select>
+                        )}
+                </FormItem>
                 <FormItem label="视频分类名" {...formItemLayout} hasFeedback>
                     {getFieldDecorator('name', {
                         initialValue: editData.name,

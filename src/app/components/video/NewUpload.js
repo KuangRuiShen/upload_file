@@ -99,7 +99,45 @@ export default class NewUpload extends React.Component{
         };
 
         //重新上传
+        reupload=(file,chucknum)=>{
+            let {chuckSize,vid,errorList} = this.state;
+            let preUploadPercent = Number((chucknum / chuckSize * 100).toFixed(0));
+            let formData = new FormData();//初始化一个FormData对象
+            let blockSize = 5 * 1024 * 1024;//每块的大小
+            let nextSize = Math.min((chucknum + 1) * blockSize, file.size);//读取到结束位置      
+            let total = Math.ceil(file.size / blockSize);  //总片数  
 
+            if(chuckSize !=total){
+                this.setState({chuckSize:total})
+            }
+            // console.info(file);
+            let fileData = file.slice(chucknum * blockSize, nextSize);//截取 部分文件 块
+            formData.append("file", fileData);//将 部分文件 塞入FormData      
+            formData.append("vid", vid);//保存文件名字
+            formData.append("fileName", file.name);//保存文件名字
+            formData.append("chucknum", chucknum);//保存文件名字
+            formData.append("chuckSize", total); //总片数
+            let url = OwnFetch.preurl+"/upload/video";
+            $.ajax({
+                url: url,
+                type:'post',
+                data: formData,
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,  // 告诉jQuery不要去设置Content-Type请求头
+                // dataType:'json', 
+                success : (data)=> {            
+                   let newData = errorList.map(item=>{
+                        if(item != chucknum){
+                            return item;
+                        }
+                    })
+                    this.setState({errorList:newData})
+                },error:()=>{
+                    //错误做处理
+                   this.reupload(file,chucknum)
+                }
+            });
+        }
     
   
     
@@ -179,6 +217,7 @@ export default class NewUpload extends React.Component{
                     {this.state.videourl ? <div style={{width:'100%',marginTop: '20px'}}>
                         <p>已有上传视频</p>
                         <video  
+                    style={{width:'100%'}}
                     src={this.state.videourl}  
                     autoPlay loop controls
                     /> </div>: <div style={{width:'100%',height:"300px",marginTop: '20px'}}>视频还没有上传</div>}     

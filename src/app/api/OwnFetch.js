@@ -40,6 +40,8 @@ const api = [
 
   { name: 'delete_file', url: "/upload/file", method: 'get' },
   { name: 'get_videurl', url: "/upload/videurl", method: 'get' },
+  //公共代码
+  { name: 'code', url: "/code", method: 'get' },
   
 ]
 

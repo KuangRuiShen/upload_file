@@ -1,10 +1,12 @@
 import React from 'react';
-import { Input, Table, Row, Col, Icon, Modal,Button,Switch,Tooltip,Form,message} from 'antd';
+import { Input, Table, Row, Col, Icon, Modal,Button,Switch,Tooltip,Form,message,Select} from 'antd';
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import {Pagination} from '../../../utils/util'; //页面
 
 import AddCategory from './AddCategory';
 
+
+const Option = Select.Option;
 export default class Category extends React.Component{
     constructor(props) {
 		super(props)
@@ -17,6 +19,11 @@ export default class Category extends React.Component{
             showAddCategory:false,
              //当前选中记录
             selects: [],
+            types:[],
+            type:"0",
+            page:1,
+            pageSize:10,
+            total:0,
 		}
     }
     
@@ -33,16 +40,32 @@ export default class Category extends React.Component{
     
     
 	componentWillMount() {
-		this.initLoadData();
-	}
+        this.initLoadData();
+        OwnFetch("code").then(res=>{
+            if(res && res.code==200){
+                this.setState({types:res.data})
+            }
+        })
+    
+    }
+    
+
+    pageChange = (page, pageSize) => {
+        this.setState({ page, pageSize },  this.initLoadData);
+    }
 
     //默认加载数据
     initLoadData=()=>{
-        OwnFetch('category_list',{name:this.state.name}).then(res=>{
+        let param = {name:this.state.name,page:this.state.page,pageSize:this.state.pageSize};
+        if(this.state.type != 0 ){
+            param.type = this.state.type;
+        }
+        OwnFetch('category_list',param).then(res=>{
             if(res && res.code == 200){
-                this.setState({dataSource:res.data,selects:[]})
+                this.setState({dataSource:res.data,selects:[],total:res.total})
             }
         })
+  
     }
 
     //查询
@@ -115,6 +138,12 @@ export default class Category extends React.Component{
             })
         }
     
+      //选择类别
+      handleChange =(value)=>{
+        // console.log(`selected ${value}`);
+        this.setState({type:value})
+      }
+
 
         imgOnClick=(url)=>{
             if(url){
@@ -127,6 +156,9 @@ export default class Category extends React.Component{
         const columns = [,{
             title: '序号',
             dataIndex: 'px'
+          },{
+            title: '页面分类',
+            dataIndex: 'typeText',
           },{
             title: '视频分类名',
             dataIndex: 'name',
@@ -166,7 +198,19 @@ export default class Category extends React.Component{
 						style={{ width: '200px' }}
 						onChange={this.nameInputChange} value={this.state.name} />  
                     </FormItem>
-
+                    
+                    <FormItem label="页面类型">
+                    <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    onChange={this.handleChange}
+                    value={this.state.type}
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                    <Option key="0">所有</Option>
+                    {this.state.types.map(item=> <Option key={item.key}>{item.value}</Option>)}
+                </Select>
+                    </FormItem>
 					<FormItem >				
 						<Button  type="primary" icon="search" onClick={this.onSearch}>查询</Button>				
                     </FormItem>
@@ -196,7 +240,14 @@ export default class Category extends React.Component{
                 dataSource={this.state.dataSource}
                 columns={columns}
                 loading={this.state.loading}
-                pagination={Pagination}
+                pagination={{
+                    current: this.state.page,
+                    pageSize:this.state.pageSize,
+                    total: this.state.total,
+                    showTotal: (total, range) => `当前${range[0]}-${range[1]}条 总数${total}条`,
+                    showQuickJumper: true,
+                    onChange: this.pageChange,
+                }}
             />
           </div>
 
