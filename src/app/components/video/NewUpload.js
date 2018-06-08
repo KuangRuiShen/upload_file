@@ -8,6 +8,7 @@ export default class NewUpload extends React.Component{
     state={
         loading:false,//是否正在上传
         fileList: [],
+        errorList:[],
         vid :'',
         chucknum:0,//当前分片
         chuckSize:1,//分片总数
@@ -34,10 +35,10 @@ export default class NewUpload extends React.Component{
         const { fileList,chucknum,chuckSize,vid} = this.state;
         if(fileList.length == 1){  
             let file = fileList[0];
-            let filetypes =[".mp4",".avi",".mkv",".flv",".vob",".wmv",".rm",".rmvb",".ram",".3gp",".m4v"];  
-            let filename = file.name.toLowerCase();
-            let types = filename.substring(filename.indexOf("."));  
-            let obj = filetypes.find(item=>item == types);
+            var filetypes =[".mp4",".avi",".mkv",".flv",".vob",".wmv",".rm",".rmvb",".ram",".3gp",".m4v"];  
+            let filename = file.name.toLowerCase()
+            let types = filename.substring(filename.indexOf(".")); 
+            let obj =  filetypes.find(item =>item ==types)
             if(!obj){
                 Modal.error({title:"不支持该类型上传"})
                return;
@@ -47,8 +48,12 @@ export default class NewUpload extends React.Component{
         }
     }
 
+        
+
+
+
          upload = (file) => {
-            let { fileList,chucknum,chuckSize,vid} = this.state;
+            let { fileList,chucknum,chuckSize,vid,errorList} = this.state;
             let preUploadPercent = Number((chucknum / chuckSize * 100).toFixed(0));
             let formData = new FormData();//初始化一个FormData对象
             let blockSize = 5 * 1024 * 1024;//每块的大小
@@ -65,23 +70,36 @@ export default class NewUpload extends React.Component{
             formData.append("fileName", file.name);//保存文件名字
             formData.append("chucknum", chucknum);//保存文件名字
             formData.append("chuckSize", total); //总片数
-            $.post({
-                url: "/api/upload/video",
+            let url = OwnFetch.preurl+"/upload/video";
+            $.ajax({
+                url: url,
+                type:'post',
                 data: formData,
                 processData: false,  // 告诉jQuery不要去处理发送的数据
-                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,  // 告诉jQuery不要去设置Content-Type请求头
+                // dataType:'json', 
                 success : (data)=> {  
-                    // console.info(data)                
+                    //  console.info(data)    
+                    if(errorList.length > 0){
+                        this.setState({loading:false,chucknum:0,errorList:[]})
+                        message.info("上传失败,请重新上传");
+                    }
                     if (file.size <= nextSize) {//如果上传完成，则跳出继续上传
-                        this.setState({loading:false,chucknum:0})
+                        this.setState({loading:false,chucknum:0,errorList:[]})
                         message.info("上传完成");
                         this. getVideurl();
                         return;
                     }
                     this.setState({chucknum:chucknum + 1,preUploadPercent},()=>this.upload(file));//递归调用
+                },error:()=>{
+                    //错误做处理
+                    errorList.push(chucknum);
                 }
             });
         };
+
+        //重新上传
+
     
   
     
@@ -143,7 +161,7 @@ export default class NewUpload extends React.Component{
              beforeUpload={this.beforeUpload}
              onRemove={this.onRemove}
              fileList={this.state.fileList}
-             action ={ OwnFetch.preurl+'/image/video'}
+             action ={ OwnFetch.preurl+'/upload/video'}
              >
                 {(!this.state.loading||this.state.fileList.length ==0) ? uploadButton :null}
             </Upload>

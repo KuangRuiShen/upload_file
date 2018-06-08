@@ -161,7 +161,7 @@ export default class Star extends React.Component{
         return(<div className="new_div_context">  
 
          <Form layout="inline" style={{padding:'20px 0px 0px 20px'}} >
-					<FormItem label="视频分类名：">
+					<FormItem label="姓名：">
 					<Input
 						style={{ width: '200px' }}
 						onChange={this.nameInputChange} value={this.state.name} />  
