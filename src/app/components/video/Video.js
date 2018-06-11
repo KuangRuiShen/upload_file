@@ -19,12 +19,20 @@ export default class Video extends React.Component{
             pageSize:10,
             selects:[],
             total:0,
-            categorys:[],
             cid:'0',
             imgurl:"",
             showImg:false,
             showBatchImg:false,
             showUploadVideo:false,
+            levels:[],
+            level:'0',
+            categorys:[],
+            category:'0',
+            types:[],//页面类型
+            type:'0',//类型
+            stars:[],
+            star:'0',
+
 		}
     }
 
@@ -38,30 +46,66 @@ export default class Video extends React.Component{
     
     
 	componentWillMount() {
+        //查询所有
         OwnFetch('category_all').then(res=>{
             if(res && res.code == 200){
-                this.setState({categorys:res.data})
+                let {categorys,types,levels} = res.data;
+                this.setState({categorys,types,levels})
             }
         })
+
+        OwnFetch('star_all').then(res=>{
+            if(res && res.code == 200){
+                this.setState({stars:res.data})
+            }
+        })
+
 		this.initLoadData();
 	}
 
     //默认加载数据
     initLoadData=()=>{
+        this.setState({loading:true})
         let param = {name:this.state.name,page:this.state.page,pageSize:this.state.pageSize};
         if(this.state.cid != 0 ){
             param.cid = this.state.cid;
+        }
+        if(this.state.level != 0){
+            param.level = this.state.level;
+        }
+
+        if(this.state.type != 0){
+            param.type = this.state.type;
+        }
+        if(this.state.star != 0){
+            param.sid = this.state.star;
         }
         OwnFetch('video_list',param).then(res=>{
             if(res && res.code == 200){
                 this.setState({dataSource:res.data,selects:[],total:res.total})
             }
+            this.setState({loading:false})
         })
     }
 
     onSearch=()=>{
         this.setState({page:1},()=>this.initLoadData())   
     }
+
+    onRest=()=>{
+        this.setState({
+            name:"",
+            cid:'0',
+            level:'0',
+            category:'0',
+            type:'0',//类型
+            star:'0',
+            page:1,
+        },this.onSearch)
+      
+
+    }
+
 
     
     //表格内修改按钮-修改角色按钮
@@ -132,8 +176,23 @@ export default class Video extends React.Component{
             // console.log(`selected ${value}`);
             this.setState({cid:value})
           }
+          //会员等级
+        levelChange =(value)=>{
+            // console.log(`selected ${value}`);
+            this.setState({level:value})
+          }
+               //会员等级
+        starChange =(value)=>{
+            // console.log(`selected ${value}`);
+            this.setState({star:value})
+          }
 
-          imgOnClick=(url)=>{
+        //页面类型
+        typeChange=(value)=>{
+            this.setState({type:value})
+        }
+
+        imgOnClick=(url)=>{
             if(url){
                 this.setState({showImg:true,imgurl:url})
             }       
@@ -155,6 +214,7 @@ export default class Video extends React.Component{
                     text = text +","+item.name;
                 })
             }
+            text = text.substring(1);
             return <div style={{overflow:'hidden',textOverflow: 'ellipsis',whiteSpace: 'nowrap',width:'100px'}}>{text}</div>;
         }    
 
@@ -190,10 +250,13 @@ export default class Video extends React.Component{
             dataIndex: 'imgs',
             render:(text, record, index) =>  <Button type="primary" icon='file-jpg' onClick={()=>this.uploadImg(record)}>上传图片</Button>
           },{
-            title: '视频URL',
+            title: '视频',
             width:150,
             dataIndex: 'videourl',
             render:(text, record, index) =>  <Button type="primary" icon='play-circle' onClick={()=>this.uploadVideo(record)}>上传视频</Button>
+          }, {
+            title: '会员等级',
+            dataIndex: 'levelText',
           },  {
             title: '操作',
             key: 'operate',
@@ -217,17 +280,29 @@ export default class Video extends React.Component{
         return(<div className="new_div_context">  
 
          <Form layout="inline" style={{padding:'20px 0px 0px 20px'}} >
-					<FormItem label="视频名称：">
+             <FormItem label="视频名称：">
 					<Input
 						style={{ width: '200px' }}
 						onChange={this.nameInputChange} value={this.state.name} />  
                     </FormItem>
 
+              <FormItem label="页面类型">
+                    <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    onChange={this.typeChange}
+                    value={this.state.type}
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                    <Option key="0">所有</Option>
+                    {this.state.types.map(item=> <Option key={item.key}>{item.value}</Option>)}
+                </Select>
+                    </FormItem>
+					
                     <FormItem label="所属视频分类">
                     <Select
                     showSearch
                     style={{ width: 200 }}
-                    optionFilterProp="children"
                     onChange={this.handleChange}
                     value={this.state.cid}
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
@@ -237,8 +312,37 @@ export default class Video extends React.Component{
                 </Select>
                     </FormItem>
 
+                     <FormItem label="会员等级">
+                    <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    onChange={this.levelChange}
+                    value={this.state.level}
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                    <Option key="0">所有</Option>
+                    {this.state.levels.map(item=> <Option key={item.key}>{item.value}</Option>)}
+                </Select>
+                    </FormItem>
+
+                    <FormItem label="明星">
+                    <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    onChange={this.starChange}
+                    value={this.state.star}
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                    <Option key="0">所有</Option>
+                    {this.state.stars.map(item=> <Option key={item.key}>{item.value}</Option>)}
+                </Select>
+                    </FormItem>
+
+              
+
 					<FormItem >				
-						<Button  type="primary" icon="search" onClick={this.onSearch}>查询</Button>				
+						<Button  type="primary" icon="search" onClick={this.onSearch}>查询</Button>			
+                        <Button type="Default"  icon="reload" onClick={this.onRest} style={{ marginLeft: '10px' }}  >重置</Button>	
                     </FormItem>
 
 					<FormItem  style={{ float: 'right', marginLeft: '20px' }}>	
@@ -248,8 +352,9 @@ export default class Video extends React.Component{
                     <Button  type="primary" icon='plus' style={{ marginLeft: '10px', backgroundColor: '#1dc3b0', border: 'none' }}
                             onClick={() => {
                                 this.setState({ showAddVideo: true, editData: {} });
-                    }}>新增</Button>   
-                   
+                    }}>新增</Button>  
+             
+                                       
                      <Button type="primary" icon='delete' style={{ marginLeft: '10px', background: '#ffa54c', border: 'none' }} onClick={this.handleDelete}>删除</Button>
                 </FormItem>
               
@@ -278,7 +383,7 @@ export default class Video extends React.Component{
             />
           </div>
 
-           {this.state.showAddVideo && <Addvideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
+           {this.state.showAddVideo && <Addvideo levels={this.state.levels} categorys={this.state.categorys} closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
            {this.state.showBatchImg && <BatchImg closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
            {this.state.showUploadVideo && <UploadVideo closePage={this.closePage}  editData={this.state.editData} refresh={this.onSearch}/>}
 

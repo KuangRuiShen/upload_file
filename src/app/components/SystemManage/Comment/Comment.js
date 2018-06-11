@@ -40,6 +40,7 @@ export default class Comment extends React.Component {
     
         //默认加载数据
         initLoadData=()=>{
+            this.setState({loading:true})
             let {page,name,role} = this.state;
             if(role == '0'){
                 role = ""
@@ -48,6 +49,7 @@ export default class Comment extends React.Component {
                 if(res && res.code == 200){
                     this.setState({dataSource:res.data,selects:[],total:res.total})
                 }
+                this.setState({loading:false})
             })
         }
     

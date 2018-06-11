@@ -38,10 +38,12 @@ export default class Star extends React.Component{
 
     //默认加载数据
     initLoadData=()=>{
+        this.setState({loading:true})
         OwnFetch('star_list',{name:this.state.name}).then(res=>{
             if(res && res.code == 200){
                 this.setState({dataSource:res.data,selects:[]})
             }
+            this.setState({loading:false})
         })
     }
 

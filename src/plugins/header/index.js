@@ -88,7 +88,7 @@ export default class Top extends React.Component {
                 {/* <Menu.Item disabled><Icon type="user" />个人中心</Menu.Item>
                 <Menu.Item disabled><Icon type="setting" />设置</Menu.Item>
                 <Menu.Divider /> */}
-                {/* <Menu.Item key="passwork"><Icon type="lock" />修改密码</Menu.Item> */}
+                <Menu.Item key="passwork"><Icon type="lock" />修改密码</Menu.Item>
                 <Menu.Item key="logout"><Icon type="logout" />退出登录</Menu.Item>
             </Menu>
         );

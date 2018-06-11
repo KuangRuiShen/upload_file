@@ -56,6 +56,7 @@ export default class Category extends React.Component{
 
     //默认加载数据
     initLoadData=()=>{
+        this.setState({loading:true})
         let param = {name:this.state.name,page:this.state.page,pageSize:this.state.pageSize};
         if(this.state.type != 0 ){
             param.type = this.state.type;
@@ -64,6 +65,7 @@ export default class Category extends React.Component{
             if(res && res.code == 200){
                 this.setState({dataSource:res.data,selects:[],total:res.total})
             }
+            this.setState({loading:false})
         })
   
     }
