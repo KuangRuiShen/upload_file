@@ -1,9 +1,8 @@
-import { Input, Table, Row, Col, Icon, Modal,Button,Switch,Tooltip,Form} from 'antd';
-import { connect } from 'react-redux'
+import { Input, Table,Button,Form} from 'antd';
 import React from 'react'
 import OwnFetch from '../../../api/OwnFetch'; //封装请求
 
-
+import MoneyPage from './MoneyPage';
 
 export default class UserTab extends React.Component {
 	constructor(props) {
@@ -15,6 +14,8 @@ export default class UserTab extends React.Component {
 			page:1,
             pageSize:10,
 			loading: false,
+			uid:'',//用户id
+			showMoneyPage:false,
 		}
 	}
 
@@ -72,51 +73,42 @@ export default class UserTab extends React.Component {
 	}
 
 	//关闭用户新增修改页面
-	cancelAdd = () => {
-		this.setState({
-			showAddUserPage: false,
-			showUpload: false
-		})
+	closePage = () => {
+		this.setState({showMoneyPage: false,})
 	}
 
 	columns = [{
-		title: '序号',
-		dataIndex: 'index',
-		key: 'index',
-		render: (text, record, index) => (
-			<div><span>{index + 1 +(this.state.page-1)*this.state.pageSize}</span></div>
-		)
+		title: '用户id',
+		dataIndex: 'id',
 	}, {
-		title: '用户账号',
-		dataIndex: 'username',
-		key: 'username',
+		title: '邀请id',
+		dataIndex: 'invite_id',
 	}, {
-		title: '用户姓名',
-		dataIndex: 'name',
-		key: 'name',
+		title: '充值时间',
+		dataIndex: 'recharge_time',
+	}, {
+		title: '到期时间',
+		dataIndex: 'valid_time',
+	},{
+		title: '用户等级',
+		dataIndex: 'roleText',
+	},{
+		title: '总充值金额',
+		dataIndex: 'money',
 	}, {
 		title: '操作',
 		key: 'action',
-		render: (text, record, index) =>  <Button type="primary" >查看充值记录</Button>
+		render: (text, record, index) =>  <Button type="primary" onClick={()=>this.setState({uid:record.id,showMoneyPage:true})} >查看充值记录</Button>
 	}]
 	render() {
 		//表单数据操作
-		const rowSelection = {
-			selectedRowKeys: this.state.selectedRowKeys,
-			onChange: (selectedRowKeys, selectedRows) => {
-				this.setState({
-					selectedRows,
-					selectedRowKeys
-				})
-			},
-		};
 		const FormItem = Form.Item;
 
 
 		return(
 			<div className="new_div_context">     
 				 <Form layout="inline" style={{padding:'20px 0px 0px 20px'}} >
-					<FormItem label="用户名称：">
+					<FormItem label="用户ID">
 					<Input
 						style={{ width: '200px' }}
 						onChange={this.nameInputChange} value={this.state.name} />
@@ -147,7 +139,7 @@ export default class UserTab extends React.Component {
 			}}
           />
         </div>
-
+	{this.state.showMoneyPage && <MoneyPage closePage={this.closePage} uid={this.state.uid}/>}
       </div>
 		)
 	}

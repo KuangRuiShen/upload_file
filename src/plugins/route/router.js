@@ -30,7 +30,7 @@ import Video from '../../app/components/video/Video';//视频
 import Category from '../../app/components/video/Category';//分类
 
 //系统管理
-import UserTab from '../../app/components/SystemManage/User/UserTab';
+import UserTab from '../../app/components/SystemManage/User/ManageTab';
 import Comment from '../../app/components/SystemManage/Comment/Comment';
 
 /********************以上是自己写的业务模块结束***************************/

@@ -1,5 +1,5 @@
 import React  from 'react'
-import { Upload,Form, Modal,InputNumber,Input,Select,Icon} from 'antd'
+import { Upload,Form, Modal,Input,Select,Icon} from 'antd'
 import OwnFetch from '../../../api/OwnFetch'; //封装请求
 
 const TextArea= Input.TextArea;
