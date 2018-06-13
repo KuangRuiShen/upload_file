@@ -1,8 +1,9 @@
-import { Input, Table,Button,Form} from 'antd';
+import { Input, Table,Button,Form,DatePicker} from 'antd';
 import React from 'react'
 import OwnFetch from '../../../api/OwnFetch'; //封装请求
 
 import MoneyPage from './MoneyPage';
+import moment from 'moment';
 
 export default class UserTab extends React.Component {
 	constructor(props) {
@@ -16,6 +17,7 @@ export default class UserTab extends React.Component {
 			loading: false,
 			uid:'',//用户id
 			showMoneyPage:false,
+			time: [],
 		}
 	}
 
@@ -40,7 +42,15 @@ export default class UserTab extends React.Component {
 	//默认加载
 	initLoadData = () => {
 		this.setState({loading: true})
-		OwnFetch("user_list", {username:this.state.name,page:this.state.page})
+		let {time,page,name } = this.state;
+ 		let param =  {name,page}
+		if (time.length == 2) {
+            let bTime = time[0].format("YYYY-MM-DD HH:mm:ss");
+			let eTime = time[1].format("YYYY-MM-DD HH:mm:ss");
+			param.bTime = bTime;
+			param.eTime = eTime;
+		}
+		OwnFetch("user_list",param)
 			.then(res => {
 				if(res && res.code == "200") {
 					this.setState({dataSource: res.data,total:res.total})
@@ -77,6 +87,12 @@ export default class UserTab extends React.Component {
 		this.setState({showMoneyPage: false,})
 	}
 
+	timeonChange = (dates, dateStrings) => {
+        this.setState({ time: dates });
+    }
+
+
+
 	columns = [{
 		title: '用户id',
 		dataIndex: 'id',
@@ -84,7 +100,10 @@ export default class UserTab extends React.Component {
 		title: '邀请id',
 		dataIndex: 'invite_id',
 	}, {
-		title: '充值时间',
+		title: '创建时间',
+		dataIndex: 'create_time',
+	}, {
+		title: '最新充值时间',
 		dataIndex: 'recharge_time',
 	}, {
 		title: '到期时间',
@@ -103,15 +122,25 @@ export default class UserTab extends React.Component {
 	render() {
 		//表单数据操作
 		const FormItem = Form.Item;
+		const { RangePicker } = DatePicker;
 
 
 		return(
 			<div className="new_div_context">     
 				 <Form layout="inline" style={{padding:'20px 0px 0px 20px'}} >
-					<FormItem label="用户ID">
+					<FormItem label="用户ID/邀请ID">
 					<Input
 						style={{ width: '200px' }}
 						onChange={this.nameInputChange} value={this.state.name} />
+                    </FormItem>
+
+					<FormItem label="充值时间">
+                        <RangePicker
+                            showTime={{ format: 'HH:mm:ss' }}
+                            value={this.state.time}
+                            onChange={this.timeonChange}
+                            format="YYYY-MM-DD HH:mm:ss"
+                        />
                     </FormItem>
 
 					<FormItem >				
