@@ -36,8 +36,9 @@ export default class MenoyTab extends React.Component {
 		title: '邀请的人数',
 		dataIndex: 'people',
 	}, {
-		title: '总金额',
-		dataIndex: 'total',
+		title: '总金额(元)',
+        dataIndex: 'total',
+        render:(text, record, index) => Number(text / 100) 
 	}]
 
     render(){

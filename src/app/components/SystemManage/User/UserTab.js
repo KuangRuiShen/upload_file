@@ -112,8 +112,9 @@ export default class UserTab extends React.Component {
 		title: '用户等级',
 		dataIndex: 'roleText',
 	},{
-		title: '总充值金额',
+		title: '总充值金额(元)',
 		dataIndex: 'money',
+		render:(text, record, index) => Number(text / 100)
 	}, {
 		title: '操作',
 		key: 'action',
