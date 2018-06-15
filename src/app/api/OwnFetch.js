@@ -44,6 +44,8 @@ const api = [
   { name: 'user_menoy', url: "/user/menoy", method: 'get' },
   { name: 'user_mange', url: "/user/mange", method: 'get' },
 
+  { name: 'user_changeinfo', url: "/user/changeinfo", method: 'post' },
+
 
   //公共代码
   { name: 'code', url: "/code", method: 'get' },

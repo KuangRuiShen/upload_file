@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Modal } from 'antd';
 import {clearUserInfo} from '../redux/actions/login';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 
 axios.defaults.baseURL = '/api';

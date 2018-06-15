@@ -50,7 +50,8 @@ export default class MoneyPage extends React.Component {
 		dataIndex: 'end_time',
 	},, {
 		title: '充值方式',
-		dataIndex: 'trade_type',
+        dataIndex: 'trade_type',
+        render:(text, record, index) => text =="WX"?'微信支付':'支付宝支付'
 	},{
 		title: '充值金额(元)',
         dataIndex: 'total_fee',
