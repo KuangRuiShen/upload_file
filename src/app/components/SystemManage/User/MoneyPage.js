@@ -34,10 +34,10 @@ export default class MoneyPage extends React.Component {
 
 
     columns = [{
-		title: '订单号(交易)',
+		title: '商户单号(交易)',
 		dataIndex: 'trade_no',
 	},{
-		title: '商户订单',
+		title: '系统订单',
 		dataIndex: 'out_trade_no',
 	}, {
 		title: '充值说明',
@@ -46,21 +46,21 @@ export default class MoneyPage extends React.Component {
 		title: '订单创建时间',
 		dataIndex: 'start_time',
 	}, {
-		title: '订单结束时间',
-		dataIndex: 'end_time',
-	},, {
 		title: '充值方式',
         dataIndex: 'trade_type',
         render:(text, record, index) => text =="WX"?'微信支付':'支付宝支付'
 	},{
-		title: '充值金额(元)',
+		title: '订单金额(元)',
         dataIndex: 'total_fee',
         render:(text, record, index) => Number(text / 100)   
 	},{
-		title: '充值结果',
-        dataIndex: 'result',
-        render: (text, record, index) => text == '1' ? '成功':'未充值'
-    }]
+		title: '订单结束时间',
+		dataIndex: 'payment_time',
+	},{
+		title: '实际金额(元)',
+        dataIndex: 'act_fee',
+        render:(text, record, index) => text ?Number(text / 100) : 0
+	}]
     
   
     //选择类别

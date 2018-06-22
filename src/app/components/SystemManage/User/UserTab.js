@@ -1,4 +1,4 @@
-import { Input, Table,Button,Form,DatePicker} from 'antd';
+import { Input, Table,Button,Form,DatePicker,Modal } from 'antd';
 import React from 'react'
 import OwnFetch from '../../../api/OwnFetch'; //封装请求
 
@@ -89,7 +89,24 @@ export default class UserTab extends React.Component {
 
 	timeonChange = (dates, dateStrings) => {
         this.setState({ time: dates });
-    }
+	}
+	
+	addUser=()=>{
+		Modal.confirm({
+			title: "确定添加",
+			content: "确定添加? 添加后不能删除",
+			okText: "确认",
+			cancelText: '取消',
+			onOk: () => {
+				OwnFetch('user_addmaster').then(res=>{
+					if(rers && res.code == 200){
+						this.initLoadData();
+					}
+				})
+			}
+		})
+
+	}
 
 
 
@@ -150,6 +167,10 @@ export default class UserTab extends React.Component {
 
 					<FormItem  style={{ float: 'right', marginLeft: '20px' }}>	
 				</FormItem>
+
+					<FormItem  style={{ float: 'right', marginLeft: '20px' }}>                
+                            <Button  type="primary" icon='plus' style={{ marginLeft: '10px', backgroundColor: '#1dc3b0', border: 'none' }} onClick={this.addUser}>新增管理员</Button>                                   
+                    </FormItem>
 			</Form>
 
         <div className="div_space_table" >

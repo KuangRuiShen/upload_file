@@ -31,7 +31,11 @@ const api = [
   { name: 'video_addrelation', url: "/video/addrelation", method: 'post' },
 
   { name: 'user_list', url: "/user/list", method: 'get' },
+  { name: 'user_addmaster', url: "/user/addmaster", method: 'get' },
   { name: 'user_password', url: "/user/password", method: 'post' },
+
+  //订单号
+  { name: 'user_order', url: "/user/order", method: 'get' },
 
   { name: 'comment_list', url: "/comment/list", method: 'get' },
   { name: 'comment_delete', url: "/comment/delete", method: 'post' },
@@ -43,6 +47,11 @@ const api = [
 
   { name: 'user_menoy', url: "/user/menoy", method: 'get' },
   { name: 'user_mange', url: "/user/mange", method: 'get' },
+
+  { name: 'setmeal_list', url: "/setmeal/list", method: 'get' },
+  { name: 'setmeal_edit', url: "/setmeal/edit", method: 'post' },
+
+
 
   { name: 'user_changeinfo', url: "/user/changeinfo", method: 'post' },
 
