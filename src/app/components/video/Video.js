@@ -25,7 +25,7 @@ export default class Video extends React.Component{
             showBatchImg:false,
             showUploadVideo:false,
             levels:[],
-            level:'0',
+            level:'all',
             categorys:[],
             category:'0',
             types:[],//页面类型
@@ -70,7 +70,7 @@ export default class Video extends React.Component{
         if(this.state.cid != 0 ){
             param.cid = this.state.cid;
         }
-        if(this.state.level != 0){
+        if(this.state.level != 'all'){
             param.level = this.state.level;
         }
 
@@ -96,7 +96,7 @@ export default class Video extends React.Component{
         this.setState({
             name:"",
             cid:'0',
-            level:'0',
+            level:'all',
             category:'0',
             type:'0',//类型
             star:'0',
@@ -235,9 +235,15 @@ export default class Video extends React.Component{
             title: '所属明星',
             dataIndex: 'sname',
           }, {
-            title: '试看分钟数',
+            title: '试看',
             dataIndex: 'watch',
-            render: (text, record, index) => text+" 分钟"
+            render: (text, record, index) =>  (text?text:0)+" 分钟",
+            width:80,
+          }, {
+            title: '时长',
+            dataIndex: 'time',
+            render: (text, record, index) => (text?text:0)+" 分钟",
+            width:80,
           },{
             title: '视频主图',
             dataIndex: 'imgurl',
@@ -320,7 +326,7 @@ export default class Video extends React.Component{
                     value={this.state.level}
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                    <Option key="0">所有</Option>
+                    <Option key="all">所有</Option>
                     {this.state.levels.map(item=> <Option key={item.key}>{item.value}</Option>)}
                 </Select>
                     </FormItem>

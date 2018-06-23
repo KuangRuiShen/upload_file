@@ -322,6 +322,18 @@ export default class Addvideo extends React.Component {
                         )}
                 </FormItem>
 
+                <FormItem label="虚拟时长" {...formItemLayout} >
+                    {getFieldDecorator('time', {
+                        initialValue: editData.time || 1,
+                        rules: [{
+                            required: true, message: '试看分钟数不能为空!'
+                        }]
+                    }
+                    )(
+                        <InputNumber min={1} max={999} />
+                        )}
+                </FormItem>
+
                         <p style={{textAlign: 'center'}}>视频说明:</p>
                      <MyEditor text={editData.remark} getText={this.getText}/>
              
