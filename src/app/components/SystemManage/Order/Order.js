@@ -96,11 +96,14 @@ export default class Order extends React.Component {
         render:(text, record, index) => Number(text / 100)   
 	},{
 		title: '订单结束时间',
-		dataIndex: 'payment_time',
+		dataIndex: 'end_time',
 	},{
 		title: '实际金额(元)',
         dataIndex: 'act_fee',
         render:(text, record, index) => text ?Number(text / 100) : 0
+	},{
+		title: '用户id',
+        dataIndex: 'user_id',
 	}]
     
 

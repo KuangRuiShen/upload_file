@@ -71,7 +71,7 @@ export default  class Editmeal extends React.Component {
         >
           <Form  className="login-form" style={{ textAlign: 'center' }}>
         
-          <FormItem label="包月(分)" {...formItemLayout} >
+          <FormItem label="费用(分)" {...formItemLayout} >
                         {getFieldDecorator('one', {
                             initialValue: editData.one,
                             rules: [{
@@ -83,7 +83,7 @@ export default  class Editmeal extends React.Component {
                             )}
             </FormItem>
 
-              <FormItem label="包年(分)" {...formItemLayout} >
+              {/* <FormItem label="包年(分)" {...formItemLayout} >
                         {getFieldDecorator('two',{ initialValue: editData.two ,
                             rules: [{
                                 required: true, message: '不能为空'
@@ -101,7 +101,7 @@ export default  class Editmeal extends React.Component {
                          })(
                           <InputNumber  max={99999} />
                         )}
-                    </FormItem>  
+                    </FormItem>   */}
           </Form>
         </Modal>
       </div>

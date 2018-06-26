@@ -55,7 +55,7 @@ export default class MoneyPage extends React.Component {
         render:(text, record, index) => Number(text / 100)   
 	},{
 		title: '订单结束时间',
-		dataIndex: 'payment_time',
+		dataIndex: 'end_time',
 	},{
 		title: '实际金额(元)',
         dataIndex: 'act_fee',
@@ -87,7 +87,7 @@ export default class MoneyPage extends React.Component {
            footer={null}
         >
 
-            <Select
+            {/* <Select
                     showSearch
                     style={{ width: 200 }}
                     onChange={this.handleChange}
@@ -95,7 +95,7 @@ export default class MoneyPage extends React.Component {
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
                     {resutls.map(item=> <Option key={item.key}>{item.value}</Option>)}
-                </Select>
+                </Select> */}
 
          <Table
 			dataSource={this.state.dataSource}

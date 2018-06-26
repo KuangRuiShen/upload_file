@@ -39,6 +39,10 @@ export default class Setmeal extends React.Component {
         this.setState({showPage:false})
     }
 
+    getText=()=>{
+
+    }
+
     
 
     columns = [{
@@ -46,20 +50,26 @@ export default class Setmeal extends React.Component {
 		dataIndex: 'id',
 	},{
 		title: '等级',
-		dataIndex: 'name',
+        dataIndex: 'name',
     },{
-		title: '包月(元)',
+		title: '对应的充值',
+        dataIndex: 'text',
+        // render:(text, record, index) => this.getText(record.id)
+    },{
+		title: '费用(元)',
         dataIndex: 'one',
         render:(text, record, index) => Number(text / 100) 
-    } ,{
-		title: '包年(元)',
-        dataIndex: 'two',
-        render:(text, record, index) => Number(text / 100) 
-	}, {
-		title: '永久(元)',
-        dataIndex: 'three',
-        render:(text, record, index) => Number(text / 100) 
-    },{
+    } 
+    // ,{
+	// 	title: '包年(元)',
+    //     dataIndex: 'two',
+    //     render:(text, record, index) => Number(text / 100) 
+	// }, {
+	// 	title: '永久(元)',
+    //     dataIndex: 'three',
+    //     render:(text, record, index) => Number(text / 100) 
+    // }
+    ,{
         title: '操作',
         key: 'operate',
         render: (text, record, index) => (  <Tooltip title="修改">
