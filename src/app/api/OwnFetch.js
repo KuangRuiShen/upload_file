@@ -51,6 +51,9 @@ const api = [
   { name: 'setmeal_list', url: "/setmeal/list", method: 'get' },
   { name: 'setmeal_edit', url: "/setmeal/edit", method: 'post' },
 
+  //统计页面
+  { name: 'charging_list', url: "/charging/list", method: 'get' },
+
 
 
   { name: 'user_changeinfo', url: "/user/changeinfo", method: 'post' },

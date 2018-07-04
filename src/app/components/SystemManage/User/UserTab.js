@@ -3,7 +3,7 @@ import React from 'react'
 import OwnFetch from '../../../api/OwnFetch'; //封装请求
 
 import MoneyPage from './MoneyPage';
-import moment from 'moment';
+// import moment from 'moment';
 
 export default class UserTab extends React.Component {
 	constructor(props) {
