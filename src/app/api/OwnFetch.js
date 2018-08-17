@@ -34,9 +34,15 @@ const api = [
   { name: 'user_addmaster', url: "/user/addmaster", method: 'get' },
   { name: 'user_password', url: "/user/password", method: 'post' },
 
+  //标签
+  { name: 'label_list', url: "/label/list", method: 'get' },
+  { name: 'label_delete', url: "/label/delete", method: 'post' },
+  { name: 'label_add', url: "/label/add", method: 'post' },
+  { name: 'label_update', url: "/label/update", method: 'post' },
+
   //订单号
   { name: 'user_order', url: "/user/order", method: 'get' },
-
+  //评论
   { name: 'comment_list', url: "/comment/list", method: 'get' },
   { name: 'comment_delete', url: "/comment/delete", method: 'post' },
   { name: 'comment_add', url: "/comment/add", method: 'post' },
@@ -53,7 +59,6 @@ const api = [
 
   //统计页面
   { name: 'charging_list', url: "/charging/list", method: 'get' },
-
 
 
   { name: 'user_changeinfo', url: "/user/changeinfo", method: 'post' },

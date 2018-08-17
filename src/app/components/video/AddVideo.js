@@ -20,6 +20,7 @@ export default class Addvideo extends React.Component {
             html:"",
             stars:[],
             levels:[],
+            labers:[],
         }
     }
     
@@ -29,6 +30,12 @@ export default class Addvideo extends React.Component {
         OwnFetch('star_all').then(res=>{
             if(res && res.code == 200){
                 this.setState({stars:res.data})
+            }
+        })
+
+        OwnFetch('laber_list').then(res=>{
+            if(res && res.code == 200){
+                this.setState({labers:res.data})
             }
         })
 
@@ -293,6 +300,22 @@ export default class Addvideo extends React.Component {
                         <Select >
                         {this.state.levels.map((item) => {
                         return <Option key={item.key}>{item.value}</Option>
+                        })}
+                    </Select>
+                        )}
+                </FormItem>
+
+                   <FormItem label="标签" {...formItemLayout} hasFeedback >
+                    {getFieldDecorator('labelIds', {
+                        initialValue: editData.labelIds,
+                        rules: [{
+                            required: true, message: '会员等级不能为空!'
+                        }]
+                    }
+                    )(
+                        <Select >
+                        {this.state.labers.map((item) => {
+                        return <Option key={item.id}>{item.name}</Option>
                         })}
                     </Select>
                         )}

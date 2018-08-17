@@ -159,7 +159,8 @@ export default class Charging extends React.Component {
 
                 <FormItem label="支付方式">
                            <Select
-                            style={{ width: 200 }}                       
+							style={{ width: 200 }}  
+							value={this.state.way}                     
                             onChange={this.payChange} >
                             <Option key="all">所有</Option>
                             <Option key="WX">微信</Option>
