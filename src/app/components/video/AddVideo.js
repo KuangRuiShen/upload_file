@@ -33,7 +33,7 @@ export default class Addvideo extends React.Component {
             }
         })
 
-        OwnFetch('laber_list').then(res=>{
+        OwnFetch('label_list').then(res=>{
             if(res && res.code == 200){
                 this.setState({labers:res.data})
             }
@@ -308,12 +308,11 @@ export default class Addvideo extends React.Component {
                    <FormItem label="标签" {...formItemLayout} hasFeedback >
                     {getFieldDecorator('labelIds', {
                         initialValue: editData.labelIds,
-                        rules: [{
-                            required: true, message: '会员等级不能为空!'
-                        }]
-                    }
+                        }
                     )(
-                        <Select >
+                        <Select   
+                         mode="multiple"
+                         >
                         {this.state.labers.map((item) => {
                         return <Option key={item.id}>{item.name}</Option>
                         })}

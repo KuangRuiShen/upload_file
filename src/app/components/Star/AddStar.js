@@ -4,6 +4,7 @@ import { Upload,Form, Modal,InputNumber,Input,Select,Icon} from 'antd'
 import OwnFetch from '../../api/OwnFetch';//封装请求
 
 const FormItem = Form.Item;
+const { TextArea } = Input;
 
 @Form.create()
 export default class AddStar extends React.Component {
@@ -202,7 +203,7 @@ export default class AddStar extends React.Component {
                   <FormItem label="人物说明" {...formItemLayout} >
                     {getFieldDecorator('remark',{ initialValue: editData.remark
                      })(
-                    <Input type="textarea"  rows={4} placeholder="描述" />
+                    <TextArea   rows={4} placeholder="描述" />
                     )}
                 </FormItem>  
 

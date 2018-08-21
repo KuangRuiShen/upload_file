@@ -5,6 +5,7 @@ import {Pagination} from '../../../utils/util'; //页面
 
 import AddStar from './AddStar';
 
+
 export default class Star extends React.Component{
     constructor(props) {
 		super(props)
@@ -135,6 +136,7 @@ export default class Star extends React.Component{
           }, {
             title: '人物说明',
             dataIndex: 'remark',
+            width:'50%'
           },{
             title: '人物主图',
             dataIndex: 'imgurl',

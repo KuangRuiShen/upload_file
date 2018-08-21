@@ -35,7 +35,7 @@ export default class Label extends React.Component {
     //默认加载数据
     initLoadData = () => {
         this.setState({ loading: true })
-        OwnFetch('Label_list', { name: this.state.name }).then(res => {
+        OwnFetch('label_list', { name: this.state.name }).then(res => {
             if (res && res.code == 200) {
                 this.setState({ dataSource: res.data, selects: [] })
             }
@@ -52,7 +52,7 @@ export default class Label extends React.Component {
     //表格内修改按钮-修改角色按钮
     editOnClick = (record) => {
         this.setState({
-            showAddStar: true,
+            showAdd: true,
             editData: record,
         })
     }
@@ -92,7 +92,7 @@ export default class Label extends React.Component {
     }
 
     deleteAll = (ids) => {
-        OwnFetch('laber_delete', ids).then(res => {
+        OwnFetch('label_delete', ids).then(res => {
             if (res && res.code == 200) {
                 Modal.success({ title: "删除成功" })
                 this.onSearch();
@@ -108,7 +108,7 @@ export default class Label extends React.Component {
 
     //关闭页面
     closePage = () => {
-        this.setState({ showAddStar: false })
+        this.setState({ showAdd: false })
     }
 
 
@@ -118,7 +118,7 @@ export default class Label extends React.Component {
 
         const columns = [, {
             title: '序号',
-            dataIndex: 'px'
+            dataIndex: 'id'
         }, {
                 title: '标签',
                 dataIndex: 'name',

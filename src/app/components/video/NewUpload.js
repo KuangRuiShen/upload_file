@@ -218,7 +218,7 @@ export default class NewUpload extends React.Component{
                         <p>已有上传视频</p>
                         <video  
                     style={{width:'100%'}}
-                    src={this.state.videourl}  
+                    src={this.state.videourl+"?_t="+Date.parse(new Date())/1000}  
                     autoPlay loop controls
                     /> </div>: <div style={{width:'100%',height:"300px",marginTop: '20px'}}>视频还没有上传</div>}     
 

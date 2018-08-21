@@ -48,14 +48,14 @@ export default class AddStar extends React.Component {
         //修改
         if(editData.id){  
               values.id = editData.id;
-              OwnFetch("Label_update",values)
+              OwnFetch("label_update",values)
                 .then(res=>{    
                     if(res && res.code=='200'){                                
                         this.onClearFrom();
                     }        
                 })
         }else{  //新增 
-             OwnFetch("Label_add",values).then(res=>{    
+             OwnFetch("label_add",values).then(res=>{    
                     if(res && res.code=='200'){ 
 
                         this.onClearFrom()
@@ -69,7 +69,7 @@ export default class AddStar extends React.Component {
     
     onClearFrom = () => {
         this.props.form.resetFields();//清楚表单数据
-        this.props. refresh() ;
+        this.props.refresh() ;
         this.props.closePage();
     }
 
