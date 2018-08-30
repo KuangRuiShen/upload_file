@@ -2,7 +2,7 @@ import React from 'react';
 import { Upload, Button, Icon,message,Modal } from 'antd';
 import OwnFetch from '../../api/OwnFetch';//封装请求
 
-
+//旧的上传文件
 export default class UploadVideo extends React.Component{
 
     state={

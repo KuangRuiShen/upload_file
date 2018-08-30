@@ -4,7 +4,7 @@ export const allMenu = [
     children: [
         { name: '视频分类', url: '/index', key: '0101' },
         { name: '明星', url: '/star', key: '0102' },
-        { name: '标签管理', url: '/laber', key: '0103' },
+        { name: '标签管理', url: '/label', key: '0103' },
         { name: '视频上传', url: '/video', key: '0104' },
     ]},
     { name: '系统管理', url: '/system', icon: 'team', key: '8',
