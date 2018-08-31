@@ -22,6 +22,7 @@ export default class Addvideo extends React.Component {
             stars: [],
             levels: [],
             labers: [],
+            videourl: undefined,
         }
     }
 
@@ -64,6 +65,11 @@ export default class Addvideo extends React.Component {
         this.setState({ html })
     }
 
+    //获取上传的url
+    geturl = (url) => {
+        this.setState({ videourl: url });
+    }
+
 
 
     //点击确定按钮
@@ -87,6 +93,13 @@ export default class Addvideo extends React.Component {
                 if (fileList[0].percent == 100) {
                     values.imgurl = fileList[0].response;
                 }
+            }
+
+            //处理视频上传
+            if (this.state.videourl) {
+                values.videourl = this.state.videourl;
+            } else {
+                values.videourl = editData.videourl;
             }
 
             //给说明赋值
@@ -169,10 +182,7 @@ export default class Addvideo extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-
-
         const { editData } = this.props;
-        const Option = Select.Option;
 
         let formItemLayout = {
             labelCol: {
@@ -299,23 +309,6 @@ export default class Addvideo extends React.Component {
                     </Col>
 
                     <Col span={12} >
-                        <FormItem label="标签" {...formItemLayout} hasFeedback >
-                            {getFieldDecorator('labelIds', {
-                                initialValue: editData.labelIds,
-                            }
-                            )(
-                                <Select
-                                    mode="multiple"
-                                >
-                                    {this.state.labers.map((item) => {
-                                        return <Option key={item.id}>{item.name}</Option>
-                                    })}
-                                </Select>
-                            )}
-                        </FormItem>
-                    </Col>
-
-                    <Col span={12} >
                         <FormItem label="序号" {...formItemLayout} >
                             {getFieldDecorator('px', {
                                 initialValue: editData.px || 1,
@@ -357,6 +350,21 @@ export default class Addvideo extends React.Component {
                     </Col>
                 </Row>
 
+                <FormItem label="标签" {...formItemLayout} hasFeedback >
+                    {getFieldDecorator('labelIds', {
+                        initialValue: editData.labelIds,
+                    }
+                    )(
+                        <Select
+                            mode="multiple"
+                        >
+                            {this.state.labers.map((item) => {
+                                return <Option key={item.id}>{item.name}</Option>
+                            })}
+                        </Select>
+                    )}
+                </FormItem>
+
                 <FormItem label="所属视频分类" {...formItemLayout} hasFeedback >
                     {getFieldDecorator('cids', {
                         initialValue: editData.cids,
@@ -366,8 +374,7 @@ export default class Addvideo extends React.Component {
                     }
                     )(
                         <Select
-                            mode="multiple"
-                        >
+                            mode="multiple">
                             {this.state.categorys.map((item) => {
                                 return <Option key={item.key}>{item.value}</Option>
                             })}
@@ -376,15 +383,15 @@ export default class Addvideo extends React.Component {
                 </FormItem>
 
 
-                
-                <div style={{padding:20}}>
-                      <p style={{ textAlign: 'center' }}>视频说明:</p>
+
+                <div style={{ padding: 20 }}>
+                    <p style={{ textAlign: 'center' }}>视频说明:</p>
                     <MyEditor text={editData.remark} getText={this.getText} />
                 </div>
-                <div style={{padding:20,border:'solid 1px #aeb2b5',borderRadius:'10px'}}>
-                <p style={{ textAlign: 'center' }}>上传视频:</p>
-                     <MyUpload editData={editData} />
-               </div>
+                <div style={{ padding: 20, border: 'solid 1px #aeb2b5', borderRadius: '10px' }}>
+                    <p style={{ textAlign: 'center' }}>上传视频:</p>
+                    <MyUpload editData={editData} geturl={this.geturl} />
+                </div>
 
             </Form>
 

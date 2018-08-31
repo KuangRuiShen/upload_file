@@ -32,11 +32,11 @@ export default class NewUpload extends React.Component{
 
 
     handleUpload = () => {   
-        const { fileList,chucknum,chuckSize,vid} = this.state;
+        const { fileList} = this.state;
         if(fileList.length == 1){  
             let file = fileList[0];
             var filetypes =[".mp4",".avi",".mkv",".flv",".vob",".wmv",".rm",".rmvb",".ram",".3gp",".m4v"];  
-            let filename = file.name.toLowerCase()
+            let filename = file.name.toLowerCase();
             let types = filename.substring(filename.indexOf(".")); 
             let obj =  filetypes.find(item =>item ==types)
             if(!obj){
@@ -53,7 +53,7 @@ export default class NewUpload extends React.Component{
 
 
          upload = (file) => {
-            let { fileList,chucknum,chuckSize,vid,errorList} = this.state;
+            let { chucknum,chuckSize,vid,errorList} = this.state;
             let preUploadPercent = Number((chucknum / chuckSize * 100).toFixed(0));
             let formData = new FormData();//初始化一个FormData对象
             let blockSize = 5 * 1024 * 1024;//每块的大小
@@ -82,11 +82,11 @@ export default class NewUpload extends React.Component{
                     //  console.info(data)    
                     if(errorList.length > 0){
                         this.setState({loading:false,chucknum:0,errorList:[]})
-                        message.info("上传失败,请重新上传");
+                        Modal.error({title:"上传失败,请重新上传"});
                     }
                     if (file.size <= nextSize) {//如果上传完成，则跳出继续上传
                         this.setState({loading:false,chucknum:0,errorList:[]})
-                        message.info("上传完成");
+                        Modal.success({title:"上传完成"});
                         this. getVideurl();
                         return;
                     }
@@ -168,7 +168,7 @@ export default class NewUpload extends React.Component{
     
 
           onClearFrom =()=>{
-              this.deleteFile();
+            this.deleteFile();
             this.props.closePage();
             this.props.refresh();
         }

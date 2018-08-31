@@ -63,6 +63,8 @@ const api = [
 
   { name: 'user_changeinfo', url: "/user/changeinfo", method: 'post' },
 
+  //上传
+  { name: 'upload_getpreurl', url: "/upload/getpreurl", method: 'get' },
 
   //公共代码
   { name: 'code', url: "/code", method: 'get' },

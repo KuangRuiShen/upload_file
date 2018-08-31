@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, Button, Icon, message, Modal, Progress } from 'antd';
+import { Upload, Button, Icon, message, Modal, Progress,Input,Form} from 'antd';
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import $ from 'jquery'
 
@@ -15,6 +15,7 @@ export default class NewUpload extends React.Component {
         chuckSize: 1,//分片总数
         preUploadPercent: 0,//上传百分比
         videourl: null,
+        preurl:undefined,//  前置url
     }
 
     componentWillMount() {
@@ -29,7 +30,19 @@ export default class NewUpload extends React.Component {
         if (editData.videourl) {
             this.setState({ videourl: editData.videourl })
         }
+        this.getpreUrl();
     }
+
+    getpreUrl=()=>{
+        OwnFetch('upload_getpreurl',{}).then(res=>{
+            if(res && res.code == 200){
+                this.setState({preurl:res.data})
+            }
+        })
+    }
+
+
+
 
 
     getUUID=()=>{
@@ -107,7 +120,6 @@ export default class NewUpload extends React.Component {
                 if (file.size <= nextSize) {//如果上传完成，则跳出继续上传
                     this.setState({ loading: false, chucknum: 0, errorList: [] })
                     Modal.success({title:"上传完成"});
-                    // this.getVideurl();
                     this.getVideurl();
                     return;
                 }
@@ -180,26 +192,32 @@ export default class NewUpload extends React.Component {
     }
 
     getVideurl = () => {
-        this.setState({})
-        // OwnFetch('get_videurl', { id: this.state.vid }).then(res => {
-        //     if (res && res.code == 200) {
-        //         this.setState({ videourl: res.data })
-        //     }
-        // })
+        OwnFetch('get_videurl', { id: this.state.vid }).then(res => {
+            if (res && res.code == 200) {               
+                this.setState({ videourl: res.data });
+                this.props.geturl( res.data);
+                this.deleteFile();
+            }
+        })
     }
 
-
-    onClearFrom = () => {
-        this.deleteFile();
-        this.props.closePage();
-        this.props.refresh();
+    getInputvideourl=()=>{
+        let videourl = this.state.videourl;
+        if(videourl){
+            videourl  = videourl.substring(videourl.lastIndexOf("\/") + 1, videourl.length);
+        }  
+        return videourl;
     }
 
+    inputonChange=(e)=>{
+        this.setState({ videourl:this.state.preurl+e.target.value}); 
+    }
 
 
     render() {
         // console.info(this.state.vid)
         const { loading } = this.state;
+        const FormItem = Form.Item;
 
         const uploadButton = (
             <Button>
@@ -207,8 +225,24 @@ export default class NewUpload extends React.Component {
             </Button>
         );
 
+        
+        let formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 6 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 14 },
+            },
+        };
+
         return (
             <div>
+                <FormItem label="视频播放名称" {...formItemLayout} hasFeedback >
+                        <Input placeholder="直接修改视频播放地址" value={this.getInputvideourl()} onChange={this.inputonChange} />
+                </FormItem>
+               
                 <Upload
                     beforeUpload={this.beforeUpload}
                     onRemove={this.onRemove}
