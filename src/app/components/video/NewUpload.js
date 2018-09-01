@@ -219,7 +219,7 @@ export default class NewUpload extends React.Component{
                         <video  
                     style={{width:'100%'}}
                     src={this.state.videourl+"?_t="+Date.parse(new Date())/1000}  
-                    autoPlay loop controls
+                    autoPlay  controls
                     /> </div>: <div style={{width:'100%',height:"300px",marginTop: '20px'}}>视频还没有上传</div>}     
 
         </Modal>)

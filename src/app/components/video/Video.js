@@ -254,11 +254,6 @@ export default class Video extends React.Component{
             width:150,
             dataIndex: 'imgs',
             render:(text, record, index) =>  <Button type="primary" icon='file-jpg' onClick={()=>this.uploadImg(record)}>上传图片</Button>
-          },{
-            title: '视频',
-            width:150,
-            dataIndex: 'videourl',
-            render:(text, record, index) =>  <Button type="primary" icon='play-circle' onClick={()=>this.uploadVideo(record)}>上传视频</Button>
           }, {
             title: '会员等级',
             dataIndex: 'levelText',
@@ -277,7 +272,12 @@ export default class Video extends React.Component{
                 </div>
             ),
         }];
-
+        
+        //     title: '视频',
+        //     width:150,
+        //     dataIndex: 'videourl',
+        //     render:(text, record, index) =>  <Button type="primary" icon='play-circle' onClick={()=>this.uploadVideo(record)}>上传视频</Button>
+        //   
 
         const FormItem = Form.Item;
 

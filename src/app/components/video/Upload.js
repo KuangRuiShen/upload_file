@@ -210,7 +210,9 @@ export default class NewUpload extends React.Component {
     }
 
     inputonChange=(e)=>{
-        this.setState({ videourl:this.state.preurl+e.target.value}); 
+        let videourl = this.state.preurl+e.target.value;
+        this.props.geturl(videourl);
+        this.setState({ videourl}); 
     }
 
 
@@ -240,7 +242,10 @@ export default class NewUpload extends React.Component {
         return (
             <div>
                 <FormItem label="视频播放名称" {...formItemLayout} hasFeedback >
-                        <Input placeholder="直接修改视频播放地址" value={this.getInputvideourl()} onChange={this.inputonChange} />
+                    <Input placeholder="直接修改视频播放地址" 
+                        value={this.getInputvideourl()} 
+                        disabled={this.state.loading}
+                        onChange={this.inputonChange} />
                 </FormItem>
                
                 <Upload
@@ -267,7 +272,7 @@ export default class NewUpload extends React.Component {
                     <video
                         style={{ width: '100%' }}
                         src={this.state.videourl + "?_t=" + Date.parse(new Date()) / 1000}
-                        autoPlay loop controls
+                        autoPlay  controls
                     /> </div> : <div style={{ width: '100%', height: "300px", marginTop: '20px' }}>视频还没有上传</div>}
 
             </div>)
