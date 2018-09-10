@@ -21,6 +21,8 @@ import Login from '../login/index'//登录
 
 import login_tu from  '../../../assets/images/login.png';
 
+import Welcome from '../../app/components/welcome';
+
 
 /********************以下是自己写的业务模块开始***************************/
 
@@ -148,6 +150,7 @@ export default class GlobalRoute extends React.Component {
                                                                     <Route location={location} path="/comment" render={() => <Comment location={location}/>}/>
                                                                     <Route location={location} path="/star" render={() => <Star location={location}/>}/>
                                                                     <Route location={location} path="/label" render={() => <Label location={location}/>}/>
+                                                                    <Route location={location} path="/welcome" render={() => <Welcome location={location}/>}/>
                                                                     
                                                                     <Route location={location} render={() => <Redirect to='/login' />} /> 
                                                 
