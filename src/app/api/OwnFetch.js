@@ -10,6 +10,7 @@ import {query, insert, update, remove,post} from "../../utils/api"
 const api = [
   //欢迎页
   { name: 'saveImgs', url: "/saveImgs", method: 'post' },
+  { name: 'welcome', url: "/welcome", method: 'get' },
 
   { name: 'login', url: "/login", method: 'post' },
 

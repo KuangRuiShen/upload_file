@@ -8,7 +8,22 @@ export default class Welcome extends React.Component {
         fileList: [],
         previewImage: '',
         previewVisible: false,
+        loading:false,
     }
+
+    componentWillMount() {
+        OwnFetch("welcome").then(res=>{
+            if(res && res.code==200){
+                let fileList =[] ;
+                res.data.map((item,index)=>{
+                    fileList.push({uid: index,status: 'done',url:item,welcome:true});
+                })       
+            this.setState({fileList});
+            }
+        })
+    
+    }
+    
 
     handlePreview = (file) => {
         // console.info(file)
@@ -26,7 +41,7 @@ export default class Welcome extends React.Component {
 
     handleCancel = () => this.setState({ previewVisible: false })
 
-
+   
 
     beforeUpload = (file) => {
         const isJPG = file.type === 'image/jpeg';
@@ -53,7 +68,7 @@ export default class Welcome extends React.Component {
 
     //点击确定按钮
     saveImg = () => {
-
+        this.setState({loading:true})
         const { fileList } = this.state;
         //处理图片
         let imgurls = [];
@@ -61,12 +76,16 @@ export default class Welcome extends React.Component {
             if (item.percent == 100) {
                 imgurls.push(item.response);
             }
+            if(item.welcome){
+                imgurls.push(item.url);
+            }
         })
       
         OwnFetch("saveImgs",imgurls).then(res=>{
             if(res && res.code == 200){
-                Modal.success({title:'保存成功！'})
+                Modal.success({title:'保存成功！'})           
             }
+            this.setState({loading:false});
         })
 
 
@@ -94,14 +113,14 @@ export default class Welcome extends React.Component {
                         onChange={this.handleChange}
                         beforeUpload={this.beforeUpload}
                     >
-                        {fileList.length == 1 ? null : uploadButton}
+                        {fileList.length == 3 ? null : uploadButton}
                     </Upload>
                     <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                         <img style={{ width: '100%' }} src={previewImage} />
                     </Modal>
                 </div>
                 <div>
-                    <Button type="primary" onClick={this.saveImg}>保存</Button>
+                    <Button type="primary" onClick={this.saveImg} loading={this.state.loading}>保存</Button>
                 </div>
             </div>
         )
