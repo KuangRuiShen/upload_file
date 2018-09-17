@@ -2,6 +2,7 @@ import React from 'react'
 import { Upload, Form, Modal, InputNumber, Input, Icon } from 'antd'
 
 import OwnFetch from '../../api/OwnFetch';//封装请求
+import UploadFile from './UploadFile';//上传文件
 
 const FormItem = Form.Item;
 
@@ -16,6 +17,7 @@ export default class Add extends React.Component {
             previewVisible: false,
             previewImage: '',
             fileList: [],
+            inputLoading: false
         }
     }
 
@@ -133,6 +135,11 @@ export default class Add extends React.Component {
     }
 
 
+    //上传中
+    setLoading = (loading) => {
+        this.setState({ inputLoading: loading })
+    }
+
 
 
 
@@ -190,6 +197,10 @@ export default class Add extends React.Component {
                     </div>
                 </FormItem>
 
+                {/* <FormItem label="上传文件" {...formItemLayout} >             
+                        <UploadFile getUrl={editData.url} setLoading={this.setLoading} />       
+                </FormItem> */}
+
                 <FormItem label="访问地址" {...formItemLayout} hasFeedback>
                     {getFieldDecorator('url', {
                         initialValue: editData.url,
@@ -198,7 +209,7 @@ export default class Add extends React.Component {
                         }]
                     }
                     )(
-                        <Input placeholder="访问地址不能为空" />
+                        <Input placeholder="访问地址不能为空" disabled={this.state.inputLoading} />
                     )}
                 </FormItem>
 
