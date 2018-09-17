@@ -1,129 +1,194 @@
 import React from 'react';
-
-import { Upload, Modal, Button, Icon } from 'antd'
+import { Table, Icon, Modal, Button, Tooltip, Form, message } from 'antd';
 import OwnFetch from '../../api/OwnFetch';//封装请求
+import { Pagination } from '../../../utils/util'; //页面
 
-export default class Welcome extends React.Component {
-    state = {
-        fileList: [],
-        previewImage: '',
-        previewVisible: false,
-        loading:false,
+import Add from './Add';
+
+
+export default class WelcomeIndex extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            dataSource: [],
+            loading: false,
+            editData: {},
+            imgurl: "",
+            showAddStar: false,
+            //当前选中记录
+            selects: [],
+        }
     }
 
-    componentWillMount() {
-        OwnFetch("welcome").then(res=>{
-            if(res && res.code==200){
-                let fileList =[] ;
-                res.data.map((item,index)=>{
-                    fileList.push({uid: index,status: 'done',url:item,welcome:true});
-                })       
-            this.setState({fileList});
-            }
-        })
-    
-    }
-    
 
-    handlePreview = (file) => {
-        // console.info(file)
+    nameInputChange = (e) => {
         this.setState({
-            previewImage: file.url || file.thumbUrl,
-            previewVisible: true,
+            name: e.target.value
         });
     }
 
 
-    handleChange = ({ file, fileList, event }) => {
-        this.setState({ fileList })
+
+
+    componentWillMount() {
+        this.initLoadData();
+    }
+
+    //默认加载数据
+    initLoadData = () => {
+        this.setState({ loading: true })
+        OwnFetch('welcome', {}).then(res => {
+            if (res && res.code == 200) {
+                this.setState({ dataSource: res.data, selects: [] })
+            }
+            this.setState({ loading: false })
+        })
+    }
+
+    //查询
+    onSearch = () => {
+        this.initLoadData();
     }
 
 
-    handleCancel = () => this.setState({ previewVisible: false })
+    //表格内修改按钮-修改角色按钮
+    editOnClick = (record) => {
+        this.setState({
+            showAddStar: true,
+            editData: record,
+        })
+    }
 
-   
-
-    beforeUpload = (file) => {
-        const isJPG = file.type === 'image/jpeg';
-        const isGIF = file.type === 'image/gif';
-        const isPNG = file.type === 'image/png';
-        if (!isJPG && !isGIF && !isPNG) {
-            Modal.error({
-                content: '必须是JPG/PNG/GIF格式文件',
-            });
-            return false;
-        }
-        const isLt2M = file.size / 1024 / 1024 < 10;
-
-        if (!isLt2M) {
-            Modal.error({
-                content: '图片大小不能超过 10M!',
-            });
-            return false;
-        }
-        // this.setState({imageName:file.name,imageFile:file})
-        return (isJPG || isGIF || isPNG) && isLt2M;
+    //单一删除
+    delete = (record) => {
+        let ids = [];
+        ids.push(record.id)
+        // const deleteUsers = this.deleteUsers;
+        Modal.confirm({
+            title: "删除提示",
+            content: "确定删除所选该类别?",
+            okText: "删除",
+            onOk: () => {
+                this.deleteAll(ids)
+            }
+        })
     }
 
 
-    //点击确定按钮
-    saveImg = () => {
-        this.setState({loading:true})
-        const { fileList } = this.state;
-        //处理图片
-        let imgurls = [];
-        fileList.map(item=>{
-            if (item.percent == 100) {
-                imgurls.push(item.response);
-            }
-            if(item.welcome){
-                imgurls.push(item.url);
+    //批量删除
+    handleDelete = () => {
+        if (this.state.selects.length) {
+            Modal.confirm({
+                title: "确定删除",
+                content: "确定删除所选" + this.state.selects.length + "条的数据? 删除后不可恢复!",
+                okText: "确认删除",
+                cancelText: '取消',
+                onOk: () => {
+                    this.deleteAll(this.state.selects)
+                }
+            })
+        } else {
+            message.warning("请选择删除记录");
+        }
+
+    }
+
+    deleteAll = (ids) => {
+        OwnFetch('welcome_delete', ids).then(res => {
+            if (res && res.code == 200) {
+                Modal.success({ title: "删除成功" })
+                this.onSearch();
             }
         })
-      
-        OwnFetch("saveImgs",imgurls).then(res=>{
-            if(res && res.code == 200){
-                Modal.success({title:'保存成功！'})           
-            }
-            this.setState({loading:false});
+    }
+
+    onSelectChange = (selectedRowKeys, selectedRows) => {
+        this.setState({ selects: selectedRowKeys });
+    }
+
+
+    //关闭页面
+    closePage = () => {
+        this.setState({
+            showAddStar: false,
         })
+    }
 
 
+    imgOnClick = (url) => {
+        if (url) {
+            this.setState({ showImg: true, imgurl: url })
+        }
     }
 
     render() {
 
-        const { previewVisible, previewImage, fileList } = this.state;
-        const uploadButton = (
-            <div>
-                <Icon type="plus" />
-                <div className="ant-upload-text">Upload</div>
-            </div>
-        );
+        const columns = [, {
+            title: '序号',
+            dataIndex: 'px'
+        }, {
+                title: '访问地址',
+                dataIndex: 'url',
+            }, {
+                title: '图片',
+                dataIndex: 'imgurl',
+                render: (text, record, index) => <div style={{ height: '50px', cursor: text ? 'pointer' : '' }} onClick={() => this.imgOnClick(record.imgurl)}>
+                    <img style={{ height: '50px' }} src={record.imgurl} />
+                </div>
+            }, {
+                title: '操作',
+                key: 'operate',
+                render: (text, record, index) => (
+                    <div>
+                        <Tooltip title="修改">
+                            <Icon type="edit" style={{ fontSize: 16, cursor: 'pointer', color: '#03aaf4', marginRight: '10px' }}
+                                onClick={() => this.editOnClick(record)} />
+                        </Tooltip>
+                        <Tooltip title="删除">
+                            <Icon type="delete" style={{ fontSize: 16, cursor: 'pointer', color: '#03aaf4' }} onClick={() => this.delete(record)} />
+                        </Tooltip>
+                    </div>
+                ),
+            }];
 
-        return (
-            <div style={{ textAlign: 'center' }}>
-                <div style={{ display: 'inline-block', margin: '0 auto' }}>
-                    <Upload
-                        action={OwnFetch.preurl + "/upload/image"}
-                        listType="picture-card"
-                        fileList={fileList}
-                        // data={fileList}
-                        onPreview={this.handlePreview}
-                        onChange={this.handleChange}
-                        beforeUpload={this.beforeUpload}
-                    >
-                        {fileList.length == 3 ? null : uploadButton}
-                    </Upload>
-                    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                        <img style={{ width: '100%' }} src={previewImage} />
-                    </Modal>
-                </div>
-                <div>
-                    <Button type="primary" onClick={this.saveImg} loading={this.state.loading}>保存</Button>
-                </div>
+        const FormItem = Form.Item;
+
+
+        return (<div className="new_div_context">
+
+            <Form layout="inline" style={{ padding: '20px 0px 0px 20px',height: 30 }} >
+                <FormItem style={{ float: 'right', marginLeft: '20px' }}>
+                    <Button type="primary" icon='plus' style={{ marginLeft: '10px', backgroundColor: '#1dc3b0', border: 'none' }}
+                        onClick={() => {
+                            this.setState({ showAddStar: true, editData: {} });
+                        }}>新增</Button>
+
+                    <Button type="primary" icon='delete' style={{ marginLeft: '10px', background: '#ffa54c', border: 'none' }} onClick={this.handleDelete}>删除</Button>
+                </FormItem>
+
+            </Form>
+
+            <div className="div_space_table" style={{borderTop:'none'}} >
+                <Table
+                    size="small"
+                    rowKey="id"
+                    rowSelection={{
+                        selectedRowKeys: this.state.selects,
+                        onChange: this.onSelectChange
+                    }}
+                    dataSource={this.state.dataSource}
+                    columns={columns}
+                    loading={this.state.loading}
+                    pagination={Pagination}
+                />
             </div>
-        )
+
+            {this.state.showAddStar && <Add editData={this.state.editData} closePage={this.closePage} refresh={this.onSearch} />}
+
+            {this.state.showImg && <Modal visible footer={null} onCancel={() => this.setState({ showImg: false })}>
+                <img style={{ width: '100%' }} src={this.state.imgurl} />
+            </Modal>}
+        </div>)
     }
 
 }

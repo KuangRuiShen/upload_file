@@ -1,6 +1,5 @@
-import { Modal } from 'antd';
-import React from 'react'
-import {query, insert, update, remove,post} from "../../utils/api"
+
+import {query,post} from "../../utils/api"
 
 
 //请求
@@ -9,7 +8,9 @@ import {query, insert, update, remove,post} from "../../utils/api"
 
 const api = [
   //欢迎页
-  { name: 'saveImgs', url: "/saveImgs", method: 'post' },
+  { name: 'welcome_add', url: "/welcome/add", method: 'post' },
+  { name: 'welcome_update', url: "/welcome/update", method: 'post' },
+  { name: 'welcome_delete', url: "/welcome/delete", method: 'post' },
   { name: 'welcome', url: "/welcome", method: 'get' },
 
   { name: 'login', url: "/login", method: 'post' },
