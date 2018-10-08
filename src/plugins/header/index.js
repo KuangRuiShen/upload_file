@@ -52,7 +52,12 @@ export default class Top extends React.Component {
             this.setState({
                 user: this.props.login.data,
             })
-        }   
+            if(this.props.login.data.username != 'admin'){
+                this.setState({username:'普通用户'})
+            }
+        } else{
+           location.href="#/login";
+        } 
     }
 
     closePage=()=>{
@@ -129,7 +134,7 @@ export default class Top extends React.Component {
                             <Dropdown overlay={menu}>
                                 <span className='action account'>
                                     <Avatar size="small" className='avatar' src={touxiang} />
-                                    <span className='name'>超级管理员</span>
+                                    <span className='name'>{this.state.username}</span>
                                 </span>
                             </Dropdown>
                         </div>

@@ -18,24 +18,22 @@ import { allMenu } from '../../app/route/menu' //左侧菜单数据
 
 /*模块*/
 import Login from '../login/index'//登录
-
 import login_tu from  '../../../assets/images/login.png';
 
-import Welcome from '../../app/components/welcome';
-
+import Welcome from '../../app/components/welcome';//欢迎页
 
 /********************以下是自己写的业务模块开始***************************/
+import User from '../../app/components/user';
 
-//
 import Star from '../../app/components/Star/Star';//人
 import Video from '../../app/components/video/Video';//视频
 import Category from '../../app/components/video/Category';//分类
 import Label from '../../app/components/Label';
 
 //系统管理
+import UserLogin from '../../app/components/system/UserPage';
 import UserTab from '../../app/components/SystemManage/User/ManageTab';
 import Comment from '../../app/components/SystemManage/Comment/Comment';
-
 
 /********************以上是自己写的业务模块结束***************************/
 
@@ -54,6 +52,7 @@ export default class GlobalRoute extends React.Component {
             collapsed: false,
             expandedKeys: [],
             theme:'light',
+            isadmin:false,
         }
     }
 
@@ -64,28 +63,47 @@ export default class GlobalRoute extends React.Component {
     }
 
     componentWillUpdate(newProps,newState) {
-    
         //已经登录
         if(newProps.login.data){
             // history.replace
-            let url = window.location.href.split("#")[1];
-            if ((url==="/login") || (url==="login") || (url==="/")) {
-                  history.replace({pathname:'/index'})              
+            let user = newProps.login.data;
+            // console.info("newProps.login.data",user)
+            if(user.username == 'admin'){
+                
+                if(!this.state.isadmin){
+                    this.setState({isadmin:true})
+                }
+
+                let url = window.location.href.split("#")[1];
+                if ((url==="/login") || (url==="login") || (url==="/")) {
+                    history.replace({pathname:'/index'})              
+                }
+            }else{
+                history.replace({pathname:'/user'})
             }
         }else{
             history.replace({pathname:'/login'})
         }
 
-       
     }
 
 
     goLogin=()=>{
         if(this.props.login.data){
-            let url = window.location.href.split("#")[1];
-            if ((url==="/login") || (url==="login") || (url==="/")) {
-                  history.replace({pathname:'/index'})              
-            }
+            let user = this.props.login.data;
+            // console.info("ss",this.props.login.data)
+            if(user.username == 'admin'){
+                let url = window.location.href.split("#")[1];
+                if ((url==="/login") || (url==="login") || (url==="/")) {
+                      history.replace({pathname:'/index'})              
+                }
+                if(!this.state.isadmin){
+                    this.setState({isadmin:true})
+                }
+
+            }else{
+                history.replace({pathname:'/user'})
+            }  
         }else{
             history.replace({pathname:'/login'})
         }
@@ -115,7 +133,9 @@ export default class GlobalRoute extends React.Component {
                                 <Switch location={location}>
                                     <Route location={location} exact path="/" render={() => (<Redirect to="/login"/>)}/>
                                     <Route location={location} path="/login" render={() => <Login/>}/>
-                                    <Route location={location} render={({location}) => {
+                                    <Route location={location} path="/user" render={() => <User location={location}/>}/>    
+
+                                   {this.state.isadmin && <Route location={location} render={({location}) => {
                                         return (<div style={{height: '100%'}}>
                                                 <Layout style={{height: '100%'}}>
                                                     {/* 左侧菜单栏 */}                                              
@@ -143,7 +163,6 @@ export default class GlobalRoute extends React.Component {
                                                             <Content style={{minHeight: getSize().windowH - 108}}>  
 
                                                             <Switch location={location} key={location.pathname.split('/')[1]}>
-
                                                                     <Route location={location} path="/index" render={() => <Category location={location} />} />
                                                                     <Route location={location} path="/video" render={() => <Video location={location}/>}/>
                                                                     <Route location={location} path="/userTab" render={() => <UserTab location={location}/>}/>
@@ -151,7 +170,7 @@ export default class GlobalRoute extends React.Component {
                                                                     <Route location={location} path="/star" render={() => <Star location={location}/>}/>
                                                                     <Route location={location} path="/label" render={() => <Label location={location}/>}/>
                                                                     <Route location={location} path="/welcome" render={() => <Welcome location={location}/>}/>
-                                                                    
+                                                                    <Route location={location} path="/login_user" render={() => <UserLogin location={location}/>}/>                                                                 
                                                                     <Route location={location} render={() => <Redirect to='/login' />} /> 
                                                 
                                                             </Switch>                                                                                    
@@ -160,8 +179,9 @@ export default class GlobalRoute extends React.Component {
                                                     </Layout>
                                                 </Layout>
                                             </div>
-                                        )
-                                    }}/>
+                                   )}}/>
+                                    }
+                                   
                                 </Switch>
                             </div>                                     
                     )

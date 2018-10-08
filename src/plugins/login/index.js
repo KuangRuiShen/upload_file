@@ -2,11 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Form, Icon, Modal, Input, Button, Checkbox, Tabs, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import {userLogin} from "../../redux/actions/login";
-import {decode} from '../../utils/util';//加密
-
-import {hex_md5} from '../../utils/md5';
-
-const { TabPane } = Tabs;
+// import {decode} from '../../utils/util';//加密
 const FormItem = Form.Item;
 
 import styles from './index.css';

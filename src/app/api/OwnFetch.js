@@ -64,7 +64,6 @@ const api = [
   //统计页面
   { name: 'charging_list', url: "/charging/list", method: 'get' },
 
-
   { name: 'user_changeinfo', url: "/user/changeinfo", method: 'post' },
 
   //上传
@@ -72,6 +71,15 @@ const api = [
 
   //公共代码
   { name: 'code', url: "/code", method: 'get' },
+  //系统用户管理
+  { name: 'system_list', url: "/system/list", method: 'get' },
+  { name: 'system_users', url: "/system/getUsers", method: 'get' },
+  { name: 'system_add', url: "/system/add", method: 'post' },
+  { name: 'system_edit', url: "/system/edit", method: 'post' },
+  { name: 'system_delete', url: "/system/delete", method: 'post' },
+  { name: 'system_password', url: "/system/password", method: 'post' },//修改密码
+
+  { name: 'system_total', url: "/system/total", method: 'get' },
   
 ]
 

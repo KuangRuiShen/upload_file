@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal, Form,  InputNumber } from 'antd';
 import OwnFetch from '../../../api/OwnFetch';//封装请求
+import { min } from 'moment';
 
 @Form.create()
 export default  class Editmeal extends React.Component {
@@ -79,7 +80,7 @@ export default  class Editmeal extends React.Component {
                             }]
                         }
                         )(
-                          <InputNumber   max={99999} />
+                          <InputNumber   max={99999} min={0} />
                             )}
             </FormItem>
 
