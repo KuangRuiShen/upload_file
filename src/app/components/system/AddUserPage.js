@@ -173,7 +173,10 @@ class AddUserPageFrom extends React.Component {
                     
                     <FormItem label="所属管理员" {...formItemLayout} hasFeedback >
                             {getFieldDecorator('user_id', {
-                                initialValue: editData.user_id
+                                initialValue: editData.user_id,
+                                rules: [{
+                                    required: true, message: '不能为空!'
+                                }]
                             }
                             )(
                                 <Select >
