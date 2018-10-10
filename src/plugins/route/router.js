@@ -79,6 +79,9 @@ export default class GlobalRoute extends React.Component {
                     history.replace({pathname:'/index'})              
                 }
             }else{
+                if(this.state.isadmin){
+                    this.setState({isadmin:false})
+                }
                 history.replace({pathname:'/user'})
             }
         }else{
@@ -100,8 +103,10 @@ export default class GlobalRoute extends React.Component {
                 if(!this.state.isadmin){
                     this.setState({isadmin:true})
                 }
-
             }else{
+                if(this.state.isadmin){
+                    this.setState({isadmin:false})
+                }
                 history.replace({pathname:'/user'})
             }  
         }else{
