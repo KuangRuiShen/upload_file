@@ -80,6 +80,10 @@ const api = [
   { name: 'system_password', url: "/system/password", method: 'post' },//修改密码
 
   { name: 'system_total', url: "/system/total", method: 'get' },
+
+  //支付接口
+  { name: 'pay_list', url: "/pay/list", method: 'get' },
+  { name: 'pay_change', url: "/pay/change", method: 'post' },
   
 ]
 

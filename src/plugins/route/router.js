@@ -32,8 +32,10 @@ import Label from '../../app/components/Label';
 
 //系统管理
 import UserLogin from '../../app/components/system/UserPage';
+import Pay from '../../app/components/pay'
 import UserTab from '../../app/components/SystemManage/User/ManageTab';
 import Comment from '../../app/components/SystemManage/Comment/Comment';
+
 
 /********************以上是自己写的业务模块结束***************************/
 
@@ -175,7 +177,8 @@ export default class GlobalRoute extends React.Component {
                                                                     <Route location={location} path="/star" render={() => <Star location={location}/>}/>
                                                                     <Route location={location} path="/label" render={() => <Label location={location}/>}/>
                                                                     <Route location={location} path="/welcome" render={() => <Welcome location={location}/>}/>
-                                                                    <Route location={location} path="/login_user" render={() => <UserLogin location={location}/>}/>                                                                 
+                                                                    <Route location={location} path="/login_user" render={() => <UserLogin location={location}/>}/>           
+                                                                    <Route location={location} path="/pay" render={() => <Pay location={location}/>}/>                                                                                  
                                                                     <Route location={location} render={() => <Redirect to='/login' />} /> 
                                                 
                                                             </Switch>                                                                                    
