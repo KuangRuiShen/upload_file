@@ -143,11 +143,13 @@ module.exports = {
         host: "0.0.0.0",
         historyApiFallback: true,
         proxy: {
-            '/': {
-                target: 'http://127.0.0.1:7001',
-                secure: false, // 接受 运行在 https 上的服务
-                changeOrigin: true
-            }
+			"/api": {//我们可以在这里设置个口令  
+            "target": "http://127.0.0.1:7001",//target是api服务器地址 
+            "changeOrigin": true, //这个是是否替换这里一定要写true  
+            "pathRewrite": { //这个是个正则匹配  
+                "^/api": "/"  
+            }  
+        }
         },
         stats: {
             modules: false,
