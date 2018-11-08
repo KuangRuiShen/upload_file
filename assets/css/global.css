@@ -667,5 +667,10 @@ a:focus,
 
 .ant-tabs .ant-tabs-bar {
 	padding-left: 20px;
-    text-align: left;
+	text-align: left;
+	margin-bottom:0;
+}
+
+.ant-tabs-bar{
+	margin:0;
 }

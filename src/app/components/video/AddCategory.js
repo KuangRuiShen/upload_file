@@ -13,8 +13,6 @@ export default class AddCategory extends React.Component {
         super(props)
         this.state = {
             visible:true,
-            // imgurl:'',//图片地址
-
             previewVisible: false,
             previewImage: '',
             fileList: [],

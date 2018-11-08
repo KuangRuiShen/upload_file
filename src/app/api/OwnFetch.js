@@ -35,8 +35,9 @@ const api = [
   { name: 'video_addrelation', url: "/video/addrelation", method: 'post' },
 
   { name: 'user_list', url: "/user/list", method: 'get' },
-  { name: 'user_addmaster', url: "/user/addmaster", method: 'get' },
+  { name: 'user_addmaster', url: "/user/addmaster", method: 'post' },
   { name: 'user_password', url: "/user/password", method: 'post' },
+  { name: 'user_delete', url: "/user/delete", method: 'post' },
 
   //标签
   { name: 'label_list', url: "/label/list", method: 'get' },

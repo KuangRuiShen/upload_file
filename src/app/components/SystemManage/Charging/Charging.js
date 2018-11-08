@@ -140,7 +140,7 @@ export default class Charging extends React.Component {
 
 		return(
 			<div className="new_div_context">   
-			  	<div style={{margin:"10px"}}> 
+			  	<div style={{padding:"10px"}}> 
 				  <Button style={{marginRight:15}} onClick={()=>this.getChangeDate(1)}>今天</Button>
 				  <Button style={{marginRight:15}} onClick={()=>this.getChangeDate(2)}>昨天</Button>
 				  <Button style={{marginRight:15}} onClick={()=>this.getChangeDate(3)}>本月至今</Button>
