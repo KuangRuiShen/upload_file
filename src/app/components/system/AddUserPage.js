@@ -11,7 +11,8 @@ class AddUserPageFrom extends React.Component {
     }
 
     componentDidMount(){
-        OwnFetch('system_users').then(res => {
+        const {editData} = this.props;    
+        OwnFetch('system_users',{userId:editData.id}).then(res => {
             if (res && res.code == 200) {
                 this.setState({ users: res.data })
             }

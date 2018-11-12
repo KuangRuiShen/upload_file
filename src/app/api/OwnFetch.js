@@ -1,5 +1,5 @@
 
-import {query,post} from "../../utils/api"
+import { query, post } from "../../utils/api"
 
 
 //请求
@@ -85,7 +85,7 @@ const api = [
   //支付接口
   { name: 'pay_list', url: "/pay/list", method: 'get' },
   { name: 'pay_change', url: "/pay/change", method: 'post' },
-  
+
 ]
 
 
@@ -97,25 +97,31 @@ const OwnFetch = (request, params) => {
   for (let req of api) {
     //处理
     if (req.name === request) {
-        url = req.url;
-        method = req.method;
+      url = req.url;
+      method = req.method;
+      break;
     }
   }
-  
+
+  //找不到url
+  if (!url) {
+    url = request;
+  }
 
 
   if (method == undefined || method == "") {
     method = "GET";
   }
 
-  if (method.toLowerCase() == 'post'){
-      return post(url, params);
-  }else{
-      return query(url,params);
-  } 
+
+  if (method.toLowerCase() == 'post') {
+    return post(url, params);
+  } else {
+    return query(url, params);
+  }
 }
 
-OwnFetch.preurl="/api"
-// OwnFetch.preurl=""
+OwnFetch.preurl = "/api"
+
 
 export default OwnFetch;
