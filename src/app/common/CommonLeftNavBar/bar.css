@@ -1,0 +1,21 @@
+.tabbtn{
+	position: relative;
+	height: 42px;
+	width: auto;
+	background-color: rgb(39, 42, 51);
+	list-style: none;
+}
+.tabbtn img{
+	position: absolute;
+	top: 6px;
+	transition:left 0.4s ease-in-out;
+}
+.tigger{
+	font-size: 22px;
+	  line-height: 42px;
+	  padding: 0 16px;
+	  cursor: pointer;
+	  transition: color .3s;
+	  color: #fff;
+	  float: right;
+}

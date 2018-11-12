@@ -1,0 +1,39 @@
+/*
+ * 首页
+ */
+.index_header_l{
+	float: left;
+	width: auto;
+	display: table-cell;
+	vertical-align: middle;
+	overflow: auto;
+}
+
+.index_header_l>img{
+	height: 60px;
+}
+
+.index_header_r{
+	float: right;
+	width: auto;
+	overflow: auto;
+	color: #a6acba;
+	font-size: 16px;
+	line-height: 60px;
+	position: relative;
+}
+.index_header_r>img{
+	margin: 0 5px;
+	position: relative;
+    top: 5px;
+}
+.index_header_r span{
+	position: absolute;
+	top: 46px;
+	left: 24px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background-color: #10f4dc;
+	
+} 
