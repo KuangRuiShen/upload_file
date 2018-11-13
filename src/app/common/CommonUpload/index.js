@@ -101,6 +101,7 @@ export default class CommonUploadIndex extends React.Component {
     }
 
     beforeUpload = (file) => {
+        console.info(file.type)
         // const isJPG = file.type === 'image/jpeg';
         // if (!isJPG) {
         //   message.error('You can only upload JPG file!');

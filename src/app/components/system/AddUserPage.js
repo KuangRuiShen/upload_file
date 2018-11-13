@@ -1,18 +1,18 @@
-import { Modal, Form, Input,Select,InputNumber} from 'antd'
+import { Modal, Form, Input, Select, InputNumber } from 'antd'
 import React from 'react'
 import OwnFetch from '../../api/OwnFetch';//封装请求
-import {decode} from '../../../utils/util'; //加密
+import { decode } from '../../../utils/util'; //加密
+import Upload from '../../common/CommonUpload'
 const Option = Select.Option;
 class AddUserPageFrom extends React.Component {
     state = {
         confirmDirty: false,
-        visible:true,
-        users:[]
+        visible: true,
+        users: []
     }
 
-    componentDidMount(){
-        const {editData} = this.props;    
-        OwnFetch('system_users',{userId:editData.id}).then(res => {
+    componentDidMount() {
+        OwnFetch('system_users').then(res => {
             if (res && res.code == 200) {
                 this.setState({ users: res.data })
             }
@@ -20,36 +20,36 @@ class AddUserPageFrom extends React.Component {
     }
 
     //点击确定按钮
-    handleCreate = () => {      
-        const {editData} = this.props;
+    handleCreate = () => {
+        const { editData } = this.props;
         this.props.form.validateFields((err, values) => {
             if (err) {
                 return;
-            }    
+            }
             //添加 
-            if(editData.id == undefined ){
+            if (editData.id == undefined) {
                 // let str= Md5("abcdef");
                 // console.info("13123131",str)  
-                 //密码加密
-                 values.yhmm = decode(values.password);
-                  OwnFetch("system_add",values)
-                    .then(res=>{    
-                        if(res && res.code=='200'){                                      
+                //密码加密
+                values.yhmm = decode(values.password);
+                OwnFetch("system_add", values)
+                    .then(res => {
+                        if (res && res.code == '200') {
                             this.onClearFrom();
-                            this.props.refresh();                        
-                        }        
+                            this.props.refresh();
+                        }
                     })
-            }else{  //修改
-                 values.id = editData.id;
-                 OwnFetch("system_edit",values)
-                    .then(res=>{    
-                        if(res && res.code=='200'){                                 
+            } else {  //修改
+                values.id = editData.id;
+                OwnFetch("system_edit", values)
+                    .then(res => {
+                        if (res && res.code == '200') {
                             this.onClearFrom();
-                            this.props.refresh();                      
-                        }        
+                            this.props.refresh();
+                        }
                     })
             }
-                   
+
         });
     }
 
@@ -59,12 +59,12 @@ class AddUserPageFrom extends React.Component {
         let value = e.target.value;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
-    
+
     //验证密码
     checkPassword = (rule, value, callback) => {
-        if (value && value !==  this.props.form.getFieldValue('password')) {
+        if (value && value !== this.props.form.getFieldValue('password')) {
             callback('两次输入的密码不一致');
-        }else{
+        } else {
             callback();
         }
     }
@@ -74,12 +74,12 @@ class AddUserPageFrom extends React.Component {
         if (value && this.state.confirmDirty) {
             this.props.form.validateFields(['confirm'], { force: true });
         }
-        if(value && value.length < 8 ) {
+        if (value && value.length < 8) {
             callback('输入的密码长度不能少于8位');
-        }else{
+        } else {
             callback();
         }
-     
+
     }
 
     // //邮箱验证
@@ -132,7 +132,7 @@ class AddUserPageFrom extends React.Component {
                 width={600}
                 maskClosable={false}
                 visible={true}
-                title={editData.yhxm == undefined ?'新增用户':'修改用户'}
+                title={editData.yhxm == undefined ? '新增用户' : '修改用户'}
                 onCancel={this.onClearFrom}
                 onOk={this.handleCreate}
             >
@@ -145,50 +145,50 @@ class AddUserPageFrom extends React.Component {
                             }]
                         }
                         )(
-                            <Input placeholder="用户名不能为空"  disabled={editData.id != undefined}/>
-                            )}
+                            <Input placeholder="用户名不能为空" disabled={editData.id != undefined} />
+                        )}
                     </FormItem>
 
-                      {editData.id == undefined && <div><FormItem label="密码" {...formItemLayout} hasFeedback>
-                        {getFieldDecorator('password', {                 
+                    {editData.id == undefined && <div><FormItem label="密码" {...formItemLayout} hasFeedback>
+                        {getFieldDecorator('password', {
                             rules: [{ required: true, message: '请输入你的密码!', },
                             { validator: this.checkConfirm }]
                         }
                         )(
                             <Input type="password" />
-                            )}
-                    </FormItem>    
+                        )}
+                    </FormItem>
 
-                    <FormItem {...formItemLayout} label="重复输入密码" hasFeedback >
-                        {getFieldDecorator('confirm', {
-                            rules: [{
-                                required: true, message: '重复密码不能为空!',
-                            }, {
-                                validator: this.checkPassword,
-                            }],
-                        })(
-                            <Input type="password" onBlur={this.handleConfirmBlur} />
-                            )}
-                    </FormItem>     </div>  }    
-                      
-                    
-                    <FormItem label="所属管理员" {...formItemLayout} hasFeedback >
-                            {getFieldDecorator('user_id', {
-                                initialValue: editData.user_id,
+                        <FormItem {...formItemLayout} label="重复输入密码" hasFeedback >
+                            {getFieldDecorator('confirm', {
                                 rules: [{
-                                    required: true, message: '不能为空!'
-                                }]
-                            }
-                            )(
-                                <Select >
-                                    {this.state.users.map((item) => {
-                                        return <Option key={item.key}>{item.value}</Option>
-                                    })}
-                                </Select>
+                                    required: true, message: '重复密码不能为空!',
+                                }, {
+                                    validator: this.checkPassword,
+                                }],
+                            })(
+                                <Input type="password" onBlur={this.handleConfirmBlur} />
                             )}
-                        </FormItem>
+                        </FormItem>     </div>}
 
-                     <FormItem label="总金额(元)" {...formItemLayout} >
+
+                    <FormItem label="所属管理员" {...formItemLayout} hasFeedback >
+                        {getFieldDecorator('user_id', {
+                            initialValue: editData.user_id,
+                            rules: [{
+                                required: true, message: '不能为空!'
+                            }]
+                        }
+                        )(
+                            <Select >
+                                {this.state.users.map((item) => {
+                                    return <Option key={item.key}>{item.value}</Option>
+                                })}
+                            </Select>
+                        )}
+                    </FormItem>
+
+                    <FormItem label="总金额(元)" {...formItemLayout} >
                         {getFieldDecorator('total', {
                             initialValue: editData.total,
                             rules: [{
@@ -196,11 +196,11 @@ class AddUserPageFrom extends React.Component {
                             }]
                         }
                         )(
-                          <InputNumber  min={0} />
-                            )}
-                     </FormItem>
+                            <InputNumber min={0} />
+                        )}
+                    </FormItem>
 
-                     <FormItem label="邀请人数" {...formItemLayout} >
+                    <FormItem label="邀请人数" {...formItemLayout} >
                         {getFieldDecorator('people', {
                             initialValue: editData.people,
                             rules: [{
@@ -208,17 +208,27 @@ class AddUserPageFrom extends React.Component {
                             }]
                         }
                         )(
-                          <InputNumber   max={99999} min={0} />
-                            )}
-                     </FormItem>
-                  
-
-                      <FormItem label="用户描述" {...formItemLayout} >
-                        {getFieldDecorator('remark',{ initialValue: editData.remark
-                         })(
-                        <Input.TextArea   rows={4} placeholder="描述" />
+                            <InputNumber max={99999} min={0} />
                         )}
-                    </FormItem>          
+                    </FormItem>
+
+                    <FormItem label="apk上传" {...formItemLayout} >
+                        {getFieldDecorator('fileId', {
+                            initialValue: editData.fileId,
+                        }
+                        )(
+                            <Upload />
+                        )}
+                    </FormItem>
+
+
+                    <FormItem label="用户描述" {...formItemLayout} >
+                        {getFieldDecorator('remark', {
+                            initialValue: editData.remark
+                        })(
+                            <Input.TextArea rows={4} placeholder="描述" />
+                        )}
+                    </FormItem>
 
                 </Form>
 
