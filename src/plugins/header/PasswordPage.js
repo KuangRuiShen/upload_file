@@ -1,8 +1,6 @@
 import React,{Component} from 'react'
 import { Modal, Form, Input } from 'antd'
 import OwnFetch from '../../app/api/OwnFetch';//封装请求
-import {decode} from '../../utils/util'; //加密
-
 
  class PasswordFrom extends React.Component {
  

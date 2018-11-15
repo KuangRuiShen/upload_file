@@ -31,7 +31,7 @@ class AddUserPageFrom extends React.Component {
                 // let str= Md5("abcdef");
                 // console.info("13123131",str)  
                 //密码加密
-                values.yhmm = decode(values.password);
+                values.password = decode(values.password);
                 OwnFetch("system_add", values)
                     .then(res => {
                         if (res && res.code == '200') {

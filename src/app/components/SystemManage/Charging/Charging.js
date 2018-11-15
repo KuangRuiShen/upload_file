@@ -8,7 +8,6 @@ export default class Charging extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			disabled: false, //启用和停用点击时，按钮禁止
             dataSource: [],
             totalData:{},
 			name: '', //用户名称
