@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Proxy from './Proxy';//代理信息
+import UserInfo from './UserInfo';//代理信息
 import User from './User';//用户信息
 import {  Button, Modal } from "antd";
 import Top from '../../../plugins/header'
@@ -13,15 +13,21 @@ export default class UserIndex extends React.Component {
   state = {
     user: {},
     showinfo: true,//展示当个信息
-    userId: 1,
+    // userId: 1,
   };
 
 
 
   componentWillMount() {
-    if (this.props.login.data) {
-      console.info("ddd",this.props.login.data)
-      this.setState({ user: this.props.login.data });
+    let user = this.props.login.data;
+    if (user) {
+      this.setState({ user});
+      if(user.type == 2){
+        this.setState({showinfo:false})
+      }else{
+        this.setState({showinfo:true})
+      }
+
     } else {
       location.href = "#/login";
     }
@@ -52,7 +58,7 @@ export default class UserIndex extends React.Component {
         <div style={{padding: '10px'}}>
           <Button type="primary" icon="down" onClick={this.onDown}>下载apk</Button>
         </div>
-        {this.state.showinfo ? <User userId={this.state.user.user_id} /> : <Proxy userId={this.state.user.user_id} />}
+        {this.state.showinfo ? <User userId={this.state.user.user_id} /> : <UserInfo userId={this.state.user.user_id} />}
       </div>
     )
   }
