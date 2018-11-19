@@ -17,7 +17,7 @@ export default class UserInfo extends React.Component {
             loading: false,
             time: [],
             way: "all",//支付方式
-            userId:'',
+            userId:props.userId,
         }
     }
 
@@ -34,10 +34,8 @@ export default class UserInfo extends React.Component {
         this.setState({ way: value })
     }
 
-    componentWillMount() {
-        if(this.props.userId){
-            this.setState({userId:this.props.userId},this.initLoadData)
-        }
+    componentWillMount() { 
+        this.initLoadData();
     }
 
     //默认加载
@@ -110,9 +108,6 @@ export default class UserInfo extends React.Component {
     }, {
         title: '推广人id',
         dataIndex: 'invite_id',
-    }, {
-        title: '推广人名称',
-        dataIndex: 'name',
     }, {
         title: '支付方式',
         dataIndex: 'trade_type',

@@ -5,7 +5,7 @@ import {Pagination} from '../../../utils/util'; //页面
 
 import AddPage from './AddUserPage';
 import Password from './PasswordPage';
-
+import ChangeNum from './ChangeNum';
 
 export default class UserPage extends React.Component{
     constructor(props) {
@@ -19,6 +19,7 @@ export default class UserPage extends React.Component{
             showPassword:false,
              //当前选中记录
             selects: [],
+            showNum:false
 		}
     }
     
@@ -123,8 +124,14 @@ export default class UserPage extends React.Component{
         closePage=()=>{
             this.setState({
                 showAdd: false,
-                showPassword:false
+                showPassword:false,
+                showNum:false
             })
+        }
+
+        //配置扣量
+        changNum=()=>{
+            this.setState({showNum:true})
         }
     
 
@@ -191,13 +198,14 @@ export default class UserPage extends React.Component{
 					<FormItem  style={{ float: 'right', marginLeft: '20px' }}>	
 				</FormItem>
                 <FormItem  style={{ float: 'right', marginLeft: '20px' }}>
-                  
+                
                         <Button  type="primary" icon='plus' style={{ marginLeft: '10px', backgroundColor: '#1dc3b0', border: 'none' }}
                                 onClick={() => {
                                     this.setState({ showAdd: true, editData: {} });
                         }}>新增</Button>   
                    
                     <Button type="primary" icon='delete' style={{ marginLeft: '10px', background: '#ffa54c', border: 'none' }} onClick={this.handleDelete}>删除</Button> 
+                    <Button type="primary" style={{ marginLeft: '10px' }} onClick={this.changNum}>配置扣量</Button> 
                 </FormItem>
               
 			</Form>
@@ -219,7 +227,8 @@ export default class UserPage extends React.Component{
 
           {this.state.showAdd && <AddPage editData={this.state.editData} closePage={this.closePage} refresh={this.onSearch}/>}
           {this.state.showPassword && <Password editData={this.state.editData} closePage={this.closePage} />}
-         
+          {this.state.showNum && <ChangeNum closePage={this.closePage} />}
+          
         </div>)
     }
 

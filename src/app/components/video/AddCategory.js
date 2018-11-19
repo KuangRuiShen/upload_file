@@ -4,7 +4,6 @@ import { Upload,Form, Modal,InputNumber,Input,Select,Icon} from 'antd'
 import OwnFetch from '../../api/OwnFetch';//封装请求
 
 const FormItem = Form.Item;
-const Option = Select.Option;
 
 @Form.create()
 export default class AddCategory extends React.Component {

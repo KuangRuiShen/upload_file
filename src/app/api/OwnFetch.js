@@ -79,6 +79,8 @@ const api = [
   { name: 'system_edit', url: "/system/edit", method: 'post' },
   { name: 'system_delete', url: "/system/delete", method: 'post' },
   { name: 'system_password', url: "/system/password", method: 'post' },//修改密码
+  { name: 'system_num', url: "/system/num", method: 'get' },
+  { name: 'system_saveNum', url: "/system/saveNum", method: 'get' },
 
   { name: 'system_total', url: "/system/total", method: 'get' },
 

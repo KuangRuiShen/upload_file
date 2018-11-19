@@ -3,22 +3,31 @@ import React from 'react'
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import { decode } from '../../../utils/util'; //加密
 import Upload from '../../common/CommonUpload'
-const Option = Select.Option;
-class AddUserPageFrom extends React.Component {
-    state = {
-        confirmDirty: false,
-        visible: true,
-        users: []
+
+@Form.create()
+export default class AddUserPageFrom extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            confirmDirty: false,
+            visible: true,
+            users: [],
+        }
     }
 
+   
+
     componentDidMount() {
-        OwnFetch('system_users').then(res => {
-            if (res && res.code == 200) {
-                this.setState({ users: res.data })
+      this.getUser();
+    }
+
+    getUser=()=>{
+        OwnFetch("system_users").then(res=>{
+            if(res && res.code==200){
+                this.setState({users:res.data})
             }
         })
     }
-
     //点击确定按钮
     handleCreate = () => {
         const { editData } = this.props;
@@ -114,6 +123,7 @@ class AddUserPageFrom extends React.Component {
         const { editData } = this.props;
         const { getFieldDecorator } = this.props.form;
         const FormItem = Form.Item;
+        const Option = Select.Option;
 
         let formItemLayout = {
             labelCol: {
@@ -179,12 +189,11 @@ class AddUserPageFrom extends React.Component {
                                 required: true, message: '不能为空!'
                             }]
                         }
-                        )(
-                            <Select >
-                                {this.state.users.map((item) => {
-                                    return <Option key={item.key}>{item.value}</Option>
-                                })}
-                            </Select>
+                        )( <Select >
+                            {this.state.users.map((item) => {
+                            return <Option key={item.key}>{item.value}</Option>
+                            })}
+                        </Select>
                         )}
                     </FormItem>
 
@@ -239,6 +248,3 @@ class AddUserPageFrom extends React.Component {
 
 }
 
-const AddUserPage = Form.create()(AddUserPageFrom);
-
-export default AddUserPage;
