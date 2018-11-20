@@ -1,11 +1,13 @@
-import { Modal, Form, Input, Select, InputNumber } from 'antd'
 import React from 'react'
+import { Modal, Form, Input, Select, InputNumber } from 'antd'
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import { decode } from '../../../utils/util'; //加密
 import Upload from '../../common/CommonUpload'
+const Option = Select.Option;
+
 
 @Form.create()
-export default class AddUserPageFrom extends React.Component {
+export default class AddUserPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -15,19 +17,24 @@ export default class AddUserPageFrom extends React.Component {
         }
     }
 
-   
 
     componentDidMount() {
-      this.getUser();
+        this.getUser();
     }
 
-    getUser=()=>{
-        OwnFetch("system_users").then(res=>{
-            if(res && res.code==200){
-                this.setState({users:res.data})
+    getUser = () => {
+        const { editData } = this.props;
+        let param = {};
+        if (editData.id) {
+            param.userId = editData.user_id
+        }
+        OwnFetch("system_users",param).then(res => {
+            if (res && res.code == 200) {
+                this.setState({ users: res.data })
             }
         })
     }
+
     //点击确定按钮
     handleCreate = () => {
         const { editData } = this.props;
@@ -123,7 +130,8 @@ export default class AddUserPageFrom extends React.Component {
         const { editData } = this.props;
         const { getFieldDecorator } = this.props.form;
         const FormItem = Form.Item;
-        const Option = Select.Option;
+        const users = this.state.users;
+
 
         let formItemLayout = {
             labelCol: {
@@ -179,19 +187,19 @@ export default class AddUserPageFrom extends React.Component {
                             })(
                                 <Input type="password" onBlur={this.handleConfirmBlur} />
                             )}
-                        </FormItem>     </div>}
+                        </FormItem>    </div>}
 
 
                     <FormItem label="所属管理员" {...formItemLayout} hasFeedback >
                         {getFieldDecorator('user_id', {
-                            initialValue: editData.user_id,
+                            initialValue: editData.user_id ?`${editData.user_id}`:undefined,
                             rules: [{
                                 required: true, message: '不能为空!'
                             }]
                         }
-                        )( <Select >
-                            {this.state.users.map((item) => {
-                            return <Option key={item.key}>{item.value}</Option>
+                        )(<Select >
+                            {users.map((item) => {
+                                return <Option key={item.key} >{item.value}</Option>
                             })}
                         </Select>
                         )}

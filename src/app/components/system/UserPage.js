@@ -3,7 +3,7 @@ import { Input, Table, Icon, Modal,Button,Tooltip,Form,message} from 'antd';
 import OwnFetch from '../../api/OwnFetch';//封装请求
 import {Pagination} from '../../../utils/util'; //页面
 
-import AddPage from './AddUserPage';
+import AddUserPage from './AddUserPage';
 import Password from './PasswordPage';
 import ChangeNum from './ChangeNum';
 
@@ -133,7 +133,6 @@ export default class UserPage extends React.Component{
         changNum=()=>{
             this.setState({showNum:true})
         }
-    
 
     render(){
 
@@ -225,7 +224,7 @@ export default class UserPage extends React.Component{
             />
           </div>
 
-          {this.state.showAdd && <AddPage editData={this.state.editData} closePage={this.closePage} refresh={this.onSearch}/>}
+          {this.state.showAdd && <AddUserPage editData={this.state.editData} closePage={this.closePage} refresh={this.onSearch}/>}
           {this.state.showPassword && <Password editData={this.state.editData} closePage={this.closePage} />}
           {this.state.showNum && <ChangeNum closePage={this.closePage} />}
           
