@@ -11,11 +11,12 @@ export default class Charging extends React.Component {
             dataSource: [],
             totalData:{},
 			name: '', //用户名称
-			page:1,
-            pageSize:10,
 			loading: false,
             time: [],
-            way:"all",//支付方式
+			way:"all",//支付方式，
+			page:1,
+			total:0,
+			pageSize:10,
 		}
 	}
 
@@ -24,7 +25,8 @@ export default class Charging extends React.Component {
 	onRest = () => {
 		this.setState({
             way:"all",
-            time: [],
+			time: [],
+			page:1,
 		},this.initLoadData)
     }
     
@@ -39,8 +41,8 @@ export default class Charging extends React.Component {
 	//默认加载
 	initLoadData = () => {
 		this.setState({loading: true})
-        let {time,way } = this.state;
-        let param = {};
+        let {time,way ,page} = this.state;
+        let param = {page};
 		if (time.length == 2) {
             let bTime = time[0].format("YYYY-MM-DD");
 			let eTime = time[1].format("YYYY-MM-DD");
@@ -55,7 +57,7 @@ export default class Charging extends React.Component {
 				if(res && res.code == "200") {
 					let {datas,count} = res.data;
 					// console.info("aaaa",res.data)
- 					this.setState({dataSource: datas,totalData:count})
+ 					this.setState({dataSource: datas,totalData:count,total:res.total})
 				}
 				this.setState({loading: false})
             })
@@ -63,7 +65,7 @@ export default class Charging extends React.Component {
 
 	//搜索
 	onSearch = () => {
-	  this.initLoadData();
+	this.setState({page:1},this.initLoadData)
 	}
 
 
@@ -192,12 +194,12 @@ export default class Charging extends React.Component {
 			columns={this.columns}
             loading={this.state.loading}
 			pagination={{
-				// current: this.state.page,
-				pageSize:10,
-				// total: this.state.total,
+			   current: this.state.page,
+				pageSize:this.state.pageSize,
+				total: this.state.total,
 				showTotal: (total, range) => `当前${range[0]}-${range[1]}条 总数${total}条`,
-				// showQuickJumper: true,
-				// onChange: this.pageChange,
+				showQuickJumper: true,
+				onChange: (page)=>this.setState({page},this.initLoadData),
 			}}
           />
         </div>

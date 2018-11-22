@@ -16,9 +16,9 @@ export default class User extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.userId) {
-      this.setState({ userId: this.props.userId })
-    }
+    // if (this.props.userId) {
+    //   this.setState({ userId: this.props.userId })
+    // }
   }
 
 
@@ -32,8 +32,8 @@ export default class User extends React.Component {
     const TabPane = Tabs.TabPane;
     return (
       <Tabs activeKey={this.state.key} style={{ marginBottom: 0 }} onChange={this.callback}>
-        <TabPane tab="个人信息" key="1">{this.state.key == '1' && <UserInfo userId={this.state.userId} />}</TabPane>
-        <TabPane tab="代理信息" key="2">{this.state.key == '2' && <Proxy userId={this.state.userId}  />}</TabPane>
+        <TabPane tab="个人信息" key="1">{this.state.key == '1' && <UserInfo userId={this.props.userId} />}</TabPane>
+        <TabPane tab="代理信息" key="2">{this.state.key == '2' && <Proxy userId={this.props.userId}  />}</TabPane>
       </Tabs>
     );
   }

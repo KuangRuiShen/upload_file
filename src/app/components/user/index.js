@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import UserInfo from './UserInfo';//代理信息
 import User from './User';//用户信息
-import {  Button, Modal } from "antd";
+import { Button, Modal } from "antd";
 import Top from '../../../plugins/header'
 
 @connect(state => {
@@ -21,13 +21,12 @@ export default class UserIndex extends React.Component {
   componentWillMount() {
     let user = this.props.login.data;
     if (user) {
-      this.setState({ user});
-      if(user.type == 2){
-        this.setState({showinfo:false})
-      }else{
-        this.setState({showinfo:true})
+      this.setState({ user });
+      if (user.type == 2) {
+        this.setState({ showinfo: false })
+      } else {
+        this.setState({ showinfo: true })
       }
-
     } else {
       location.href = "#/login";
     }
@@ -40,12 +39,11 @@ export default class UserIndex extends React.Component {
 
   onDown = () => {
     // console.info(this.state.user)
-    if(this.state.user.url){
+    if (this.state.user.url) {
       location.href = `${this.state.user.url}`;
-    }else{
-      Modal.info({title:"下载apk没有上传！"})
+    } else {
+      Modal.info({ title: "下载apk没有上传！" })
     }
-  
   }
 
 
@@ -55,10 +53,12 @@ export default class UserIndex extends React.Component {
     return (
       <div>
         <Top />
-        <div style={{padding: '10px'}}>
+        <div style={{ padding: '10px' }}>
           <Button type="primary" icon="down" onClick={this.onDown}>下载apk</Button>
+        </div >
+        <div style={{overflow:'auto'}}>
+          {this.state.showinfo ? <User userId={this.state.user.user_id} /> : <UserInfo userId={this.state.user.user_id} />}
         </div>
-        {this.state.showinfo ? <User userId={this.state.user.user_id} /> : <UserInfo userId={this.state.user.user_id} />}
       </div>
     )
   }

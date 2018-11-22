@@ -70,7 +70,7 @@ class ChangeNum extends React.Component {
             >
                 <Form >
 
-                    <FormItem label="扣量" {...formItemLayout}>
+                    <FormItem label="起始扣量" {...formItemLayout}>
                         {getFieldDecorator('num', {
                             initialValue: this.state.num,
                             rules: [{

@@ -13,6 +13,7 @@ export default class UserInfo extends React.Component {
             totalData: {},
             name: '', //用户名称
             page: 1,
+            total:0,
             pageSize: 15,
             loading: false,
             time: [],
@@ -27,6 +28,7 @@ export default class UserInfo extends React.Component {
         this.setState({
             way: "all",
             time: [],
+            page:1,
         }, this.initLoadData)
     }
 
@@ -56,7 +58,7 @@ export default class UserInfo extends React.Component {
             .then(res => {
                 if (res && res.code == "200") {
                     let { datas, count } = res.data;
-                    this.setState({ dataSource: datas, totalData: count })
+                    this.setState({ dataSource: datas, totalData: count,total:res.total })
                 }
                 this.setState({ loading: false })
             })
@@ -136,7 +138,7 @@ export default class UserInfo extends React.Component {
 
 
         return (
-            <div className="new_div_context">
+            <div style={{overflow: 'auto', height: '600px'}} >
                 <div style={{ padding: "10px" }}>
                     <Button style={{ marginRight: 15 }} onClick={() => this.getChangeDate(1)}>今天</Button>
                     <Button style={{ marginRight: 15 }} onClick={() => this.getChangeDate(2)}>昨天</Button>
@@ -189,7 +191,9 @@ export default class UserInfo extends React.Component {
                         dataSource={this.state.dataSource}
                         columns={this.columns}
                         loading={this.state.loading}
-                        pagination={{
+                        pagination={{      
+                            current:this.state.page,                   
+                            total:this.state.total,
                             pageSize: this.state.pageSize,
                             showTotal: (total, range) => `当前${range[0]}-${range[1]}条 总数${total}条`,
                         }}
