@@ -204,7 +204,6 @@ export default class UserPage extends React.Component{
                         }}>新增</Button>   
                    
                     <Button type="primary" icon='delete' style={{ marginLeft: '10px', background: '#ffa54c', border: 'none' }} onClick={this.handleDelete}>删除</Button> 
-                    <Button type="primary" style={{ marginLeft: '10px' }} onClick={this.changNum}>配置扣量</Button> 
                 </FormItem>
               
 			</Form>

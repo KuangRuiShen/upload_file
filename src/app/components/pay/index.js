@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Modal, Input } from "antd";
+import { Button, Form, Modal, Input,InputNumber } from "antd";
 
 import OwnFetch from "../../api/OwnFetch"; //封装请求
 
@@ -98,6 +98,30 @@ export default class PayIndex extends React.Component {
                 }
               ]
             })(<Input placeholder="接口url不能为空" />)}
+          </FormItem>
+
+            <FormItem label="起始量" {...formItemLayout} hasFeedback>
+            {getFieldDecorator("beginValue", {
+              initialValue: editData.beginValue,
+              rules: [
+                {
+                  required: true,
+                  message: "起始量不能为空!"
+                }
+              ]
+            })(<InputNumber step={1} min={0} />)}
+          </FormItem>
+
+          <FormItem label="扣量数（以10位单位）" {...formItemLayout} hasFeedback>
+            {getFieldDecorator("time", {
+              initialValue: editData.time,
+              rules: [
+                {
+                  required: true,
+                  message: "扣量数不能为空"
+                }
+              ]
+            })(<InputNumber step={1} min={0}/>)}
           </FormItem>
           <FormItem style={{textAlign: 'center'}}>
             <Button
