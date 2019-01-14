@@ -37,6 +37,7 @@ export default class PayIndex extends React.Component {
         cancelText: "取消",
         onOk: () => {
           this.setState({ loading: true });
+          values.used = values.used == true ? '1':'0';
           OwnFetch("pay_change", values).then(res => {
             if (res && res.code == 200) {
               Modal.success({ title: "修改成功" });
@@ -124,9 +125,9 @@ export default class PayIndex extends React.Component {
             })(<InputNumber step={1} min={0}/>)}
           </FormItem>
 
-          <FormItem label="是否使用该支付" {...formItemLayout} hasFeedback>
-            {getFieldDecorator("use", {
-              initialValue: editData.use,
+          <FormItem label="是否使用该支付" {...formItemLayout} >
+            {getFieldDecorator("used", {
+              initialValue: editData.used =='1',
               valuePropName: 'checked',
             })(  <Checkbox> </Checkbox>)}
           </FormItem>
