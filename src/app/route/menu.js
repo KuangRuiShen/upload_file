@@ -11,7 +11,8 @@ export const allMenu = [
     { name: '系统管理', url: '/system', icon: 'team', key: '8',
         children: [
             { name: '登录管理', url: '/login_user', key: '0803' },
-            { name: '支付信息', url: '/pay', key: '0804' },
+            { name: '支付一', url: '/pay', key: '0804' },
+            { name: '支付二', url: '/cccepay', key: '0805' },
             { name: '用户管理', url: '/userTab', key: '0801' },
             { name: '评论管理', url: '/comment', key: '0802' },
         ]},

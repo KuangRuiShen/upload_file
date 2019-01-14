@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Modal, Input,InputNumber } from "antd";
+import { Button, Form, Modal, Input,InputNumber,Checkbox  } from "antd";
 
 import OwnFetch from "../../api/OwnFetch"; //封装请求
 
@@ -123,6 +123,14 @@ export default class PayIndex extends React.Component {
               ]
             })(<InputNumber step={1} min={0}/>)}
           </FormItem>
+
+          <FormItem label="是否使用该支付" {...formItemLayout} hasFeedback>
+            {getFieldDecorator("use", {
+              initialValue: editData.use,
+              valuePropName: 'checked',
+            })(  <Checkbox> </Checkbox>)}
+          </FormItem>
+
           <FormItem style={{textAlign: 'center'}}>
             <Button
               type="primary"
