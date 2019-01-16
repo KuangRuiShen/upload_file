@@ -91,8 +91,8 @@ export default class CccePayIndex extends React.Component {
                     </FormItem>
 
                     <FormItem label="微信商户号" {...formItemLayout} hasFeedback>
-                        {getFieldDecorator("wMerno", {
-                            initialValue: editData.wMerno,
+                        {getFieldDecorator("wmerno", {
+                            initialValue: editData.wmerno,
                             rules: [
                                 {
                                     required: true,
@@ -115,8 +115,8 @@ export default class CccePayIndex extends React.Component {
                     </FormItem>
 
                     <FormItem label="支付宝商户号" {...formItemLayout} hasFeedback>
-                        {getFieldDecorator("zMerno", {
-                            initialValue: editData.zMerno,
+                        {getFieldDecorator("zmerno", {
+                            initialValue: editData.zmerno,
                             rules: [
                                 {
                                     required: true,
