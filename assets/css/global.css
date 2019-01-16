@@ -355,7 +355,7 @@ a:focus,
 	line-height: 64px;
 	overflow: hidden;
 	text-align: center;
-	background: #108ee9;
+	/* background: #108ee9; */
 }
 #Breadcrumb{
 	height: 44px;
@@ -473,7 +473,8 @@ a:focus,
 	line-height: 40px;
 }
 .sider_menu{
-	background: #fff;
+	/* background: #fff; */
+	background: #001529;
 }
 /*header*/
 .header{

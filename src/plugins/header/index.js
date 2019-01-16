@@ -32,16 +32,9 @@ export default class Top extends React.Component {
             user:{}
         }
     }
-    componentWillMount(){
-        let that=this;
-        this.state.themeLi.map((item,index)=>{
-            if(item.name==sessionStorage.getItem("themeType")){
-                that.setState({
-                    themeNum:index
-                })
-            }
-        })
+    componentWillMount(){    
     }
+
     componentDidMount() {
         this.getUser()
     }
@@ -59,7 +52,7 @@ export default class Top extends React.Component {
             }
         } else{
         
-           location.href="#/login";
+        //    location.href="#/login";
         } 
     }
 
@@ -81,45 +74,14 @@ export default class Top extends React.Component {
         }
     }
 
-    changeTheme=(e,index)=>{
-        this.setState({
-            themeNum:index
-        })
-        this.props.changeTheme(e.menuTheme);
-        document.getElementsByTagName('body')[0].className=e.name;
-        sessionStorage.setItem("themeType",e.name);
-        sessionStorage.setItem("themeColor",e.menuTheme);
-    }
+
     render() {
         const menu = (
             <Menu className='menu' selectedKeys={[]} onClick={this.handleClick}>
-                {/* <Menu.Item disabled><Icon type="user" />个人中心</Menu.Item>
-                <Menu.Item disabled><Icon type="setting" />设置</Menu.Item>
-                <Menu.Divider /> */}
                 <Menu.Item key="passwork"><Icon type="lock" />修改密码</Menu.Item>
                 <Menu.Item key="logout"><Icon type="logout" />退出登录</Menu.Item>
             </Menu>
         );
-        let themeList=[];
-        this.state.themeLi.map((item,index)=>{
-            themeList.push( <label style={{'backgroundColor':item.top}} key={index} onClick={this.changeTheme.bind(this,item,index)}>
-                {this.state.themeNum==index&&<Icon type="check"/>}
-                <div className='areas'>
-                    <span className='nav' style={{'background':item.left}}></span>
-                    <span className='con' style={{'background':item.right}}></span>
-                </div>
-            </label>)
-        })
-        const themeContent = (
-            <Menu style={{'width':'200px','height':'auto'}} className='theme_ul'>
-                <Menu.Item key="0" >
-                    <div className='theme_title'>切换主题</div>
-                    <div className='theme_ul'>
-                        {themeList}
-                    </div>
-                </Menu.Item>
-            </Menu>
-        )
 
         return (
             <Header className='header'>

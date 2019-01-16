@@ -54,7 +54,7 @@ export default class GlobalRoute extends React.Component {
         this.state = {
             collapsed: false,
             expandedKeys: [],
-            theme:'light',
+            theme:'dark',
             isadmin:false,
         }
     }
@@ -62,59 +62,40 @@ export default class GlobalRoute extends React.Component {
   
     componentWillMount() {
         window.dispatch = this.props.dispatch;
-        this.goLogin();
+        // this.goLogin();
     }
 
     componentWillUpdate(newProps,newState) {
         //已经登录
-        if(newProps.login.data){
-            // history.replace
-            let user = newProps.login.data;
-            // console.info("newProps.login.data",user)
-            if(user.username == 'admin'){
+        // if(newProps.login.data){
+        //     // history.replace
+        //     let user = newProps.login.data;
+        //     // console.info("newProps.login.data",user)
+        //     if(user.username == 'admin'){
                 
-                if(!this.state.isadmin){
-                    this.setState({isadmin:true})
-                }
+        //         if(!this.state.isadmin){
+        //             this.setState({isadmin:true})
+        //         }
 
-                let url = window.location.href.split("#")[1];
-                if ((url==="/login") || (url==="login") || (url==="/")) {
-                    history.replace({pathname:'/index'})              
-                }
-            }else{
-                if(this.state.isadmin){
-                    this.setState({isadmin:false})
-                }
-                history.replace({pathname:'/user'})
-            }
-        }else{
-            history.replace({pathname:'/login'})
-        }
+        //         let url = window.location.href.split("#")[1];
+        //         if ((url==="/login") || (url==="login") || (url==="/")) {
+        //             history.replace({pathname:'/index'})              
+        //         }
+        //     }else{
+        //         if(this.state.isadmin){
+        //             this.setState({isadmin:false})
+        //         }
+        //         history.replace({pathname:'/user'})
+        //     }
+        // }else{
+        //     history.replace({pathname:'/login'})
+        // }
 
     }
 
 
     goLogin=()=>{
-        if(this.props.login.data){
-            let user = this.props.login.data;
-            // console.info("ss",this.props.login.data)
-            if(user.username == 'admin'){
-                let url = window.location.href.split("#")[1];
-                if ((url==="/login") || (url==="login") || (url==="/")) {
-                      history.replace({pathname:'/index'})              
-                }
-                if(!this.state.isadmin){
-                    this.setState({isadmin:true})
-                }
-            }else{
-                if(this.state.isadmin){
-                    this.setState({isadmin:false})
-                }
-                history.replace({pathname:'/user'})
-            }  
-        }else{
-            history.replace({pathname:'/login'})
-        }
+         
     }
 
 
@@ -142,10 +123,9 @@ export default class GlobalRoute extends React.Component {
                                     <Route location={location} exact path="/" render={() => (<Redirect to="/login"/>)}/>
                                     <Route location={location} path="/login" render={() => <Login/>}/>
                                     <Route location={location} path="/user" render={() => <User location={location}/>}/>    
-
-                                   {this.state.isadmin && <Route location={location} render={({location}) => {
+                                    <Route location={location} render={({location}) => {
                                         return (<div style={{height: '100%'}}>
-                                                <Layout style={{height: '100%'}}>
+                                                <Layout style={{minHeight: '100vh'}}>
                                                     {/* 左侧菜单栏 */}                                              
                                                    <Sider
                                                         trigger={null}
@@ -154,13 +134,12 @@ export default class GlobalRoute extends React.Component {
                                                         width={200}
                                                         className='sider_menu' >
                                                             <div className="logo">
-                                                           { this.state.collapsed ? <img style={{height:64}} src={login_tu} />: 
-                                                           <span style={{fontSize:'20px',color:'white'}}>管理平台</span> }      
-
+                                                            { this.state.collapsed ? <img style={{height:64}} src={login_tu} />: 
+                                                            <span style={{fontSize:'20px',color:'white'}}>管理平台</span> }      
                                                             </div>
-                                                         <Scrollbars>
+                                                         
                                                             <SideBar theme={this.state.theme} collapsed={this.state.collapsed} />   
-                                                        </Scrollbars >                                          
+                                                                                              
                                                     </Sider>                                                                               
                                                     <Layout>                                                
                                                         {/* 头部公用组件 */}
@@ -189,8 +168,7 @@ export default class GlobalRoute extends React.Component {
                                                     </Layout>
                                                 </Layout>
                                             </div>
-                                   )}}/>
-                                    }
+                                   )}}/>                         
                                    
                                 </Switch>
                             </div>                                     

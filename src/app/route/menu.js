@@ -4,17 +4,13 @@ export const allMenu = [
     {name: '视频管理', url: '/all', icon: 'bars', key: '1',
     children: [
         { name: '视频分类', url: '/index', key: '0101' },
-        { name: '明星', url: '/star', key: '0102' },
-        { name: '标签管理', url: '/label', key: '0103' },
+        // { name: '明星', url: '/star', key: '0102' },
+        // { name: '标签管理', url: '/label', key: '0103' },
         { name: '视频上传', url: '/video', key: '0104' },
     ]},
     { name: '系统管理', url: '/system', icon: 'team', key: '8',
         children: [
             { name: '登录管理', url: '/login_user', key: '0803' },
-            { name: '支付一', url: '/pay', key: '0804' },
-            { name: '支付二', url: '/cccepay', key: '0805' },
-            { name: '用户管理', url: '/userTab', key: '0801' },
-            { name: '评论管理', url: '/comment', key: '0802' },
         ]},
     
 ]

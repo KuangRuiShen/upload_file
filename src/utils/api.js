@@ -38,7 +38,7 @@ axios.interceptors.response.use((response)=>{
     if(error.response.status == 504){
                 //登录超时
              Modal.error({title:'系统错误', content:"请联系管理员！"});
-            window.dispatch(clearUserInfo());
+            // window.dispatch(clearUserInfo());
         }
      return error.response;
     // if(error.response.status == 401 ){
@@ -73,7 +73,7 @@ axios.interceptors.response.use((response)=>{
     if(error.response.status == 504){
         //登录超时
         // Modal.error({title:'系统错误', content:"连接超时,请联系管理员！"});
-        window.dispatch(clearUserInfo());
+        // window.dispatch(clearUserInfo());
     }
 });
 
