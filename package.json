@@ -57,7 +57,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.2",
     "moment": "^2.20.1",
-    "open": "0.0.5",
+    "open": "6.0.0",
     "postcss-loader": "^0.7.0",
     "querystring": "^0.2.0",
     "react-custom-scrollbars": "^4.2.1",
