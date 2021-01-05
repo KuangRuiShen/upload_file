@@ -16,7 +16,7 @@
   "author": "htd",
   "license": "MIT",
   "devDependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.21.1",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^6.4.1",
